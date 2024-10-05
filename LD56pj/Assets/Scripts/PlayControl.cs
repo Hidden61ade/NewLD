@@ -12,6 +12,9 @@ public class PlayControl : MonoBehaviour
     public float getDownSpeed = 1;// 蹲下速度
     public float moveSpeed;// 行动速度,由是奔跑还是行走觉得
     public float pushSpeed = 1;// 推物速度
+    public string item;// 道具tag
+    public string pushWall = "PushWall";// 推动墙layer
+    public string ground = "Ground";// 地面layer
     //public float g = 9.8f;
     //public float yDown = 0;
 
@@ -21,13 +24,13 @@ public class PlayControl : MonoBehaviour
     private Vector3 moveCollisionPosL;
     private Vector3 moveCollisionPosR;
 
-    public bool canCatch = false;
+    public bool canCatch = false;// 能否持物
     public bool canPush = false;// 能否推动
     public bool canMoveR = true;//防止蹭墙
     public bool canMoveL = true;//防止蹭墙
     public bool isGround = true;// 是否在地面，关系能否跳跃等
     public bool isRun = false;// 是否在奔跑
-    public bool isGetDown = false;// 是否在趴下
+    public bool isGetDown = false;// 是否在趴下 TODO: 动画
     //public bool facingRight = true;// 是否面朝右
     public bool isRoll = false;// 是否在翻滚
     public bool isCatch = false;// 是否持物
@@ -53,21 +56,33 @@ public class PlayControl : MonoBehaviour
         // TODO: 速度
     }
 
-    private void OnTriggerEnter2D(Collider2D other) // TODU: 与道具互动
+    private void OnTriggerStay2D(Collider2D other) // TODU: 与道具互动
     {
-        canCatch = true;
+        if (other.gameObject.CompareTag(item))
+            canCatch = true;
     }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag(item)) // 检查是否是特定标签的物体
+        {
+            canCatch = false; // 离开触发器
+        }
+    }
     private void OnCollisionStay2D(Collision2D collision)// 推东西
     {
         foreach (ContactPoint2D contact in collision.contacts)
         {
-            if (contact.collider.CompareTag("PushWall"))
+            if (contact.collider.CompareTag(pushWall))
             {
                 if(Input.GetAxis("Horizontal") * (contact.collider.gameObject.transform.position.x - transform.position.x) > 0)
                 {
                     isPush = true;
                     // TODO: 推物体
+                }
+                else
+                {
+                    isPush = false;
                 }
             }
         }
@@ -96,11 +111,11 @@ public class PlayControl : MonoBehaviour
         moveCollisionPosR = new Vector3(transform.position.x + GetComponent<Collider2D>().bounds.extents.x + 0.01f, transform.position.y, 0f);
         // 更新坐标,以玩家位置为中心,检测四个角、三个面
 
-        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f, LayerMask.GetMask("Ground")) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f,LayerMask.GetMask("Ground"));
+        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f,LayerMask.GetMask(ground));
         // 是否在地面,觉得跳跃翻滚
 
-        canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask("Ground")) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask("Ground"))) || Physics2D.Raycast(moveCollisionPosR , Vector2.right, 0.01f, LayerMask.GetMask("Ground")));
-        canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask("Ground")) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask("Ground"))) || Physics2D.Raycast(moveCollisionPosL , Vector2.left, 0.01f, LayerMask.GetMask("Ground")));
+        canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosR , Vector2.right, 0.01f, LayerMask.GetMask(ground)));
+        canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosL , Vector2.left, 0.01f, LayerMask.GetMask(ground)));
         // 是否撞墙,防止粘墙上
         //canPush = Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f, LayerMask.GetMask("PushWall")) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f, LayerMask.GetMask("PushWall"));
     }
@@ -109,18 +124,18 @@ public class PlayControl : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("按");
-            if (isCatch)
-            {
-                isCatch = false;
-                // TODO: 交互,取消手持/使用
-                Debug.Log("放");
-            }
-            else
+            //Debug.Log("按");
+            if (!isCatch && canCatch)
             {
                 isCatch = true;
                 // TODO: 交互,手持
                 Debug.Log("拿");
+            }
+            else if(isCatch)
+            {
+                isCatch = false;
+                // TODO: 交互,取消手持/使用
+                Debug.Log("放");
             }
         }
     }// 道具交互
