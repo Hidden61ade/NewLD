@@ -7,46 +7,46 @@ using UnityEngine;
 public class PlayControl : MonoSingleton<PlayControl>
 {
     public SpriteRenderer playerSR;
-    [Header("���ֲ���")]
-    public float jumpPower = 10;// ��Ծ����   
-    public float rollPower = 1;// ��������
-    public float walkSpeed = 1;// �����ٶ�
-    public float runSpeed = 1;// �ܲ��ٶ�
-    public float getDownSpeed = 1;// �����ٶ�
-    public float moveSpeed;// �ж��ٶ�,���Ǳ��ܻ������߾���
-    public float pushSpeed = 1;// �����ٶ�
-    public string item;// ����tag
-    public string pushWall = "PushWall";// �ƶ�ǽlayer
-    public string ground = "Ground";// ����layer
+    [Header("各种参数")]
+    public float jumpPower = 10;// 跳跃动力   
+    public float rollPower = 1;// 翻滚动力
+    public float walkSpeed = 1;// 行走速度
+    public float runSpeed = 1;// 跑步速度
+    public float getDownSpeed = 1;// 蹲下速度
+    public float moveSpeed;// 行动速度,由是奔跑还是行走觉得
+    public float pushSpeed = 1;// 推物速度
+    public string item;// 道具tag
+    public string pushWall = "PushWall";// 推动墙layer
+    public string ground = "Ground";// 地面layer
     //public float g = 9.8f;
     //public float yDown = 0;
 
-    public int facing = 1; // �泯��ϵ��,���Ʒ���ʱ���ĳ���,1����,-1����
+    public int facing = 1; // 面朝向系数,控制翻滚时力的朝向,1向右,-1向左
 
-    public bool canCatch = false;// �ܷ����
-    public bool canPush = false;// �ܷ��ƶ�
-    public bool canMoveR = true;//��ֹ��ǽ
-    public bool canMoveL = true;//��ֹ��ǽ
-    public bool isGround = true;// �Ƿ��ڵ��棬��ϵ�ܷ���Ծ��
-    public bool isRun = false;// �Ƿ��ڱ���
-    public bool isGetDown = false;// �Ƿ���ſ�� TODO: ����
-    //public bool facingRight = true;// �Ƿ��泯��
-    public bool isRoll = false;// �Ƿ��ڷ���
-    public bool isCatch = false;// �Ƿ����
-    public bool isPush = false;// �Ƿ��ƶ�
+    public bool canCatch = false;// 能否持物
+    public bool canPush = false;// 能否推动
+    public bool canMoveR = true;//防止蹭墙
+    public bool canMoveL = true;//防止蹭墙
+    public bool isGround = true;// 是否在地面，关系能否跳跃等
+    public bool isRun = false;// 是否在奔跑
+    public bool isGetDown = false;// 是否在趴下 TODO: 动画
+    //public bool facingRight = true;// 是否面朝右
+    public bool isRoll = false;// 是否在翻滚
+    public bool isCatch = false;// 是否持物
+    public bool isPush = false;// 是否推动
 
-    public float RollDuration;// ��������ʱ�� //�ܣ��˴���ʱ����Ҫ�붯��������ͬ
+    public float RollDuration;// 翻滚持续时间 //周：此处的时间需要与动画长度相同
 
     private Rigidbody2D rigidbody2d;
 
-    private Vector3 jumpCollisionPos; // ������������ײ�������
+    private Vector3 jumpCollisionPos; // 繁琐的三面碰撞检测坐标
     private Vector3 moveCollisionPosL;
     private Vector3 moveCollisionPosR;
 
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();// ��ø������
+        rigidbody2d = GetComponent<Rigidbody2D>();// 获得刚体组件
         TypeEventSystem.Global.Register<OnLevelResetEvent>((e) =>
         {
             Initialization();
@@ -56,9 +56,9 @@ public class PlayControl : MonoSingleton<PlayControl>
     // Update is called once per frame
     void Update()
     {
-        CollisionDetection();// ������ײ���λ��
-        Actions();// ���¶���
-        // TODO: �ٶ�
+        CollisionDetection();// 更新碰撞检测位置
+        Actions();// 更新动作
+        // TODO: 速度
     }
     
     private void Initialization()
@@ -68,20 +68,20 @@ public class PlayControl : MonoSingleton<PlayControl>
         PlayerAnimatorManager.Instance.ChangeLiftState(false);
         PlayerAnimatorManager.Instance.ChangePushState(false);
         PlayerAnimatorManager.Instance.SwitchToWalk();
-        isRun = false;// �Ƿ��ڱ���
-        isGetDown = false;// �Ƿ���ſ��
-        isRoll = false;// �Ƿ��ڷ���
-        isCatch = false;// �Ƿ����
-        isPush = false;// �Ƿ��ƶ�
-        facing = 1; // �泯��ϵ��,���Ʒ���ʱ���ĳ���,1����,-1����
-        canCatch = false;// �ܷ����
-        canPush = false;// �ܷ��ƶ�
-        canMoveR = true;//��ֹ��ǽ
-        canMoveL = true;//��ֹ��ǽ
-        isGround = true;// �Ƿ��ڵ��棬��ϵ�ܷ���Ծ��
+        isRun = false;// 是否在奔跑
+        isGetDown = false;// 是否在趴下
+        isRoll = false;// 是否在翻滚
+        isCatch = false;// 是否持物
+        isPush = false;// 是否推动
+        facing = 1; // 面朝向系数,控制翻滚时力的朝向,1向右,-1向左
+        canCatch = false;// 能否持物
+        canPush = false;// 能否推动
+        canMoveR = true;//防止蹭墙
+        canMoveL = true;//防止蹭墙
+        isGround = true;// 是否在地面，关系能否跳跃等
     }
 
-    private void OnTriggerStay2D(Collider2D other) // TODU: ����߻���
+    private void OnTriggerStay2D(Collider2D other) // TODU: 与道具互动
     {
         if (other.gameObject.CompareTag(item))
             canCatch = true;
@@ -89,12 +89,12 @@ public class PlayControl : MonoSingleton<PlayControl>
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag(item)) // ����Ƿ����ض���ǩ������
+        if (other.CompareTag(item)) // 检查是否是特定标签的物体
         {
-            canCatch = false; // �뿪������
+            canCatch = false; // 离开触发器
         }
     }
-    private void OnCollisionStay2D(Collision2D collision)// �ƶ���
+    private void OnCollisionStay2D(Collision2D collision)// 推东西
     {
         foreach (ContactPoint2D contact in collision.contacts)
         {
@@ -118,23 +118,23 @@ public class PlayControl : MonoSingleton<PlayControl>
     //    {
     //        if (contact.collider.CompareTag(pushWall))
     //        {
-    //            isPush = false; // ֹͣ��ײʱ�� isPush ����Ϊ false
+    //            isPush = false; // 停止碰撞时将 isPush 设置为 false
     //        }
     //    }
     //}
 
     void Actions()
     {
-        GetState();// ���״̬(�Ƿ��ڱ��ܵ�)
-        GetFacing();// ����泯��
-        ActionRoll();// ��������
-        if (!isRoll)
+        GetState();// 获得状态(是否在奔跑等)
+        GetFacing();// 获得面朝向
+        ActionRoll();// 翻滚动作
+        if (!isRoll) 
         {
             ActionJump();
             ActionMove();
             ActionCatch();
-        }// ������ڷ���,�ƶ���Ծ
-        //�������ʱ����תx��
+        }// 如果不在翻滚,移动跳跃
+        //朝向左边时，翻转x轴
         if (facing==1)
         {
             playerSR.flipX = false;
@@ -144,44 +144,44 @@ public class PlayControl : MonoSingleton<PlayControl>
             playerSR.flipX = true;
         }
     }
-    void CollisionDetection()
+     void CollisionDetection()
     {
-        // TODO: ��Ҫ����layerΪGround
+        // TODO: 需要地面layer为Ground
 
-        // ����ɫ�Ƿ��ڵ����ϣ�����ʹ�����߼��ȷ�����
+        // 检查角色是否在地面上（可以使用射线检测等方法）
         jumpCollisionPos = new Vector3(transform.position.x, transform.position.y - GetComponent<Collider2D>().bounds.extents.y - 0.01f, 0f);
         moveCollisionPosL = new Vector3(transform.position.x - GetComponent<Collider2D>().bounds.extents.x - 0.01f, transform.position.y, 0f);
         moveCollisionPosR = new Vector3(transform.position.x + GetComponent<Collider2D>().bounds.extents.x + 0.01f, transform.position.y, 0f);
-        // ��������,�����λ��Ϊ����,����ĸ��ǡ�������
+        // 更新坐标,以玩家位置为中心,检测四个角、三个面
 
-        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f, LayerMask.GetMask(ground));
-        // �Ƿ��ڵ���,������Ծ����
+        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f,LayerMask.GetMask(ground));
+        // 是否在地面,觉得跳跃翻滚
 
-        canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f, LayerMask.GetMask(ground)));
-        canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f, LayerMask.GetMask(ground)));
-        // �Ƿ�ײǽ,��ֹճǽ��
+        canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosR , Vector2.right, 0.01f, LayerMask.GetMask(ground)));
+        canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosL , Vector2.left, 0.01f, LayerMask.GetMask(ground)));
+        // 是否撞墙,防止粘墙上
         //canPush = Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f, LayerMask.GetMask("PushWall")) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f, LayerMask.GetMask("PushWall"));
     }
-
+ 
     void ActionCatch()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            //Debug.Log("��");
+            //Debug.Log("按");
             if (!isCatch && canCatch)
             {
                 isCatch = true;
                 PlayerAnimatorManager.Instance.ChangePickState(isCatch);
-                Debug.Log("��");
+                Debug.Log("拿");
             }
-            else if (isCatch)
+            else if(isCatch)
             {
                 isCatch = false;
                 PlayerAnimatorManager.Instance.ChangePickState(isCatch);
-                Debug.Log("��");
+                Debug.Log("放");
             }
         }
-    }// ���߽���
+    }// 道具交互
 
     void ActionJump()
     {
@@ -190,21 +190,21 @@ public class PlayControl : MonoSingleton<PlayControl>
             rigidbody2d.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
         }
         
-        // TODO: ����:��Ծ,�ؿ�:ȷ����Ծ�߶�,�ڿ�ʱ���
+        // TODO: 动画:跳跃,关卡:确定跳跃高度,腾空时间等
     }
 
     void ActionMove()
-    {
+    {   
         if (!isPush)
         {
             if (isRun) { moveSpeed = runSpeed; }
             else if (isGetDown) { moveSpeed = getDownSpeed; }
-            else { moveSpeed = walkSpeed; } // ����״̬ȷ���ٶ�
+            else { moveSpeed = walkSpeed; } // 根据状态确定速度
 
             float move = Input.GetAxis("Horizontal");
 
             if (move < 0 && !canMoveL) { move = 0; }
-            if (move > 0 && !canMoveR) { move = 0; }// ��ǽ�����ƶ�,��ֹճǽ��
+            if (move > 0 && !canMoveR) { move = 0; }// 碰墙后不能移动,防止粘墙上
             rigidbody2d.velocity = new Vector2(move * moveSpeed, rigidbody2d.velocity.y);
         }
         else
@@ -213,12 +213,12 @@ public class PlayControl : MonoSingleton<PlayControl>
             float move = Input.GetAxis("Horizontal");
             rigidbody2d.velocity = new Vector2(move * moveSpeed, rigidbody2d.velocity.y);
         }
-    }// TODO: �ؿ�:ȷ���ٶ�,����:��ǽ�Ľ���
+    }// TODO: 关卡:确定速度,程序:与墙的交互
 
     void ActionRoll()
     {
         StartCoroutine(IEActionRoll());
-    }// ������д�Ŀ�����
+    }// 不是我写的看不懂
 
     public IEnumerator IEActionRoll()
     {
@@ -232,9 +232,9 @@ public class PlayControl : MonoSingleton<PlayControl>
         {
             yield break;
         }
-        yield return new WaitForSeconds(RollDuration); //�ܣ��˴���ʱ����Ҫ�붯��������ͬ
-        isRoll = false;// ������д�Ŀ�����   //�ܣ�Dash��Roll�������ڲ�������Զ�����walk��run�����Բ���Ҫ�ٸĸĶ�������
-    }// TODO: ����
+        yield return new WaitForSeconds(RollDuration); //周：此处的时间需要与动画长度相同
+        isRoll = false;// 不是我写的看不懂   //周：Dash（Roll）动画在播放完后自动进入walk或run，所以不需要再改改动动画机
+    }// TODO: 距离
 
 
 
@@ -249,18 +249,18 @@ public class PlayControl : MonoSingleton<PlayControl>
         {
             isGetDown= false;
             PlayerAnimatorManager.Instance.ChangeCrouchState(isGetDown);
-        }// �Ƿ��¶�
+        }// 是否下蹲
 
         if (Input.GetKey(KeyCode.LeftShift) && !isGetDown)
         {
             isRun = true;
             PlayerAnimatorManager.Instance.SwitchToRun();
         }
-        else
-        {
+        else 
+        { 
             isRun = false;
             PlayerAnimatorManager.Instance.SwitchToWalk();
-        }// �Ƿ���(���²�����)
+        }// 是否奔跑(蹲下不能跑)
     }
 
     void GetFacing()
@@ -274,9 +274,9 @@ public class PlayControl : MonoSingleton<PlayControl>
         {
             facing = -1;
         }
-    }// �泯��
+    }// 面朝向
 
-
+ 
     //void FakeG()
     //{
     //    if(isGround)
@@ -290,7 +290,7 @@ public class PlayControl : MonoSingleton<PlayControl>
     //}
     //void OnDrawGizmos()
     //{
-    //    // ���ӻ����߼��
+    //    // 可视化射线检测
     //    Gizmos.color = Color.red;
     //    //Gizmos.DrawRay(jumpCollisionPos, Vector2.down);
     //    Gizmos.DrawRay(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down);
