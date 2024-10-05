@@ -43,7 +43,7 @@ public class GameManager : MonoSingleton<GameManager>
     }
 
     // 处理角色死亡状态
-    void HandlePlayerDeath()
+    public void HandlePlayerDeath()
     {
         if (!isGamePaused)
         {
