@@ -10,12 +10,12 @@ public class PlayControl : MonoBehaviour
     public float runSpeed = 1;// 跑步速度
     public float getDownSpeed = 1;// 蹲下速度
     public float moveSpeed;// 行动速度,由是奔跑还是行走觉得
-    public float g = 9.8f;
-    public float yDown = 0;
+    //public float g = 9.8f;
+    //public float yDown = 0;
 
     public int facing = 1; // 面朝向系数,控制翻滚时力的朝向,1向右,-1向左
 
-    private Vector3 jumpCollisionPos;
+    private Vector3 jumpCollisionPos; // 繁琐的三面碰撞检测坐标
     private Vector3 moveCollisionPosL;
     private Vector3 moveCollisionPosR;
 
@@ -26,6 +26,7 @@ public class PlayControl : MonoBehaviour
     public bool isGetDown = false;// 是否在趴下
     //public bool facingRight = true;// 是否面朝右
     public bool isRoll = false;// 是否在翻滚
+    public bool isCatch = false;
 
     public float RollDuration;// 翻滚持续时间
 
@@ -42,9 +43,26 @@ public class PlayControl : MonoBehaviour
     void Update()
     {
 
-        CollisionDetection();
+        CollisionDetection();// 更新碰撞检测位置
         Actions();// 更新动作
         // TODO: 速度
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (Input.GetKeyDown(KeyCode.E) && other.gameObject.CompareTag("item"))
+        {
+            if (isCatch)
+            {
+                isCatch = false;
+                // TODO: 交互,取消手持/使用
+            }
+            else
+            {
+                isCatch = true;
+                // TODO: 交互,手持
+            }
+        }
     }
 
     void Actions()
@@ -65,19 +83,15 @@ public class PlayControl : MonoBehaviour
         jumpCollisionPos = new Vector3(transform.position.x, transform.position.y - GetComponent<Collider2D>().bounds.extents.y - 0.01f, 0f);
         moveCollisionPosL = new Vector3(transform.position.x - GetComponent<Collider2D>().bounds.extents.x - 0.01f, transform.position.y, 0f);
         moveCollisionPosR = new Vector3(transform.position.x + GetComponent<Collider2D>().bounds.extents.x + 0.01f, transform.position.y, 0f);
+        // 更新坐标,以玩家位置为中心,检测四个角、三个面
 
-        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f);
-        canMoveR = !(Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f));
-        canMoveL = !(Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f));
+        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f);
+        // 是否在地面,觉得跳跃翻滚
+        canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f)) || Physics2D.Raycast(moveCollisionPosR , Vector2.right, 0.01f));
+        canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f)) || Physics2D.Raycast(moveCollisionPosL , Vector2.left, 0.01f));
+        // 是否撞墙,防止粘墙上
     }
-    void OnDrawGizmos()
-    {
-        // 可视化射线检测
-        Gizmos.color = Color.red;
-        //Gizmos.DrawRay(jumpCollisionPos, Vector2.down);
-        Gizmos.DrawRay(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down);
-        //Gizmos.DrawRay(moveCollisionPosR + Vector3.up * transform.position.y, Vector2.right);
-    }
+ 
 
     void ActionJump()
     {
@@ -91,31 +105,21 @@ public class PlayControl : MonoBehaviour
 
     void ActionMove()
     {   
-            if (isRun)
-            {
-                moveSpeed = runSpeed;
-            }
-            else if (isGetDown)
-            {
-                moveSpeed = getDownSpeed;
-            }
-            else
-            {
-                moveSpeed = walkSpeed;
-            }// 根据状态确定速度
+        if (isRun) { moveSpeed = runSpeed; }
+        else if (isGetDown) { moveSpeed = getDownSpeed; }
+        else { moveSpeed = walkSpeed;} // 根据状态确定速度
 
-            float move = Input.GetAxis("Horizontal");
-            rigidbody2d.velocity = new Vector2(move * moveSpeed, rigidbody2d.velocity.y);
+        float move = Input.GetAxis("Horizontal");
+        if(move < 0 && !canMoveL) { move = 0; }
+        if(move > 0 && !canMoveR) { move = 0; }// 碰墙后不能移动,防止粘墙上
 
-        
-        
+        rigidbody2d.velocity = new Vector2(move * moveSpeed, rigidbody2d.velocity.y);
     }// TODO: 动画:走路\跑步,动画,关卡:确定速度
 
     void ActionRoll()
     {
         StartCoroutine(IEActionRoll());
-        
-    }
+    }// 不是我写的看不懂
 
     public IEnumerator IEActionRoll()
     {
@@ -129,7 +133,7 @@ public class PlayControl : MonoBehaviour
             yield break;
         }
         yield return new WaitForSeconds(RollDuration);
-        isRoll =false;
+        isRoll =false;// 不是我写的看不懂
     }// TODO: 翻滚动画,距离
 
 
@@ -160,16 +164,18 @@ public class PlayControl : MonoBehaviour
 
     void GetFacing()
     {
-        if (Input.GetKey(KeyCode.D))
+        float move = Input.GetAxis("Horizontal");
+        if (move > 0)
         {
             facing = 1;
         }
-        else if (Input.GetKey(KeyCode.A))
+        else
         {
             facing = -1;
         }
     }// 面朝向
 
+ 
     //void FakeG()
     //{
     //    if(isGround)
@@ -180,6 +186,15 @@ public class PlayControl : MonoBehaviour
     //    {
     //        yDown += g * Time.deltaTime / 10;
     //    }
+    //}
+    //void OnDrawGizmos()
+    //{
+    //    // 可视化射线检测
+    //    Gizmos.color = Color.red;
+    //    //Gizmos.DrawRay(jumpCollisionPos, Vector2.down);
+    //    Gizmos.DrawRay(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down);
+    //    Gizmos.DrawRay(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down);
+    //    //Gizmos.DrawRay(moveCollisionPosR + Vector3.up * transform.position.y, Vector2.right);
     //}
 }
 
