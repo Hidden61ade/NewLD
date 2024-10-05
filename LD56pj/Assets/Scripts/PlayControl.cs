@@ -20,10 +20,6 @@ public class PlayControl : MonoBehaviour
 
     public int facing = 1; // 面朝向系数,控制翻滚时力的朝向,1向右,-1向左
 
-    private Vector3 jumpCollisionPos; // 繁琐的三面碰撞检测坐标
-    private Vector3 moveCollisionPosL;
-    private Vector3 moveCollisionPosR;
-
     public bool canCatch = false;// 能否持物
     public bool canPush = false;// 能否推动
     public bool canMoveR = true;//防止蹭墙
@@ -40,6 +36,9 @@ public class PlayControl : MonoBehaviour
 
     private Rigidbody2D rigidbody2d;
 
+    private Vector3 jumpCollisionPos; // 繁琐的三面碰撞检测坐标
+    private Vector3 moveCollisionPosL;
+    private Vector3 moveCollisionPosR;
 
     // Start is called before the first frame update
     void Start()
@@ -73,20 +72,29 @@ public class PlayControl : MonoBehaviour
     {
         foreach (ContactPoint2D contact in collision.contacts)
         {
-            if (contact.collider.CompareTag(pushWall))
+            if (contact.collider.CompareTag(pushWall) && (Input.GetAxis("Horizontal") * (contact.collider.gameObject.transform.position.x - transform.position.x)) > 0)
             {
-                if(Input.GetAxis("Horizontal") * (contact.collider.gameObject.transform.position.x - transform.position.x) > 0)
-                {
-                    isPush = true;
-                    // TODO: 推物体
-                }
-                else
-                {
-                    isPush = false;
-                }
+                isPush = true;
+                // TODO: 推物体
             }
+            else
+            {
+                isPush = false;
+            }
+
         }
     }
+
+    //private void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    foreach (ContactPoint2D contact in collision.contacts)
+    //    {
+    //        if (contact.collider.CompareTag(pushWall))
+    //        {
+    //            isPush = false; // 停止碰撞时将 isPush 设置为 false
+    //        }
+    //    }
+    //}
 
     void Actions()
     {
@@ -179,7 +187,7 @@ public class PlayControl : MonoBehaviour
 
     public IEnumerator IEActionRoll()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGround)
+        if (Input.GetKeyDown(KeyCode.Space) && isGround && !isPush)
         {
             rigidbody2d.AddForce(Vector2.right * rollPower * facing, ForceMode2D.Impulse);
             isRoll = true;
