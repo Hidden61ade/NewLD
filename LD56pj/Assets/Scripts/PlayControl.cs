@@ -7,46 +7,46 @@ using UnityEngine;
 public class PlayControl : MonoSingleton<PlayControl>
 {
     public SpriteRenderer playerSR;
-    [Header("¸÷ÖÖ²ÎÊý")]
-    public float jumpPower = 10;// ÌøÔ¾¶¯Á¦   
-    public float rollPower = 1;// ·­¹ö¶¯Á¦
-    public float walkSpeed = 1;// ÐÐ×ßËÙ¶È
-    public float runSpeed = 1;// ÅÜ²½ËÙ¶È
-    public float getDownSpeed = 1;// ¶×ÏÂËÙ¶È
-    public float moveSpeed;// ÐÐ¶¯ËÙ¶È,ÓÉÊÇ±¼ÅÜ»¹ÊÇÐÐ×ß¾õµÃ
-    public float pushSpeed = 1;// ÍÆÎïËÙ¶È
-    public string item;// µÀ¾ßtag
-    public string pushWall = "PushWall";// ÍÆ¶¯Ç½layer
-    public string ground = "Ground";// µØÃælayer
+    [Header("ï¿½ï¿½ï¿½Ö²ï¿½ï¿½ï¿½")]
+    public float jumpPower = 10;// ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½   
+    public float rollPower = 1;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public float walkSpeed = 1;// ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+    public float runSpeed = 1;// ï¿½Ü²ï¿½ï¿½Ù¶ï¿½
+    public float getDownSpeed = 1;// ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+    public float moveSpeed;// ï¿½Ð¶ï¿½ï¿½Ù¶ï¿½,ï¿½ï¿½ï¿½Ç±ï¿½ï¿½Ü»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¾ï¿½ï¿½ï¿½
+    public float pushSpeed = 1;// ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+    public string item;// ï¿½ï¿½ï¿½ï¿½tag
+    public string pushWall = "PushWall";// ï¿½Æ¶ï¿½Ç½layer
+    public string ground = "Ground";// ï¿½ï¿½ï¿½ï¿½layer
     //public float g = 9.8f;
     //public float yDown = 0;
 
-    public int facing = 1; // Ãæ³¯ÏòÏµÊý,¿ØÖÆ·­¹öÊ±Á¦µÄ³¯Ïò,1ÏòÓÒ,-1Ïò×ó
+    public int facing = 1; // ï¿½æ³¯ï¿½ï¿½Ïµï¿½ï¿½,ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½,1ï¿½ï¿½ï¿½ï¿½,-1ï¿½ï¿½ï¿½ï¿½
 
-    public bool canCatch = false;// ÄÜ·ñ³ÖÎï
-    public bool canPush = false;// ÄÜ·ñÍÆ¶¯
-    public bool canMoveR = true;//·ÀÖ¹²äÇ½
-    public bool canMoveL = true;//·ÀÖ¹²äÇ½
-    public bool isGround = true;// ÊÇ·ñÔÚµØÃæ£¬¹ØÏµÄÜ·ñÌøÔ¾µÈ
-    public bool isRun = false;// ÊÇ·ñÔÚ±¼ÅÜ
-    public bool isGetDown = false;// ÊÇ·ñÔÚÅ¿ÏÂ TODO: ¶¯»­
-    //public bool facingRight = true;// ÊÇ·ñÃæ³¯ÓÒ
-    public bool isRoll = false;// ÊÇ·ñÔÚ·­¹ö
-    public bool isCatch = false;// ÊÇ·ñ³ÖÎï
-    public bool isPush = false;// ÊÇ·ñÍÆ¶¯
+    public bool canCatch = false;// ï¿½Ü·ï¿½ï¿½ï¿½ï¿½
+    public bool canPush = false;// ï¿½Ü·ï¿½ï¿½Æ¶ï¿½
+    public bool canMoveR = true;//ï¿½ï¿½Ö¹ï¿½ï¿½Ç½
+    public bool canMoveL = true;//ï¿½ï¿½Ö¹ï¿½ï¿½Ç½
+    public bool isGround = true;// ï¿½Ç·ï¿½ï¿½Úµï¿½ï¿½æ£¬ï¿½ï¿½Ïµï¿½Ü·ï¿½ï¿½ï¿½Ô¾ï¿½ï¿½
+    public bool isRun = false;// ï¿½Ç·ï¿½ï¿½Ú±ï¿½ï¿½ï¿½
+    public bool isGetDown = false;// ï¿½Ç·ï¿½ï¿½ï¿½Å¿ï¿½ï¿½ TODO: ï¿½ï¿½ï¿½ï¿½
+    //public bool facingRight = true;// ï¿½Ç·ï¿½ï¿½æ³¯ï¿½ï¿½
+    public bool isRoll = false;// ï¿½Ç·ï¿½ï¿½Ú·ï¿½ï¿½ï¿½
+    public bool isCatch = false;// ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
+    public bool isPush = false;// ï¿½Ç·ï¿½ï¿½Æ¶ï¿½
 
-    public float RollDuration;// ·­¹ö³ÖÐøÊ±¼ä //ÖÜ£º´Ë´¦µÄÊ±¼äÐèÒªÓë¶¯»­³¤¶ÈÏàÍ¬
+    public float RollDuration;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ //ï¿½Ü£ï¿½ï¿½Ë´ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Òªï¿½ë¶¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬
 
     private Rigidbody2D rigidbody2d;
 
-    private Vector3 jumpCollisionPos; // ·±ËöµÄÈýÃæÅö×²¼ì²â×ø±ê
+    private Vector3 jumpCollisionPos; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private Vector3 moveCollisionPosL;
     private Vector3 moveCollisionPosR;
 
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody2d = GetComponent<Rigidbody2D>();// »ñµÃ¸ÕÌå×é¼þ
+        rigidbody2d = GetComponent<Rigidbody2D>();// ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         TypeEventSystem.Global.Register<OnLevelResetEvent>((e) =>
         {
             Initialization();
@@ -56,9 +56,9 @@ public class PlayControl : MonoSingleton<PlayControl>
     // Update is called once per frame
     void Update()
     {
-        CollisionDetection();// ¸üÐÂÅö×²¼ì²âÎ»ÖÃ
-        Actions();// ¸üÐÂ¶¯×÷
-        // TODO: ËÙ¶È
+        CollisionDetection();// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½Î»ï¿½ï¿½
+        Actions();// ï¿½ï¿½ï¿½Â¶ï¿½ï¿½ï¿½
+        // TODO: ï¿½Ù¶ï¿½
     }
     
     private void Initialization()
@@ -68,20 +68,20 @@ public class PlayControl : MonoSingleton<PlayControl>
         PlayerAnimatorManager.Instance.ChangeLiftState(false);
         PlayerAnimatorManager.Instance.ChangePushState(false);
         PlayerAnimatorManager.Instance.SwitchToWalk();
-        isRun = false;// ÊÇ·ñÔÚ±¼ÅÜ
-        isGetDown = false;// ÊÇ·ñÔÚÅ¿ÏÂ
-        isRoll = false;// ÊÇ·ñÔÚ·­¹ö
-        isCatch = false;// ÊÇ·ñ³ÖÎï
-        isPush = false;// ÊÇ·ñÍÆ¶¯
-        facing = 1; // Ãæ³¯ÏòÏµÊý,¿ØÖÆ·­¹öÊ±Á¦µÄ³¯Ïò,1ÏòÓÒ,-1Ïò×ó
-        canCatch = false;// ÄÜ·ñ³ÖÎï
-        canPush = false;// ÄÜ·ñÍÆ¶¯
-        canMoveR = true;//·ÀÖ¹²äÇ½
-        canMoveL = true;//·ÀÖ¹²äÇ½
-        isGround = true;// ÊÇ·ñÔÚµØÃæ£¬¹ØÏµÄÜ·ñÌøÔ¾µÈ
+        isRun = false;// ï¿½Ç·ï¿½ï¿½Ú±ï¿½ï¿½ï¿½
+        isGetDown = false;// ï¿½Ç·ï¿½ï¿½ï¿½Å¿ï¿½ï¿½
+        isRoll = false;// ï¿½Ç·ï¿½ï¿½Ú·ï¿½ï¿½ï¿½
+        isCatch = false;// ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
+        isPush = false;// ï¿½Ç·ï¿½ï¿½Æ¶ï¿½
+        facing = 1; // ï¿½æ³¯ï¿½ï¿½Ïµï¿½ï¿½,ï¿½ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½,1ï¿½ï¿½ï¿½ï¿½,-1ï¿½ï¿½ï¿½ï¿½
+        canCatch = false;// ï¿½Ü·ï¿½ï¿½ï¿½ï¿½
+        canPush = false;// ï¿½Ü·ï¿½ï¿½Æ¶ï¿½
+        canMoveR = true;//ï¿½ï¿½Ö¹ï¿½ï¿½Ç½
+        canMoveL = true;//ï¿½ï¿½Ö¹ï¿½ï¿½Ç½
+        isGround = true;// ï¿½Ç·ï¿½ï¿½Úµï¿½ï¿½æ£¬ï¿½ï¿½Ïµï¿½Ü·ï¿½ï¿½ï¿½Ô¾ï¿½ï¿½
     }
 
-    private void OnTriggerStay2D(Collider2D other) // TODU: ÓëµÀ¾ß»¥¶¯
+    private void OnTriggerStay2D(Collider2D other) // TODU: ï¿½ï¿½ï¿½ï¿½ß»ï¿½ï¿½ï¿½
     {
         if (other.gameObject.CompareTag(item))
             canCatch = true;
@@ -89,12 +89,12 @@ public class PlayControl : MonoSingleton<PlayControl>
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag(item)) // ¼ì²éÊÇ·ñÊÇÌØ¶¨±êÇ©µÄÎïÌå
+        if (other.CompareTag(item)) // ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½Ç©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         {
-            canCatch = false; // Àë¿ª´¥·¢Æ÷
+            canCatch = false; // ï¿½ë¿ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         }
     }
-    private void OnCollisionStay2D(Collision2D collision)// ÍÆ¶«Î÷
+    private void OnCollisionStay2D(Collision2D collision)// ï¿½Æ¶ï¿½ï¿½ï¿½
     {
         foreach (ContactPoint2D contact in collision.contacts)
         {
@@ -118,23 +118,23 @@ public class PlayControl : MonoSingleton<PlayControl>
     //    {
     //        if (contact.collider.CompareTag(pushWall))
     //        {
-    //            isPush = false; // Í£Ö¹Åö×²Ê±½« isPush ÉèÖÃÎª false
+    //            isPush = false; // Í£Ö¹ï¿½ï¿½×²Ê±ï¿½ï¿½ isPush ï¿½ï¿½ï¿½ï¿½Îª false
     //        }
     //    }
     //}
 
     void Actions()
     {
-        GetState();// »ñµÃ×´Ì¬(ÊÇ·ñÔÚ±¼ÅÜµÈ)
-        GetFacing();// »ñµÃÃæ³¯Ïò
-        ActionRoll();// ·­¹ö¶¯×÷
-        if (!isRoll) 
+        GetState();// ï¿½ï¿½ï¿½×´Ì¬(ï¿½Ç·ï¿½ï¿½Ú±ï¿½ï¿½Üµï¿½)
+        GetFacing();// ï¿½ï¿½ï¿½ï¿½æ³¯ï¿½ï¿½
+        ActionRoll();// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        if (!isRoll)
         {
             ActionJump();
             ActionMove();
             ActionCatch();
-        }// Èç¹û²»ÔÚ·­¹ö,ÒÆ¶¯ÌøÔ¾
-        //³¯Ïò×ó±ßÊ±£¬·­×ªxÖá
+        }// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½,ï¿½Æ¶ï¿½ï¿½ï¿½Ô¾
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½×ªxï¿½ï¿½
         if (facing==1)
         {
             playerSR.flipX = false;
@@ -144,44 +144,44 @@ public class PlayControl : MonoSingleton<PlayControl>
             playerSR.flipX = true;
         }
     }
-     void CollisionDetection()
+    void CollisionDetection()
     {
-        // TODO: ÐèÒªµØÃælayerÎªGround
+        // TODO: ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½layerÎªGround
 
-        // ¼ì²é½ÇÉ«ÊÇ·ñÔÚµØÃæÉÏ£¨¿ÉÒÔÊ¹ÓÃÉäÏß¼ì²âµÈ·½·¨£©
+        // ï¿½ï¿½ï¿½ï¿½É«ï¿½Ç·ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½Ï£ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½
         jumpCollisionPos = new Vector3(transform.position.x, transform.position.y - GetComponent<Collider2D>().bounds.extents.y - 0.01f, 0f);
         moveCollisionPosL = new Vector3(transform.position.x - GetComponent<Collider2D>().bounds.extents.x - 0.01f, transform.position.y, 0f);
         moveCollisionPosR = new Vector3(transform.position.x + GetComponent<Collider2D>().bounds.extents.x + 0.01f, transform.position.y, 0f);
-        // ¸üÐÂ×ø±ê,ÒÔÍæ¼ÒÎ»ÖÃÎªÖÐÐÄ,¼ì²âËÄ¸ö½Ç¡¢Èý¸öÃæ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Ç¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f,LayerMask.GetMask(ground));
-        // ÊÇ·ñÔÚµØÃæ,¾õµÃÌøÔ¾·­¹ö
+        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f, LayerMask.GetMask(ground));
+        // ï¿½Ç·ï¿½ï¿½Úµï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½
 
-        canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosR , Vector2.right, 0.01f, LayerMask.GetMask(ground)));
-        canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosL , Vector2.left, 0.01f, LayerMask.GetMask(ground)));
-        // ÊÇ·ñ×²Ç½,·ÀÖ¹Õ³Ç½ÉÏ
+        canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f, LayerMask.GetMask(ground)));
+        canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f, LayerMask.GetMask(ground)));
+        // ï¿½Ç·ï¿½×²Ç½,ï¿½ï¿½Ö¹Õ³Ç½ï¿½ï¿½
         //canPush = Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f, LayerMask.GetMask("PushWall")) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f, LayerMask.GetMask("PushWall"));
     }
- 
+
     void ActionCatch()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            //Debug.Log("°´");
+            //Debug.Log("ï¿½ï¿½");
             if (!isCatch && canCatch)
             {
                 isCatch = true;
                 PlayerAnimatorManager.Instance.ChangePickState(isCatch);
-                Debug.Log("ÄÃ");
+                Debug.Log("ï¿½ï¿½");
             }
-            else if(isCatch)
+            else if (isCatch)
             {
                 isCatch = false;
                 PlayerAnimatorManager.Instance.ChangePickState(isCatch);
-                Debug.Log("·Å");
+                Debug.Log("ï¿½ï¿½");
             }
         }
-    }// µÀ¾ß½»»¥
+    }// ï¿½ï¿½ï¿½ß½ï¿½ï¿½ï¿½
 
     void ActionJump()
     {
@@ -190,21 +190,21 @@ public class PlayControl : MonoSingleton<PlayControl>
             rigidbody2d.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
         }
         
-        // TODO: ¶¯»­:ÌøÔ¾,¹Ø¿¨:È·¶¨ÌøÔ¾¸ß¶È,ÌÚ¿ÕÊ±¼äµÈ
+        // TODO: ï¿½ï¿½ï¿½ï¿½:ï¿½ï¿½Ô¾,ï¿½Ø¿ï¿½:È·ï¿½ï¿½ï¿½ï¿½Ô¾ï¿½ß¶ï¿½,ï¿½Ú¿ï¿½Ê±ï¿½ï¿½ï¿½
     }
 
     void ActionMove()
-    {   
+    {
         if (!isPush)
         {
             if (isRun) { moveSpeed = runSpeed; }
             else if (isGetDown) { moveSpeed = getDownSpeed; }
-            else { moveSpeed = walkSpeed; } // ¸ù¾Ý×´Ì¬È·¶¨ËÙ¶È
+            else { moveSpeed = walkSpeed; } // ï¿½ï¿½ï¿½ï¿½×´Ì¬È·ï¿½ï¿½ï¿½Ù¶ï¿½
 
             float move = Input.GetAxis("Horizontal");
 
             if (move < 0 && !canMoveL) { move = 0; }
-            if (move > 0 && !canMoveR) { move = 0; }// ÅöÇ½ºó²»ÄÜÒÆ¶¯,·ÀÖ¹Õ³Ç½ÉÏ
+            if (move > 0 && !canMoveR) { move = 0; }// ï¿½ï¿½Ç½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½,ï¿½ï¿½Ö¹Õ³Ç½ï¿½ï¿½
             rigidbody2d.velocity = new Vector2(move * moveSpeed, rigidbody2d.velocity.y);
         }
         else
@@ -213,12 +213,12 @@ public class PlayControl : MonoSingleton<PlayControl>
             float move = Input.GetAxis("Horizontal");
             rigidbody2d.velocity = new Vector2(move * moveSpeed, rigidbody2d.velocity.y);
         }
-    }// TODO: ¹Ø¿¨:È·¶¨ËÙ¶È,³ÌÐò:ÓëÇ½µÄ½»»¥
+    }// TODO: ï¿½Ø¿ï¿½:È·ï¿½ï¿½ï¿½Ù¶ï¿½,ï¿½ï¿½ï¿½ï¿½:ï¿½ï¿½Ç½ï¿½Ä½ï¿½ï¿½ï¿½
 
     void ActionRoll()
     {
         StartCoroutine(IEActionRoll());
-    }// ²»ÊÇÎÒÐ´µÄ¿´²»¶®
+    }// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½
 
     public IEnumerator IEActionRoll()
     {
@@ -232,9 +232,9 @@ public class PlayControl : MonoSingleton<PlayControl>
         {
             yield break;
         }
-        yield return new WaitForSeconds(RollDuration); //ÖÜ£º´Ë´¦µÄÊ±¼äÐèÒªÓë¶¯»­³¤¶ÈÏàÍ¬
-        isRoll = false;// ²»ÊÇÎÒÐ´µÄ¿´²»¶®   //ÖÜ£ºDash£¨Roll£©¶¯»­ÔÚ²¥·ÅÍêºó×Ô¶¯½øÈëwalk»òrun£¬ËùÒÔ²»ÐèÒªÔÙ¸Ä¸Ä¶¯¶¯»­»ú
-    }// TODO: ¾àÀë
+        yield return new WaitForSeconds(RollDuration); //ï¿½Ü£ï¿½ï¿½Ë´ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Òªï¿½ë¶¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬
+        isRoll = false;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½   //ï¿½Ü£ï¿½Dashï¿½ï¿½Rollï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½walkï¿½ï¿½runï¿½ï¿½ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½Òªï¿½Ù¸Ä¸Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    }// TODO: ï¿½ï¿½ï¿½ï¿½
 
 
 
@@ -249,18 +249,18 @@ public class PlayControl : MonoSingleton<PlayControl>
         {
             isGetDown= false;
             PlayerAnimatorManager.Instance.ChangeCrouchState(isGetDown);
-        }// ÊÇ·ñÏÂ¶×
+        }// ï¿½Ç·ï¿½ï¿½Â¶ï¿½
 
         if (Input.GetKey(KeyCode.LeftShift) && !isGetDown)
         {
             isRun = true;
             PlayerAnimatorManager.Instance.SwitchToRun();
         }
-        else 
-        { 
+        else
+        {
             isRun = false;
             PlayerAnimatorManager.Instance.SwitchToWalk();
-        }// ÊÇ·ñ±¼ÅÜ(¶×ÏÂ²»ÄÜÅÜ)
+        }// ï¿½Ç·ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Â²ï¿½ï¿½ï¿½ï¿½ï¿½)
     }
 
     void GetFacing()
@@ -274,9 +274,9 @@ public class PlayControl : MonoSingleton<PlayControl>
         {
             facing = -1;
         }
-    }// Ãæ³¯Ïò
+    }// ï¿½æ³¯ï¿½ï¿½
 
- 
+
     //void FakeG()
     //{
     //    if(isGround)
@@ -290,7 +290,7 @@ public class PlayControl : MonoSingleton<PlayControl>
     //}
     //void OnDrawGizmos()
     //{
-    //    // ¿ÉÊÓ»¯ÉäÏß¼ì²â
+    //    // ï¿½ï¿½ï¿½Ó»ï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½
     //    Gizmos.color = Color.red;
     //    //Gizmos.DrawRay(jumpCollisionPos, Vector2.down);
     //    Gizmos.DrawRay(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down);
