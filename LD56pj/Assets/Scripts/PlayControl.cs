@@ -160,13 +160,24 @@ public class PlayControl : MonoSingleton<PlayControl>
         //bool isWallL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 2f) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 2f)) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 2f));
         //// 是否撞墙,防止粘墙上
 
+        
 
-        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f);
+        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f) ||Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f);
         // 是否在地面,觉得跳跃翻滚
 
         canPush = Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f);
     }
- 
+    void OnDrawGizmos()
+    {
+        // 可视化射线检测
+
+        Gizmos.color = Color.red;
+        //Gizmos.DrawRay(jumpCollisionPos, Vector2.down);
+        Gizmos.DrawRay(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right);
+        Gizmos.DrawRay(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left);
+        //Gizmos.DrawRay(moveCollisionPosR + Vector3.up * transform.position.y, Vector2.right);
+    }
+
     void ActionCatch()
     {
         if (Input.GetKeyDown(KeyCode.E))
