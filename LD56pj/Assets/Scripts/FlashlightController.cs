@@ -58,9 +58,9 @@ public class FlashlightController : MonoBehaviour
 
         // 计算手电筒到鼠标的方向
         Vector3 direction = (mousePos - player.position).normalized;
-
+        
         // 计算目标旋转角度
-        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
 
         // 获取当前旋转角度
         float currentAngle = transform.eulerAngles.z;
