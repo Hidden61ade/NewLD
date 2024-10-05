@@ -98,7 +98,7 @@ public class PlayControl : MonoSingleton<PlayControl>
     {
         foreach (ContactPoint2D contact in collision.contacts)
         {
-            if (contact.collider.CompareTag(pushWall) && (Input.GetAxis("Horizontal") * (contact.collider.gameObject.transform.position.x - transform.position.x)) > 0)
+            if (contact.collider.CompareTag(pushWall) && (Input.GetAxis("Horizontal") * (contact.collider.gameObject.transform.position.x - transform.position.x)) > 0 && canPush)
             {
                 isPush = true;
                 PlayerAnimatorManager.Instance.ChangePushState(isPush);
@@ -154,13 +154,20 @@ public class PlayControl : MonoSingleton<PlayControl>
         moveCollisionPosR = new Vector3(transform.position.x + GetComponent<Collider2D>().bounds.extents.x + 0.01f, transform.position.y, 0f);
         // 更新坐标,以玩家位置为中心,检测四个角、三个面
 
-        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f,LayerMask.GetMask(ground));
+        //isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f,LayerMask.GetMask(ground));
+        //// 是否在地面,觉得跳跃翻滚
+
+        //canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosR , Vector2.right, 0.01f, LayerMask.GetMask(ground)));
+        //canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosL , Vector2.left, 0.01f, LayerMask.GetMask(ground)));
+        //// 是否撞墙,防止粘墙上
+        canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f)) || Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f));
+        canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f)) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f));
+        // 是否撞墙,防止粘墙上
+
+        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f);
         // 是否在地面,觉得跳跃翻滚
 
-        canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosR , Vector2.right, 0.01f, LayerMask.GetMask(ground)));
-        canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosL , Vector2.left, 0.01f, LayerMask.GetMask(ground)));
-        // 是否撞墙,防止粘墙上
-        //canPush = Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f, LayerMask.GetMask("PushWall")) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f, LayerMask.GetMask("PushWall"));
+        canPush = Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f);
     }
  
     void ActionCatch()
@@ -199,7 +206,8 @@ public class PlayControl : MonoSingleton<PlayControl>
         {
             if (isRun) { moveSpeed = runSpeed; }
             else if (isGetDown) { moveSpeed = getDownSpeed; }
-            else { moveSpeed = walkSpeed; } // 根据状态确定速度
+            else if(isGround)
+            { moveSpeed = walkSpeed; } // 根据状态确定速度
 
             float move = Input.GetAxis("Horizontal");
 
