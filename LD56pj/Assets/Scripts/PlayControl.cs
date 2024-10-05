@@ -185,7 +185,6 @@ public class PlayControl : MonoSingleton<PlayControl>
 
     void ActionJump()
     {
-
         if (Input.GetKeyDown(KeyCode.W) && isGround)
         {
             rigidbody2d.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
