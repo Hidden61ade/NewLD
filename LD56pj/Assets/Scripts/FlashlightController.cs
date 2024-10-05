@@ -3,17 +3,19 @@ using UnityEngine;
 public class FlashlightController : MonoBehaviour
 {
     [Header("角色 Transform")]
-    public Transform player; // 玩家角色的 Transform
+    // 玩家角色的 Transform
+    public Transform player;
 
-    [Header("主摄像机")]
-    public Camera mainCamera; // 场景的主摄像机
+    [Header("Cinemachine 2D Camera")]
+    public Cinemachine.CinemachineVirtualCamera cinemachineCamera; // 使用Cinemachine的2D摄像机
 
     [Header("手电筒旋转速度")]
     public float rotationSpeed = 10f; // 旋转的平滑速度
 
     private void Update()
     {
-        Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mousePos = Input.mousePosition;
+        mousePos = cinemachineCamera.VirtualCameraGameObject.GetComponent<Camera>().ScreenToWorldPoint(mousePos);
         mousePos.z = 0f; 
 
         // 计算手电筒到鼠标的方向
