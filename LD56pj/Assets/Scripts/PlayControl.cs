@@ -101,7 +101,7 @@ public class PlayControl : MonoBehaviour
         GetState();// 获得状态(是否在奔跑等)
         GetFacing();// 获得面朝向
         ActionRoll();// 翻滚动作
-        if (!isRoll) 
+        if (!isRoll)
         {
             ActionJump();
             ActionMove();
@@ -109,7 +109,7 @@ public class PlayControl : MonoBehaviour
         }// 如果不在翻滚,移动跳跃
 
     }
-     void CollisionDetection()
+    void CollisionDetection()
     {
         // TODO: 需要地面layer为Ground
 
@@ -119,15 +119,15 @@ public class PlayControl : MonoBehaviour
         moveCollisionPosR = new Vector3(transform.position.x + GetComponent<Collider2D>().bounds.extents.x + 0.01f, transform.position.y, 0f);
         // 更新坐标,以玩家位置为中心,检测四个角、三个面
 
-        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f,LayerMask.GetMask(ground));
+        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f, LayerMask.GetMask(ground));
         // 是否在地面,觉得跳跃翻滚
 
-        canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosR , Vector2.right, 0.01f, LayerMask.GetMask(ground)));
-        canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosL , Vector2.left, 0.01f, LayerMask.GetMask(ground)));
+        canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f, LayerMask.GetMask(ground)));
+        canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f, LayerMask.GetMask(ground)));
         // 是否撞墙,防止粘墙上
         //canPush = Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f, LayerMask.GetMask("PushWall")) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f, LayerMask.GetMask("PushWall"));
     }
- 
+
     void ActionCatch()
     {
         if (Input.GetKeyDown(KeyCode.E))
@@ -139,7 +139,7 @@ public class PlayControl : MonoBehaviour
                 // TODO: 交互,手持
                 Debug.Log("拿");
             }
-            else if(isCatch)
+            else if (isCatch)
             {
                 isCatch = false;
                 // TODO: 交互,取消手持/使用
@@ -159,7 +159,7 @@ public class PlayControl : MonoBehaviour
     }
 
     void ActionMove()
-    {   
+    {
         if (!isPush)
         {
             if (isRun) { moveSpeed = runSpeed; }
@@ -197,7 +197,7 @@ public class PlayControl : MonoBehaviour
             yield break;
         }
         yield return new WaitForSeconds(RollDuration);
-        isRoll =false;// 不是我写的看不懂
+        isRoll = false;// 不是我写的看不懂
     }// TODO: 翻滚动画,距离
 
 
@@ -210,15 +210,15 @@ public class PlayControl : MonoBehaviour
         }
         else
         {
-            isGetDown= false;
+            isGetDown = false;
         }// 是否下蹲
 
         if (Input.GetKey(KeyCode.LeftShift) && !isGetDown)
         {
             isRun = true;
         }
-        else 
-        { 
+        else
+        {
             isRun = false;
         }// 是否奔跑(蹲下不能跑)
 
@@ -239,7 +239,7 @@ public class PlayControl : MonoBehaviour
         }
     }// 面朝向
 
- 
+
     //void FakeG()
     //{
     //    if(isGround)
