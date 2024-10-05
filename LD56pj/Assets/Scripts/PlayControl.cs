@@ -79,6 +79,7 @@ public class PlayControl : MonoSingleton<PlayControl>
         canMoveR = true;//防止蹭墙
         canMoveL = true;//防止蹭墙
         isGround = true;// 是否在地面，关系能否跳跃等
+
     }
 
     private void OnTriggerStay2D(Collider2D other) // TODU: 与道具互动
@@ -152,12 +153,13 @@ public class PlayControl : MonoSingleton<PlayControl>
         //isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f,LayerMask.GetMask(ground));
         //// 是否在地面,觉得跳跃翻滚
 
-        //canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosR , Vector2.right, 0.01f, LayerMask.GetMask(ground)));
-        //canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosL , Vector2.left, 0.01f, LayerMask.GetMask(ground)));
+        canMoveR= !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f, LayerMask.GetMask(ground)));
+        canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f, LayerMask.GetMask(ground)));
         //// 是否撞墙,防止粘墙上
-        canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f)) || Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f));
-        canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f)) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f));
-        // 是否撞墙,防止粘墙上
+        //bool isWallR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 2f) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 2f)) || Physics2D.Raycast(moveCollisionPosR, Vector2.right, 2f));
+        //bool isWallL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 2f) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 2f)) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 2f));
+        //// 是否撞墙,防止粘墙上
+
 
         isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f);
         // 是否在地面,觉得跳跃翻滚
@@ -273,7 +275,7 @@ public class PlayControl : MonoSingleton<PlayControl>
         {
             facing = 1;
         }
-        else
+        else if(move < 0)
         {
             facing = -1;
         }
