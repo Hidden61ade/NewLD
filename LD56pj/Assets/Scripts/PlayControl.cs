@@ -1,10 +1,13 @@
+using System;
 using QFramework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayControl : MonoBehaviour
+public class PlayControl : MonoSingleton<PlayControl>
 {
+    public SpriteRenderer playerSR;
+    [Header("各种参数")]
     public float jumpPower = 10;// 跳跃动力   
     public float rollPower = 1;// 翻滚动力
     public float walkSpeed = 1;// 行走速度
@@ -32,7 +35,7 @@ public class PlayControl : MonoBehaviour
     public bool isCatch = false;// 是否持物
     public bool isPush = false;// 是否推动
 
-    public float RollDuration;// 翻滚持续时间
+    public float RollDuration;// 翻滚持续时间 //周：此处的时间需要与动画长度相同
 
     private Rigidbody2D rigidbody2d;
 
@@ -44,15 +47,38 @@ public class PlayControl : MonoBehaviour
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();// 获得刚体组件
+        TypeEventSystem.Global.Register<OnLevelResetEvent>((e) =>
+        {
+            Initialization();
+        }).UnRegisterWhenGameObjectDestroyed(gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-
         CollisionDetection();// 更新碰撞检测位置
         Actions();// 更新动作
         // TODO: 速度
+    }
+    
+    private void Initialization()
+    {
+        PlayerAnimatorManager.Instance.ChangeCrouchState(false);
+        PlayerAnimatorManager.Instance.ChangeJumpState(false);
+        PlayerAnimatorManager.Instance.ChangeLiftState(false);
+        PlayerAnimatorManager.Instance.ChangePushState(false);
+        PlayerAnimatorManager.Instance.SwitchToWalk();
+        isRun = false;// 是否在奔跑
+        isGetDown = false;// 是否在趴下
+        isRoll = false;// 是否在翻滚
+        isCatch = false;// 是否持物
+        isPush = false;// 是否推动
+        facing = 1; // 面朝向系数,控制翻滚时力的朝向,1向右,-1向左
+        canCatch = false;// 能否持物
+        canPush = false;// 能否推动
+        canMoveR = true;//防止蹭墙
+        canMoveL = true;//防止蹭墙
+        isGround = true;// 是否在地面，关系能否跳跃等
     }
 
     private void OnTriggerStay2D(Collider2D other) // TODU: 与道具互动
@@ -75,11 +101,12 @@ public class PlayControl : MonoBehaviour
             if (contact.collider.CompareTag(pushWall) && (Input.GetAxis("Horizontal") * (contact.collider.gameObject.transform.position.x - transform.position.x)) > 0)
             {
                 isPush = true;
-                // TODO: 推物体
+                PlayerAnimatorManager.Instance.ChangePushState(isPush);
             }
             else
             {
                 isPush = false;
+                PlayerAnimatorManager.Instance.ChangePushState(isPush);
             }
 
         }
@@ -107,7 +134,15 @@ public class PlayControl : MonoBehaviour
             ActionMove();
             ActionCatch();
         }// 如果不在翻滚,移动跳跃
-
+        //朝向左边时，翻转x轴
+        if (facing==1)
+        {
+            playerSR.flipX = false;
+        }
+        else if (facing==-1)
+        {
+            playerSR.flipX = true;
+        }
     }
      void CollisionDetection()
     {
@@ -136,13 +171,13 @@ public class PlayControl : MonoBehaviour
             if (!isCatch && canCatch)
             {
                 isCatch = true;
-                // TODO: 交互,手持
+                PlayerAnimatorManager.Instance.ChangePickState(isCatch);
                 Debug.Log("拿");
             }
             else if(isCatch)
             {
                 isCatch = false;
-                // TODO: 交互,取消手持/使用
+                PlayerAnimatorManager.Instance.ChangePickState(isCatch);
                 Debug.Log("放");
             }
         }
@@ -155,6 +190,7 @@ public class PlayControl : MonoBehaviour
         {
             rigidbody2d.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
         }
+        
         // TODO: 动画:跳跃,关卡:确定跳跃高度,腾空时间等
     }
 
@@ -178,7 +214,7 @@ public class PlayControl : MonoBehaviour
             float move = Input.GetAxis("Horizontal");
             rigidbody2d.velocity = new Vector2(move * moveSpeed, rigidbody2d.velocity.y);
         }
-    }// TODO: 动画:走路\跑步,动画,关卡:确定速度,程序:与墙的交互
+    }// TODO: 关卡:确定速度,程序:与墙的交互
 
     void ActionRoll()
     {
@@ -191,14 +227,15 @@ public class PlayControl : MonoBehaviour
         {
             rigidbody2d.AddForce(Vector2.right * rollPower * facing, ForceMode2D.Impulse);
             isRoll = true;
+            PlayerAnimatorManager.Instance.SwitchToDash();
         }
         else
         {
             yield break;
         }
-        yield return new WaitForSeconds(RollDuration);
-        isRoll =false;// 不是我写的看不懂
-    }// TODO: 翻滚动画,距离
+        yield return new WaitForSeconds(RollDuration); //周：此处的时间需要与动画长度相同
+        isRoll = false;// 不是我写的看不懂   //周：Dash（Roll）动画在播放完后自动进入walk或run，所以不需要再改改动动画机
+    }// TODO: 距离
 
 
 
@@ -207,23 +244,24 @@ public class PlayControl : MonoBehaviour
         if (Input.GetKey(KeyCode.S))
         {
             isGetDown = true;
+            PlayerAnimatorManager.Instance.ChangeCrouchState(isGetDown);
         }
         else
         {
             isGetDown= false;
+            PlayerAnimatorManager.Instance.ChangeCrouchState(isGetDown);
         }// 是否下蹲
 
         if (Input.GetKey(KeyCode.LeftShift) && !isGetDown)
         {
             isRun = true;
+            PlayerAnimatorManager.Instance.SwitchToRun();
         }
         else 
         { 
             isRun = false;
+            PlayerAnimatorManager.Instance.SwitchToWalk();
         }// 是否奔跑(蹲下不能跑)
-
-
-
     }
 
     void GetFacing()
