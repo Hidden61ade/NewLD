@@ -134,15 +134,10 @@ public class PlayControl : MonoSingleton<PlayControl>
             ActionMove();
             ActionCatch();
         }// 如果不在翻滚,移动跳跃
-        //朝向左边时，翻转x轴
-        if (facing==1)
-        {
-            playerSR.flipX = false;
-        }
-        else if (facing==-1)
-        {
-            playerSR.flipX = true;
-        }
+         //朝向左边时，翻转x轴
+        Vector3 v = gameObject.transform.localScale;
+        v.x = facing;
+        gameObject.transform.localScale = v;
     }
      void CollisionDetection()
     {
