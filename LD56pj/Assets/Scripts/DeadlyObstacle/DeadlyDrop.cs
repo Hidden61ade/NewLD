@@ -9,6 +9,7 @@ using Timer = Unity.VisualScripting.Timer;
 public class DeadlyDrop : MonoBehaviour
 {
     private float timer;
+    public float livingTime = 15f;
     private void Start()
     {
         timer = 0;
@@ -27,5 +28,10 @@ public class DeadlyDrop : MonoBehaviour
     void Update()
     {
         transform.position = new Vector3(transform.position.x,transform.position.y-Time.deltaTime * speed,transform.position.z) ;
+        timer += Time.deltaTime;
+        if (timer>livingTime)
+        {
+            Destroy(gameObject);
+        }
     }
 }

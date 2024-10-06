@@ -14,7 +14,7 @@ public class DangerousLiquid : MonoBehaviour
     public GameObject deadlyDrop;
     private void OnEnable()
     {
-        timer = deltaTime;
+        timer = deltaTime-Random.Range(0,deltaTime);
     }
 
     // Start is called before the first frame update
