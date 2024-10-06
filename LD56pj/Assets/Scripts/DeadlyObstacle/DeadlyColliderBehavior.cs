@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class DeadlyColliderBehavior : MonoBehaviour
 {
-    public void OnTriggerEnter2D(Collider2D other)
+    
+    public virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
