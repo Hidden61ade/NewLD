@@ -32,7 +32,7 @@ public class AntController : MonoBehaviour
     private Rigidbody2D rb;
     private Vector3 respawnPoint;
     private bool isCapturing = false;
-
+    
     [Header("可自动获取")]
     public Transform player;
     private Animator animator;
@@ -74,6 +74,7 @@ public class AntController : MonoBehaviour
         switch (currentState)
         {
             case AntState.Idle:
+                HandleChaseState();
                 HandleIdleState();
                 break;
             case AntState.Chase:
@@ -99,12 +100,13 @@ public class AntController : MonoBehaviour
     void HandleIdleState()
     {
         animator.SetBool("Walk",false);
-        // 待机时可以播放待机动画，或者其他逻辑
+        rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
     }
 
     void HandleChaseState()
         {
             animator.SetBool("Walk",true);
+            rb.constraints = RigidbodyConstraints2D.None;
             if (player == null)
                 return;
 
