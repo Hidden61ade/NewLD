@@ -8,10 +8,13 @@ public class StartPanelControl : MonoBehaviour
 {
     private Button mStartButton;
     private Button mExitButton;
+    private Button mCreditButton;
     private void Start()
     {
         mStartButton = transform.Find("StartButton").GetComponent<Button>();
         mExitButton = transform.Find("ExitButton").GetComponent<Button>();
+        mCreditButton = transform.Find("CreditButton").GetComponent<Button>();
+        
 
         mStartButton.onClick.AddListener(() =>
         {
@@ -24,6 +27,9 @@ public class StartPanelControl : MonoBehaviour
 #else
             Application.Quit();
 #endif
+        });
+        mCreditButton.onClick.AddListener(()=>{
+            UIManager.Instance.ShowCredits();
         });
     }
 }

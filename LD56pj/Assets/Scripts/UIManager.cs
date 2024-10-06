@@ -20,7 +20,7 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private Button closeButton;
 
     // Reference to the Credit Button
-    [SerializeField] private Button creditButton;
+    // [SerializeField] private Button creditButton;
 
     private void Awake()
     {
@@ -78,7 +78,7 @@ public class UIManager : MonoSingleton<UIManager>
         }
     }
 
-        void Start()
+    void Start()
     {
         // Ensure the Credits Panel is hidden at the start
         if (creditsPanel != null)
@@ -88,16 +88,6 @@ public class UIManager : MonoSingleton<UIManager>
         else
         {
             Debug.LogError("Credits Panel 未被赋值！请在 Inspector 中为 UIManager 分配 Credits Panel 对象。");
-        }
-
-        // Assign button listeners if buttons are assigned
-        if (creditButton != null)
-        {
-            creditButton.onClick.AddListener(ShowCredits);
-        }
-        else
-        {
-            Debug.LogError("Credit Button 未被赋值！请在 Inspector 中为 UIManager 分配 Credit Button 对象。");
         }
 
         if (closeButton != null)
