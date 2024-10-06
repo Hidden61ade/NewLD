@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class InteractableDoor : MonoBehaviour
+public partial class InteractableDoor : MonoBehaviour
 {
     private GameObject button;
     private string buttonName = "Button";
