@@ -94,9 +94,23 @@ public class PlayControl : MonoSingleton<PlayControl>
     {
         if (other.gameObject.CompareTag(item))
             canCatch = true;
+        //if (other.gameObject.CompareTag(interact))
+        //{
+        //    canInteract = true;
+        //}
         if (other.gameObject.CompareTag(interact))
         {
-            canInteract = true;
+            //Debug.Log("碰撞了");
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                ButtonOfDoor buttonofdoor = other.GetComponent<ButtonOfDoor>();
+                if (buttonofdoor != null)
+                {
+                    Debug.Log("按下了");
+                    buttonofdoor.Open();
+                }
+
+            }
         }
     }
 
@@ -107,18 +121,7 @@ public class PlayControl : MonoSingleton<PlayControl>
             canCatch = false; // 离开触发器
         }
 
-        if (other.gameObject.CompareTag(interact))
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                ButtonOfDoor buttonofdoor = other.GetComponent<ButtonOfDoor>();
-                if (buttonofdoor != null)
-                {
-                    buttonofdoor.Open();
-                }
-
-            }
-        }
+       
     }
     private void OnCollisionStay2D(Collision2D collision)// 推东西
     {
