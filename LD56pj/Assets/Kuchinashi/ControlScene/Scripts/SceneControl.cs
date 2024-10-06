@@ -24,8 +24,7 @@ namespace Kuchinashi.SceneControl
 
             mCanvasGroup = GetComponent<CanvasGroup>();
             mProgress = GetComponentInChildren<Slider>();
-
-            LoadSceneWithoutConfirm("MainScene");
+            StartCoroutine(InitialLoad());
         }
     }
 
@@ -77,7 +76,13 @@ namespace Kuchinashi.SceneControl
             CanTransition = true;
             Instance.StartCoroutine(Instance.SwitchSceneCoroutine(targetScene, action));
         }
-
+        IEnumerator InitialLoad(){
+            CurrentScene = "MainScene";
+            SceneManager.LoadScene("MainScene",LoadSceneMode.Additive);
+            yield return null;
+            var a =SceneManager.SetActiveScene(SceneManager.GetSceneByName("MainScene"));
+            Debug.Log(a);
+        }
         IEnumerator LoadSceneCoroutine(string targetScene, Action action = null)
         {
             yield return Fade(1);
@@ -185,7 +190,7 @@ namespace Kuchinashi.SceneControl
             yield return new WaitForSeconds(1f);
 
             IsTransiting = true;
-
+            Debug.Log(SceneManager.GetActiveScene().name);
             SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
 
             var operation = SceneManager.LoadSceneAsync(targetScene, LoadSceneMode.Additive);

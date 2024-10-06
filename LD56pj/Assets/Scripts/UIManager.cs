@@ -8,18 +8,21 @@ using TMPro;
 
 public class UIManager : MonoSingleton<UIManager>
 {
-    [SerializeField] private GameObject mDeathMessage; // 通过 Inspector 赋值
+    private Transform UICanvas;
+    private GameObject mDeathMessage;
+    private GameObject mDialoguePanel;
+    private GameObject mPausePanel;
 
-    private void Awake()
+    private void Start()
     {
-        if (mDeathMessage == null)
-        {
-            Debug.LogError("mDeathMessage 未被赋值！请在 Inspector 中为 UIManager 分配 DeathMessage 对象。");
-        }
-        else
-        {
-            mDeathMessage.SetActive(false);
-        }
+        UICanvas = GameObject.Find("UICanvas").transform;
+        mDeathMessage = UICanvas.Find("DeathMessage").gameObject;
+        mDialoguePanel = UICanvas.Find("DialoguePanel").gameObject;
+        mPausePanel = UICanvas.Find("PausePanel").gameObject;
+
+        mDeathMessage.SetActive(false);
+        mDialoguePanel.SetActive(false);
+        mPausePanel.SetActive(false);
 
         // 注册 OnLevelResetEvent 事件，用于在关卡重置时隐藏死亡消息
         TypeEventSystem.Global.Register<OnLevelResetEvent>(e =>
