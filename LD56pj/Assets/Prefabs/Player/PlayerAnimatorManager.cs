@@ -52,7 +52,7 @@ public class PlayerAnimatorManager : MonoSingleton<PlayerAnimatorManager>
 
     public void SwitchToDie()
     {
-        playerAnimator.CrossFade("Die",0);
+        playerAnimator.SetTrigger("Die");
     }
     public void ChangeCrouchState(bool state)
     {

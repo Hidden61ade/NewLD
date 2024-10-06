@@ -68,6 +68,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             isGamePaused = true;
             Time.timeScale = 0; // 暂停游戏
+            PlayControl.Instance.ActionDie();
             UIManager.Instance.ShowDeathMessage();
 
             // 等待玩家左键点击以复活

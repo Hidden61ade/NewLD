@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Xml.Linq;
 using Unity.Burst.CompilerServices;
+using Unity.VisualScripting;
 
 public class PlayControl : MonoSingleton<PlayControl>
 {
@@ -100,7 +101,7 @@ public class PlayControl : MonoSingleton<PlayControl>
         PlayerAnimatorManager.Instance.ChangeJumpState(false);
         PlayerAnimatorManager.Instance.ChangeLiftState(false);
         PlayerAnimatorManager.Instance.ChangePushState(false);
-        PlayerAnimatorManager.Instance.SwitchToWalk();
+        PlayerAnimatorManager.Instance.SwitchToIdle();
         isRun = false;// 是否在奔跑
         isGetDown = false;// 是否在趴下
         isRoll = false;// 是否在翻滚
@@ -427,7 +428,11 @@ public class PlayControl : MonoSingleton<PlayControl>
       
     }// 面朝向
 
-
+    public void ActionDie()
+    {
+        moveSpeed = 0;
+        PlayerAnimatorManager.Instance.SwitchToDie();
+    }
     //void FakeG()
     //{
     //    if(isGround)
