@@ -46,7 +46,8 @@ public class PlayControl : MonoSingleton<PlayControl>
     public bool isCollL = false;
     public bool isCollR = false;
     public bool isColl = false;
-    public bool isJump = false;
+    private bool isJump = false;
+    public bool tryOpen = false;
 
     private Rigidbody2D rigidbody2d;
     private BoxCollider2D boxCollider2d;
@@ -125,7 +126,7 @@ public class PlayControl : MonoSingleton<PlayControl>
         if (other.gameObject.CompareTag(interact))
         {
             //Debug.Log("碰撞了");
-            if (Input.GetKeyDown(KeyCode.E))
+            if (tryOpen)
             {
                 ButtonOfDoor buttonofdoor = other.GetComponent<ButtonOfDoor>();
                 if (buttonofdoor != null)
@@ -191,6 +192,7 @@ public class PlayControl : MonoSingleton<PlayControl>
             ActionPush();
             ActionMove();
             //ActionCatch();
+            ActionOpen();
             ActionSetMoveValueInAnimator();
         }// 如果不在翻滚,移动跳跃
          //朝向左边时，翻转x轴
@@ -257,7 +259,17 @@ public class PlayControl : MonoSingleton<PlayControl>
     //    Gizmos.DrawRay(standColiisionPosR, Vector2.up);
     //    Gizmos.DrawRay(moveCollisionPosR, Vector2.right);
     //}
-
+    void ActionOpen()
+    {
+        if (Input.GetKey(KeyCode.E))
+        {
+            tryOpen = true;
+        }
+        else
+        {
+            tryOpen = false; 
+        }
+    }
     void ActionJump()
     {
 

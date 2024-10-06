@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
-  - PushWall
   - Item
   - DoorDetection
   - Interact
   - DestructableTile
+  - Box
+  - PushWall
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - UI
   - PushWall
   - Wall
-  - 
+  - Box
   - 
   - 
   - 
