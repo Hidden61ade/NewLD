@@ -14,3 +14,7 @@ public class OnLevelResetEvent
 {
 
 }
+public class OnStateChageEvent
+{
+
+}
