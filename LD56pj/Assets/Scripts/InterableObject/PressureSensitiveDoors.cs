@@ -1,31 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(BoxCollider2D))]
 public class PressureSensitiveDoors : MonoBehaviour
 {
-    private GameObject button;
-    private string buttonName = "Button";
+    public GameObject[] buttons;
+    [SerializeField] private bool isOpen;
     private BoxCollider2D boxCollider;
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
-        button = transform.Find(buttonName).gameObject;
+        StartCoroutine(CheckDoorOpen());
     }
 
     // Update is called once per frame
     void Update()
     {
         //Debug.Log(button.GetComponent<ButtonOfDoor>().isOpen);
-        if (button.GetComponent<ButtonOfPressureSensitiveDoor>().isOpen)
+        if (isOpen)
         {
             boxCollider.enabled = false;
         }
         else
         {
             boxCollider.enabled = true;
+        }
+    }
+    IEnumerator CheckDoorOpen()
+    {
+        while (true)
+        {
+            bool temp = true;
+            foreach (var item in buttons)
+            {
+                temp &= item.GetComponent<ButtonOfPressureSensitiveDoor>().isOpen;
+                yield return null;
+            }
+            this.isOpen = temp;
         }
     }
 }
