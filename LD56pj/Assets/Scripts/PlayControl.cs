@@ -111,7 +111,12 @@ public class PlayControl : MonoSingleton<PlayControl>
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                // TODO: 物体被触发
+                ButtonOfDoor buttonofdoor = other.GetComponent<ButtonOfDoor>();
+                if (buttonofdoor != null)
+                {
+                    buttonofdoor.Open();
+                }
+
             }
         }
     }
