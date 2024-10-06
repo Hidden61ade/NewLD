@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
@@ -10,7 +11,6 @@ public class Checkpoint : MonoBehaviour
             // 更新当前存档点的位置
             GameManager.Instance.SetRespawnPoint(transform.position);
             Debug.Log("Checkpoint reached! Respawn point updated.");
-            
         }
     }
 }

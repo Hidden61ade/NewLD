@@ -167,7 +167,7 @@ public class PlayControl : MonoSingleton<PlayControl>
         }// 如果不在翻滚,移动跳跃
          //朝向左边时，翻转x轴
         Vector3 v = gameObject.transform.localScale;
-        v.x = facing;
+        v.x = facing*Mathf.Abs(v.x);
         gameObject.transform.localScale = v;
     }
 

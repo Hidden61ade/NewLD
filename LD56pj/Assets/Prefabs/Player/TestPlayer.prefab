@@ -32,8 +32,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.43, y: -1.1243024, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.13, y: 0.13, z: 0.13}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1137251108253864625}
   m_Father: {fileID: 0}
@@ -113,7 +113,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2096337490, guid: ee31e87046ae5794ab9ce1e98d5ede3b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 498574d53a2634815ab30498ddb98b97, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -145,8 +145,6 @@ MonoBehaviour:
   moveSpeed: 1
   pushSpeed: 1
   item: 
-  pushWall: PushWall
-  ground: Ground
   facing: -1
   canCatch: 0
   canPush: 1
@@ -185,7 +183,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &9144552267729993808
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -218,18 +216,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.3614502, y: 0.31085205}
+  m_Offset: {x: 0.34306812, y: 0.018178225}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5.12, y: 5.12}
+    oldSize: {x: 20.48, y: 20.48}
     newSize: {x: 5.12, y: 5.12}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7078857, y: 2.936798}
+  m_Size: {x: 5.9214077, y: 14.356556}
   m_EdgeRadius: 0
 --- !u!1 &5007062138680906615
 GameObject:
@@ -257,7 +255,7 @@ Transform:
   m_GameObject: {fileID: 5007062138680906615}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.43505216, y: 0.21627307, z: 0.035019122}
+  m_LocalPosition: {x: 0.76, y: -0.58, z: 0.035019122}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -326,9 +324,9 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_LightType: 3
   m_BlendStyleIndex: 1
-  m_FalloffIntensity: 0.5
+  m_FalloffIntensity: 0.494
   m_Color: {r: 0.9245283, g: 0.91438925, b: 0.70211816, a: 1}
-  m_Intensity: 2
+  m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -350,7 +348,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 30
   m_PointLightOuterAngle: 60
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 7.05
+  m_PointLightOuterRadius: 5
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
