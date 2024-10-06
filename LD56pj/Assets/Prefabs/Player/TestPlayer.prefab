@@ -157,7 +157,10 @@ MonoBehaviour:
   isCatch: 0
   isPush: 0
   RollDuration: 1
+  isCollL: 0
+  isCollR: 0
   isColl: 0
+  isJump: 0
 --- !u!50 &337464454573008586
 Rigidbody2D:
   serializedVersion: 4
