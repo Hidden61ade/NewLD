@@ -24,8 +24,11 @@ public class AntController : MonoBehaviour
     // Capture parameters
     public float killRange = 0.5f;
     public float preKillDelay = 0.5f; // 前摇时间
-    public float distance;
-    public float chaseRange = 5f;
+    public float triggerChaseRange = 5f;
+    public float keepChaseRange = 5f;
+    private float distance;
+    private float chaseRange;
+
     public LayerMask wallLayerMask;
 
     // Internal variables
@@ -64,6 +67,7 @@ public class AntController : MonoBehaviour
     {
         // Initial state is Idle; no additional setup needed
         currentState = AntState.Idle;
+        chaseRange = triggerChaseRange;
     }
 
     void Update()
@@ -99,37 +103,37 @@ public class AntController : MonoBehaviour
     }
     void HandleIdleState()
     {
+        chaseRange = triggerChaseRange;
         animator.SetBool("Walk",false);
         rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
     }
 
     void HandleChaseState()
+    {
+        chaseRange = keepChaseRange;
+        animator.SetBool("Walk",true);
+        rb.constraints = RigidbodyConstraints2D.None;
+
+        Vector2 direction = (player.position - transform.position).normalized;
+        rb.velocity = direction * moveSpeed;
+
+        // 检查路径上的墙壁，调整移动方向
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 1f, wallLayerMask);
+        if (hit.collider != null)
         {
-            animator.SetBool("Walk",true);
-            rb.constraints = RigidbodyConstraints2D.None;
-            if (player == null)
-                return;
-
-            Vector2 direction = (player.position - transform.position).normalized;
-            rb.velocity = direction * moveSpeed;
-
-            // 检查路径上的墙壁，调整移动方向
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 1f, wallLayerMask);
-            if (hit.collider != null)
-            {
-                // 如果遇到垂直墙面，调整为垂直移动
-                Vector2 newDirection = Vector2.up; // 根据具体需求调整方向
-                rb.velocity = newDirection * verticalMoveSpeed;
-                // 可选：旋转蚂蚁的精灵以适应新方向
-                //transform.rotation = Quaternion.Euler(0, 0, 90f);
-            }
-            else
-            {
-                // 如果没有遇到墙面，保持水平移动
-                rb.velocity = direction * moveSpeed;
-                //transform.rotation = Quaternion.identity; // 恢复至水平
-            }
+            // 如果遇到垂直墙面，调整为垂直移动
+            Vector2 newDirection = Vector2.up; // 根据具体需求调整方向
+            rb.velocity = newDirection * verticalMoveSpeed;
+            // 可选：旋转蚂蚁的精灵以适应新方向
+            //transform.rotation = Quaternion.Euler(0, 0, 90f);
         }
+        else
+        {
+            // 如果没有遇到墙面，保持水平移动
+            rb.velocity = direction * moveSpeed;
+            //transform.rotation = Quaternion.identity; // 恢复至水平
+        }
+    }
     
     void OnTriggerStay2D(Collider2D other)
     {
