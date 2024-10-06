@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Xml.Linq;
+using Unity.Burst.CompilerServices;
 
 public class PlayControl : MonoSingleton<PlayControl>
 {
@@ -34,6 +35,7 @@ public class PlayControl : MonoSingleton<PlayControl>
     public bool isRoll = false;// 是否在翻滚
     private bool isCatch = false;// 是否持物
     public bool isPush = false;// 是否推动
+    private bool canStand = true;
 
     public float RollDuration;// 翻滚持续时间 //周：此处的时间需要与动画长度相同
 
@@ -49,6 +51,8 @@ public class PlayControl : MonoSingleton<PlayControl>
     private Rigidbody2D rigidbody2d;
     private BoxCollider2D boxCollider2d;
 
+    private LayerMask groundLayer;
+
     private string pushWall = "PushWall";// 推动墙layer
     private string ground = "Ground";// 地面layer
     private string interact = "Interact";
@@ -56,9 +60,12 @@ public class PlayControl : MonoSingleton<PlayControl>
     private Vector3 jumpCollisionPos; // 繁琐的三面碰撞检测坐标
     private Vector3 moveCollisionPosL;
     private Vector3 moveCollisionPosR;
+    private Vector3 standColiisionPosR;
+    private Vector3 standColiisionPosL;
 
     private Vector2 collisionBoxSize;
     private Vector2 collisionBoxCenter;
+
 
     private GameObject pushBox = null;
 
@@ -74,6 +81,7 @@ public class PlayControl : MonoSingleton<PlayControl>
 
         collisionBoxSize = boxCollider2d.size;
         collisionBoxCenter = boxCollider2d.offset;
+        groundLayer = LayerMask.GetMask("Ground");
     }
 
     // Update is called once per frame
@@ -214,9 +222,7 @@ public class PlayControl : MonoSingleton<PlayControl>
         {
             Vector3 localCenter = boxCollider2d.bounds.center;
             // 获取 BoxCollider 的局部中心
-
             Vector3 localSize = boxCollider2d.size;
-
             // 获取世界空间中的大小
             Vector3 worldSize = Vector3.Scale(localSize, transform.lossyScale);
 
@@ -225,6 +231,8 @@ public class PlayControl : MonoSingleton<PlayControl>
                 jumpCollisionPos = new Vector3(localCenter.x, localCenter.y - GetComponent<Collider2D>().bounds.extents.y - 0.01f, 0f);
                 moveCollisionPosL = new Vector3(localCenter.x - GetComponent<Collider2D>().bounds.extents.x - 0.01f, localCenter.y, 0f);
                 moveCollisionPosR = new Vector3(localCenter.x + GetComponent<Collider2D>().bounds.extents.x + 0.01f, localCenter.y, 0f);
+                standColiisionPosL = new Vector3(localCenter.x - GetComponent<Collider2D>().bounds.extents.x, localCenter.y);
+                standColiisionPosR = new Vector3(localCenter.x + GetComponent<Collider2D>().bounds.extents.x, localCenter.y); ;
             }
         }
         // 检查角色是否在地面上（可以使用射线检测等方法）
@@ -233,13 +241,21 @@ public class PlayControl : MonoSingleton<PlayControl>
         isCollL = ((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f)) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f));
         //// 是否撞墙,防止粘墙上
 
+        canStand = !(Physics2D.Raycast(standColiisionPosL, Vector2.up, 1f, LayerMask.GetMask("Ground")) || Physics2D.Raycast(standColiisionPosR, Vector2.up, 1f, LayerMask.GetMask("Ground")));
+
         ditectGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f);
         // 是否在地面,觉得跳跃翻滚
 
         //canPush = Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f);
     }
 
-
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawRay(standColiisionPosL, Vector2.up);
+    //    Gizmos.DrawRay(standColiisionPosR, Vector2.up);
+    //    Gizmos.DrawRay(moveCollisionPosR, Vector2.right);
+    //}
 
     void ActionJump()
     {
@@ -343,10 +359,22 @@ public class PlayControl : MonoSingleton<PlayControl>
             }
             else
             {
-                isGetDown = false;
-                boxCollider2d.size = collisionBoxSize;
-                boxCollider2d.offset = collisionBoxCenter;
-                PlayerAnimatorManager.Instance.ChangeCrouchState(isGetDown);
+                //float extraHeight = collisionBoxSize.y / 2; // 原始高度的一半
+                //Vector2 headPosition = new Vector2(transform.position.x, transform.position.y + extraHeight - 0.1f);
+                //Collider2D hit = Physics2D.OverlapCircle(headPosition, boxCollider2d.size.y / 2, groundLayer); 
+
+                //Debug.Log(hit);
+                if (canStand)
+                {
+                    isGetDown = false;
+                    boxCollider2d.size = collisionBoxSize;
+                    boxCollider2d.offset = collisionBoxCenter;
+                    PlayerAnimatorManager.Instance.ChangeCrouchState(isGetDown);
+                }
+
+
+                //else { Debug.Log(hit); }
+                
             }// 是否下蹲
 
             if (Input.GetKey(KeyCode.LeftShift) && !isGetDown && axisH != 0 && isGround)
