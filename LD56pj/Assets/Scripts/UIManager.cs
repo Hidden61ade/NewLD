@@ -13,7 +13,16 @@ public class UIManager : MonoSingleton<UIManager>
     private GameObject mDialoguePanel;
     private GameObject mPausePanel;
 
-    private void Start()
+    // Reference to the Credit Panel
+    [SerializeField] private GameObject creditsPanel;
+
+    // Reference to the Close Button (optional)
+    [SerializeField] private Button closeButton;
+
+    // Reference to the Credit Button
+    [SerializeField] private Button creditButton;
+
+    private void Awake()
     {
         UICanvas = GameObject.Find("UICanvas").transform;
         mDeathMessage = UICanvas.Find("DeathMessage").gameObject;
@@ -66,6 +75,56 @@ public class UIManager : MonoSingleton<UIManager>
         else
         {
             Debug.LogWarning("mDeathMessage 未被赋值。无法隐藏死亡消息。");
+        }
+    }
+
+        void Start()
+    {
+        // Ensure the Credits Panel is hidden at the start
+        if (creditsPanel != null)
+        {
+            creditsPanel.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("Credits Panel 未被赋值！请在 Inspector 中为 UIManager 分配 Credits Panel 对象。");
+        }
+
+        // Assign button listeners if buttons are assigned
+        if (creditButton != null)
+        {
+            creditButton.onClick.AddListener(ShowCredits);
+        }
+        else
+        {
+            Debug.LogError("Credit Button 未被赋值！请在 Inspector 中为 UIManager 分配 Credit Button 对象。");
+        }
+
+        if (closeButton != null)
+        {
+            closeButton.onClick.AddListener(HideCredits);
+        }
+        else
+        {
+            Debug.LogWarning("Close Button 未被赋值！如不需要关闭按钮，可以忽略此警告。");
+        }
+    }
+
+    // Method to show Credits Panel
+    public void ShowCredits()
+    {
+        if (creditsPanel != null)
+        {
+            creditsPanel.SetActive(true);
+        }
+    }
+
+    // Method to hide Credits Panel
+    public void HideCredits()
+    {
+        if (creditsPanel != null)
+        {
+            creditsPanel.SetActive(false);
         }
     }
 }
