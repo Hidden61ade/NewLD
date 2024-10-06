@@ -16,7 +16,7 @@ public class PlayControl : MonoSingleton<PlayControl>
     public float getDownSpeed = 1;// 蹲下速度
     public float moveSpeed;// 行动速度,由是奔跑还是行走觉得
     public float pushSpeed = 1;// 推物速度
-    public string item;// 道具tag
+    private string item;// 道具tag
 
     //public float g = 9.8f;
     //public float yDown = 0;
@@ -32,7 +32,7 @@ public class PlayControl : MonoSingleton<PlayControl>
     public bool isGetDown = false;// 是否在趴下 TODO: 动画
     //public bool facingRight = true;// 是否面朝右
     public bool isRoll = false;// 是否在翻滚
-    public bool isCatch = false;// 是否持物
+    private bool isCatch = false;// 是否持物
     public bool isPush = false;// 是否推动
 
     public float RollDuration;// 翻滚持续时间 //周：此处的时间需要与动画长度相同
@@ -41,9 +41,9 @@ public class PlayControl : MonoSingleton<PlayControl>
     private float axisH;
     private bool ditectGround = true;
     private bool canInteract = false;
-    public bool isCollL = false;
-    public bool isCollR = false;
-    public bool isColl = false;
+    private bool isCollL = false;
+    private bool isCollR = false;
+    private bool isColl = false;
     public bool isJump = false;
 
     private Rigidbody2D rigidbody2d;
@@ -57,6 +57,9 @@ public class PlayControl : MonoSingleton<PlayControl>
     private Vector3 moveCollisionPosL;
     private Vector3 moveCollisionPosR;
 
+    private Vector2 collisionBoxSize;
+    private Vector2 collisionBoxCenter;
+
     private GameObject pushBox = null;
 
     // Start is called before the first frame update
@@ -68,6 +71,9 @@ public class PlayControl : MonoSingleton<PlayControl>
         {
             Initialization();
         }).UnRegisterWhenGameObjectDestroyed(gameObject);
+
+        collisionBoxSize = boxCollider2d.size;
+        collisionBoxCenter = boxCollider2d.offset;
     }
 
     // Update is called once per frame
@@ -124,15 +130,6 @@ public class PlayControl : MonoSingleton<PlayControl>
         }
     }
 
-    //private void OnTriggerExit2D(Collider2D other)
-    //{
-    //    if (other.CompareTag(item)) // 检查是否是特定标签的物体
-    //    {
-    //        canCatch = false; // 离开触发器
-    //    }
-
-
-    //}
     private void OnCollisionStay2D(Collision2D collision) // 推东西
     {
         int a = 0; // 用来计数水平碰撞
@@ -142,21 +139,14 @@ public class PlayControl : MonoSingleton<PlayControl>
         foreach (ContactPoint2D contact in collision.contacts)
         {
             Vector2 normal = contact.normal;
-            Debug.Log(normal);
+            //Debug.Log(normal);
 
             // 水平方向碰撞
-            if (normal.y == 0)
+            if (normal.y < 0.001f || normal.y > -0.001f)
             {
                 a += 1;
             }
 
-            // 垂直方向碰撞
-            //if (normal.x == 0 && normal.y > 0)
-            //{
-            //    b += 1;
-            //}
-
-            // 检查是否符合推墙条件
             if (contact.collider.CompareTag(pushWall) && isGround && axisH != 0)
             {
                 if (normal.y == 0)
@@ -178,20 +168,7 @@ public class PlayControl : MonoSingleton<PlayControl>
         //isGround = b > 0;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        isColl = false;
-    }
 
-    //{
-    //    foreach (ContactPoint2D contact in collision.contacts)
-    //    {
-    //        if (contact.collider.CompareTag(pushWall))
-    //        {
-    //            isPush = false; // 停止碰撞时将 isPush 设置为 false
-    //        }
-    //    }
-    //}
 
     void Actions()
     {
@@ -204,7 +181,7 @@ public class PlayControl : MonoSingleton<PlayControl>
             ActionJump();
             ActionPush();
             ActionMove();
-            ActionCatch();
+            //ActionCatch();
             ActionSetMoveValueInAnimator();
         }// 如果不在翻滚,移动跳跃
          //朝向左边时，翻转x轴
@@ -360,20 +337,24 @@ public class PlayControl : MonoSingleton<PlayControl>
             if (Input.GetKey(KeyCode.S))
             {
                 isGetDown = true;
+                boxCollider2d.size = new Vector2(collisionBoxSize.x, collisionBoxSize.y / 2);
+                boxCollider2d.offset = new Vector2(collisionBoxCenter.x, (collisionBoxCenter.y - (collisionBoxSize.y - boxCollider2d.size.y) / 2));
                 PlayerAnimatorManager.Instance.ChangeCrouchState(isGetDown);
             }
             else
             {
                 isGetDown = false;
+                boxCollider2d.size = collisionBoxSize;
+                boxCollider2d.offset = collisionBoxCenter;
                 PlayerAnimatorManager.Instance.ChangeCrouchState(isGetDown);
             }// 是否下蹲
 
-            if (Input.GetKey(KeyCode.LeftShift) && !isGetDown && axisH != 0)
+            if (Input.GetKey(KeyCode.LeftShift) && !isGetDown && axisH != 0 && isGround)
             {
                 isRun = true;
                 PlayerAnimatorManager.Instance.SwitchToRun();
             }
-            else
+            else if (isGround) 
             {
                 isRun = false;
                 PlayerAnimatorManager.Instance.SwitchToWalk();
@@ -428,25 +409,25 @@ public class PlayControl : MonoSingleton<PlayControl>
     //}
 
 
-    void ActionCatch()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            //Debug.Log("按");
-            if (!isCatch && canCatch)
-            {
-                isCatch = true;
-                PlayerAnimatorManager.Instance.ChangePickState(isCatch);
-                //Debug.Log("拿");
-            }
-            else if (isCatch)
-            {
-                isCatch = false;
-                PlayerAnimatorManager.Instance.ChangePickState(isCatch);
-                //Debug.Log("放");
-            }
-        }
-    }// 道具交互
+    //void ActionCatch()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.E))
+    //    {
+    //        //Debug.Log("按");
+    //        if (!isCatch && canCatch)
+    //        {
+    //            isCatch = true;
+    //            PlayerAnimatorManager.Instance.ChangePickState(isCatch);
+    //            //Debug.Log("拿");
+    //        }
+    //        else if (isCatch)
+    //        {
+    //            isCatch = false;
+    //            PlayerAnimatorManager.Instance.ChangePickState(isCatch);
+    //            //Debug.Log("放");
+    //        }
+    //    }
+    //}// 道具交互
 
 }
 
