@@ -43,9 +43,9 @@ public class PlayControl : MonoSingleton<PlayControl>
     private float axisH;
     private bool ditectGround = true;
     private bool canInteract = false;
-    private bool isCollL = false;
-    private bool isCollR = false;
-    private bool isColl = false;
+    public bool isCollL = false;
+    public bool isCollR = false;
+    public bool isColl = false;
     public bool isJump = false;
 
     private Rigidbody2D rigidbody2d;
@@ -53,7 +53,7 @@ public class PlayControl : MonoSingleton<PlayControl>
 
     private LayerMask groundLayer;
 
-    private string pushWall = "PushWall";// 推动墙layer
+    private string Box = "Box";// 推动墙layer
     private string ground = "Ground";// 地面layer
     private string interact = "Interact";
 
@@ -150,17 +150,18 @@ public class PlayControl : MonoSingleton<PlayControl>
             //Debug.Log(normal);
 
             // 水平方向碰撞
-            if (normal.y < 0.001f || normal.y > -0.001f)
+            if (normal.y < 0.001f && normal.y > -0.001f)
             {
                 a += 1;
             }
 
-            if (contact.collider.CompareTag(pushWall) && isGround && axisH != 0)
+            if (contact.collider.CompareTag(Box) && isGround && axisH != 0)
             {
-                if (normal.y == 0)
+                if (normal.y < 0.001f && normal.y > -0.001f)
                 {
                     tempCanPush = true; // 用临时变量记录
                     pushBox = contact.collider.gameObject;
+
                 }
             }
         }
