@@ -31,11 +31,16 @@ public class AntController : MonoBehaviour
     private Vector3 respawnPoint;
     private bool isCapturing = false;
 
+    private Animator animator;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         gameManager = GameManager.Instance;
-
+        animator = gameObject.GetComponent<Animator>();
+        if (animator==null)
+        {
+            Debug.Log("Animator not found! 确保ant装载了animator!");
+        }
         if (player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -74,11 +79,13 @@ public class AntController : MonoBehaviour
 
     void HandleIdleState()
     {
+        animator.SetBool("Walk",false);
         // 待机时可以播放待机动画，或者其他逻辑
     }
 
     void HandleChaseState()
         {
+            animator.SetBool("Walk",false);
             if (player == null)
                 return;
 
@@ -116,6 +123,7 @@ public class AntController : MonoBehaviour
 
     IEnumerator KillRoutine()
     {
+        animator.SetBool("Kill",true);
         if (isCapturing)
             yield break;
 
