@@ -100,7 +100,7 @@ public class PlayControl : MonoSingleton<PlayControl>
         //}
         if (other.gameObject.CompareTag(interact))
         {
-            Debug.Log("碰撞了");
+            //Debug.Log("碰撞了");
             if (Input.GetKeyDown(KeyCode.E))
             {
                 ButtonOfDoor buttonofdoor = other.GetComponent<ButtonOfDoor>();

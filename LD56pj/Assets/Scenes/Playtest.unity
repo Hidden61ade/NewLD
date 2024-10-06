@@ -789,10 +789,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1031287821}
   - component: {fileID: 1031287823}
-  - component: {fileID: 1031287822}
   - component: {fileID: 1031287824}
+  - component: {fileID: 1031287825}
   m_Layer: 0
-  m_Name: Bottun
+  m_Name: Button
   m_TagString: Interact
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -813,18 +813,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1120863623}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1031287822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1031287820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 350d0fd7201a2fb42bc89a697d083863, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &1031287823
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -922,6 +910,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1031287825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031287820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2f7dbeb02f2e946bbbc9d5d31774b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOpen: 0
 --- !u!1 &1063081549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1091,7 +1092,6 @@ GameObject:
   - component: {fileID: 1120863623}
   - component: {fileID: 1120863622}
   - component: {fileID: 1120863621}
-  - component: {fileID: 1120863620}
   - component: {fileID: 1120863619}
   m_Layer: 6
   m_Name: Door
@@ -1112,33 +1112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69b8d7bdb3e89da4389306d602502d8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &1120863620
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1120863618}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!61 &1120863621
 BoxCollider2D:
   m_ObjectHideFlags: 0
