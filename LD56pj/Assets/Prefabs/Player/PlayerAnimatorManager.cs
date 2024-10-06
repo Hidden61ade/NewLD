@@ -28,6 +28,11 @@ public class PlayerAnimatorManager : MonoSingleton<PlayerAnimatorManager>
         }
     }
 
+    public void PlayFootStepSound()
+    {
+        GameAudio.AudioManager.Instance.PlayFootsteps();
+    }
+
     public void SwitchToIdle()
     {
         playerAnimator.SetInteger("SpeedModeInt",0);

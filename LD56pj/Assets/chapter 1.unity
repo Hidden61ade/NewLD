@@ -20927,7 +20927,7 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
---- !u!1001 &701496887218174343
+--- !u!1001 &2070353865
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -20935,37 +20935,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 516294733403081708, guid: 3f7913601a806e04e963f39abf6f2f1d, type: 3}
-      propertyPath: m_Intensity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 516294733403081708, guid: 3f7913601a806e04e963f39abf6f2f1d, type: 3}
-      propertyPath: m_FalloffIntensity
-      value: 0.494
-      objectReference: {fileID: 0}
-    - target: {fileID: 516294733403081708, guid: 3f7913601a806e04e963f39abf6f2f1d, type: 3}
-      propertyPath: m_PointLightOuterRadius
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1137251108253864625, guid: 3f7913601a806e04e963f39abf6f2f1d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.76
-      objectReference: {fileID: 0}
-    - target: {fileID: 1137251108253864625, guid: 3f7913601a806e04e963f39abf6f2f1d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.58
-      objectReference: {fileID: 0}
     - target: {fileID: 1586904685604853981, guid: 3f7913601a806e04e963f39abf6f2f1d, type: 3}
       propertyPath: m_Name
       value: TestPlayer
       objectReference: {fileID: 0}
     - target: {fileID: 7083903011918596423, guid: 3f7913601a806e04e963f39abf6f2f1d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -90.504
+      value: -85.95896
       objectReference: {fileID: 0}
     - target: {fileID: 7083903011918596423, guid: 3f7913601a806e04e963f39abf6f2f1d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -23.037
+      value: -23.04
       objectReference: {fileID: 0}
     - target: {fileID: 7083903011918596423, guid: 3f7913601a806e04e963f39abf6f2f1d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -21068,5 +21048,5 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1505982464}
-  - {fileID: 701496887218174343}
   - {fileID: 5974430522940865574}
+  - {fileID: 2070353865}
