@@ -41,9 +41,10 @@ public class PlayControl : MonoSingleton<PlayControl>
     private float axisH;
 
     private bool canInteract = false;
-    private bool isCollL = false;
-    private bool isCollR = false;
-    public bool isColl = false;  
+    public bool isCollL = false;
+    public bool isCollR = false;
+    public bool isColl = false;
+    public bool isJump = false;
 
     private Rigidbody2D rigidbody2d;
     private BoxCollider2D boxCollider2d;
@@ -134,10 +135,15 @@ public class PlayControl : MonoSingleton<PlayControl>
     //}
     private void OnCollisionStay2D(Collision2D collision)// 推东西
     {
-        isColl = true;
+        int a =0;
         foreach (ContactPoint2D contact in collision.contacts)
         {
             Vector2 normal = contact.normal;
+            if (normal.y == 0)
+            {
+                a += 1;
+            }
+            
             if (contact.collider.CompareTag(pushWall) && isGround && axisH != 0)
             {
                 if (normal.y == 0)
@@ -157,6 +163,8 @@ public class PlayControl : MonoSingleton<PlayControl>
 
 
         }
+        if (a == 0) { isColl = false; }
+        else {  isColl = true; }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -246,11 +254,14 @@ public class PlayControl : MonoSingleton<PlayControl>
 
     void ActionJump()
     {
+
         if (Input.GetKeyDown(KeyCode.Space ) && isGround )
         {
             if (!isPush && !isGetDown)
             {
                 rigidbody2d.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+                isJump = true;
+                PlayerAnimatorManager.Instance.ChangeJumpState(isJump);
             }
            
         }
@@ -354,6 +365,11 @@ public class PlayControl : MonoSingleton<PlayControl>
                 isRun = false;
                 PlayerAnimatorManager.Instance.SwitchToWalk();
             }// 是否奔跑(蹲下不能跑)
+            if (isJump && isGround)
+            {
+                isJump = false;
+                PlayerAnimatorManager.Instance.ChangeJumpState(isJump);
+            }
         }
 
     }
