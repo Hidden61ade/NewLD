@@ -129,16 +129,34 @@ public class PlayControl : MonoSingleton<PlayControl>
         GetState();// 获得状态(是否在奔跑等)
         GetFacing();// 获得面朝向
         ActionRoll();// 翻滚动作
+        
         if (!isRoll) 
         {
             ActionJump();
             ActionMove();
             ActionCatch();
+            ActionSetMoveValueInAnimator();
         }// 如果不在翻滚,移动跳跃
          //朝向左边时，翻转x轴
         Vector3 v = gameObject.transform.localScale;
         v.x = facing;
         gameObject.transform.localScale = v;
+    }
+
+    void ActionSetMoveValueInAnimator()
+    {
+        if (isRun)
+        {
+            PlayerAnimatorManager.Instance.SwitchToRun();
+        }
+        else if(moveSpeed>0)
+        {
+            PlayerAnimatorManager.Instance.SwitchToWalk();
+        }
+        else
+        {
+            PlayerAnimatorManager.Instance.SwitchToIdle();
+        }
     }
      void CollisionDetection()
     {
