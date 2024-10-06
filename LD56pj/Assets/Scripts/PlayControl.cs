@@ -151,7 +151,7 @@ public class PlayControl : MonoSingleton<PlayControl>
         {
             PlayerAnimatorManager.Instance.SwitchToRun();
         }
-        else if(moveSpeed>0)
+        else if(moveSpeed>0.0001)
         {
             PlayerAnimatorManager.Instance.SwitchToWalk();
         }
@@ -181,13 +181,6 @@ public class PlayControl : MonoSingleton<PlayControl>
             }
         }
         // 检查角色是否在地面上（可以使用射线检测等方法）
-       
-
-
-        //jumpCollisionPos = new Vector3(transform.position.x, transform.position.y - GetComponent<Collider2D>().bounds.extents.y - 0.01f, 0f);
-        //moveCollisionPosL = new Vector3(transform.position.x - GetComponent<Collider2D>().bounds.extents.x - 0.01f, transform.position.y, 0f);
-        //moveCollisionPosR = new Vector3(transform.position.x + GetComponent<Collider2D>().bounds.extents.x + 0.01f, transform.position.y, 0f);
-        // 更新坐标,以玩家位置为中心,检测四个角、三个面
 
         canMoveR = !((Physics2D.Raycast(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosR + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f, LayerMask.GetMask(ground)));
         canMoveL = !((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground)) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f, LayerMask.GetMask(ground))) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f, LayerMask.GetMask(ground)));
@@ -198,16 +191,13 @@ public class PlayControl : MonoSingleton<PlayControl>
 
         canPush = Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f);
     }
-    void OnDrawGizmos()
-    {
-        // 可视化射线检测
-
-        Gizmos.color = Color.red;
-        //Gizmos.DrawRay(jumpCollisionPos, Vector2.down);
-        Gizmos.DrawRay(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right);
-        Gizmos.DrawRay(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left);
-        //Gizmos.DrawRay(moveCollisionPosR + Vector3.up * transform.position.y, Vector2.right);
-    }
+    //void OnDrawGizmos()
+    //{
+    //    // 可视化射线检测
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawRay(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right);
+    //    Gizmos.DrawRay(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left);
+    //}
 
     void ActionCatch()
     {
