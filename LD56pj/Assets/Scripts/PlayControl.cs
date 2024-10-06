@@ -39,7 +39,7 @@ public class PlayControl : MonoSingleton<PlayControl>
 
 
     private float axisH;
-
+    private bool ditectGround = true;
     private bool canInteract = false;
     public bool isCollL = false;
     public bool isCollR = false;
@@ -133,39 +133,51 @@ public class PlayControl : MonoSingleton<PlayControl>
 
 
     //}
-    private void OnCollisionStay2D(Collision2D collision)// 推东西
+    private void OnCollisionStay2D(Collision2D collision) // 推东西
     {
-        int a =0;
+        int a = 0; // 用来计数水平碰撞
+        int b = 0; // 用来计数垂直碰撞
+        bool tempCanPush = false; // 用临时变量记录能否推
+
         foreach (ContactPoint2D contact in collision.contacts)
         {
             Vector2 normal = contact.normal;
+            Debug.Log(normal);
+
+            // 水平方向碰撞
             if (normal.y == 0)
             {
                 a += 1;
             }
-            
+
+            // 垂直方向碰撞
+            //if (normal.x == 0 && normal.y > 0)
+            //{
+            //    b += 1;
+            //}
+
+            // 检查是否符合推墙条件
             if (contact.collider.CompareTag(pushWall) && isGround && axisH != 0)
             {
                 if (normal.y == 0)
                 {
-                    canPush = true;
-
+                    tempCanPush = true; // 用临时变量记录
                     pushBox = contact.collider.gameObject;
-                    PlayerAnimatorManager.Instance.ChangePushState(isPush);
                 }
             }
-            else
-            {
-                canPush = false;
-                //pushBox = null;
-                PlayerAnimatorManager.Instance.ChangePushState(isPush);
-            }
-
-
         }
-        if (a == 0) { isColl = false; }
-        else {  isColl = true; }
+
+        // 在循环外统一更新推状态
+        canPush = tempCanPush;
+        PlayerAnimatorManager.Instance.ChangePushState(isPush);
+
+        // 检查是否碰撞到了水平面
+        isColl = a > 0;
+
+        //// 检查是否接触到了地面
+        //isGround = b > 0;
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         isColl = false;
@@ -244,7 +256,7 @@ public class PlayControl : MonoSingleton<PlayControl>
         isCollL = ((Physics2D.Raycast(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f) || Physics2D.Raycast(moveCollisionPosL + Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left, 0.01f)) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f));
         //// 是否撞墙,防止粘墙上
 
-        isGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f);
+        ditectGround = Physics2D.Raycast(jumpCollisionPos + Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f) || Physics2D.Raycast(jumpCollisionPos - Vector3.right * GetComponent<Collider2D>().bounds.extents.x, Vector2.down, 0.01f);
         // 是否在地面,觉得跳跃翻滚
 
         //canPush = Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f);
@@ -342,6 +354,7 @@ public class PlayControl : MonoSingleton<PlayControl>
 
     void GetState()
     {
+        isGround = ditectGround;
         if (!isPush)
         {
             if (Input.GetKey(KeyCode.S))
