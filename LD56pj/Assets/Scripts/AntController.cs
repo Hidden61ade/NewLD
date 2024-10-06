@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum AntState
@@ -13,7 +14,7 @@ public class AntController : MonoBehaviour
     public AntState currentState = AntState.Idle;
 
     // References
-    public Transform player; // Reference to the player
+     // Reference to the player
     private GameManager gameManager;
 
     // Movement parameters
@@ -23,7 +24,7 @@ public class AntController : MonoBehaviour
     // Capture parameters
     public float killRange = 0.5f;
     public float preKillDelay = 0.5f; // 前摇时间
-
+    public float chaseRange = 5f;
     public LayerMask wallLayerMask;
 
     // Internal variables
@@ -31,6 +32,8 @@ public class AntController : MonoBehaviour
     private Vector3 respawnPoint;
     private bool isCapturing = false;
 
+    [Header("可自动获取")]
+    public Transform player;
     private Animator animator;
     void Awake()
     {
@@ -59,10 +62,13 @@ public class AntController : MonoBehaviour
     void Start()
     {
         // Initial state is Idle; no additional setup needed
+        currentState = AntState.Idle;
     }
 
     void Update()
     {
+        JudgeChaseCondition();
+        HandleOrientation();
         switch (currentState)
         {
             case AntState.Idle:
@@ -77,6 +83,17 @@ public class AntController : MonoBehaviour
         }
     }
 
+    public void HandleOrientation()
+    {
+        Vector2 dir = ((Vector2)player.position - (Vector2)transform.position).normalized;
+        float targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; // 转换为度
+        // 获取当前旋转角度
+        float currentAngle = transform.eulerAngles.z;
+        float smoothAngle = Mathf.LerpAngle(currentAngle, targetAngle, 100 * Time.deltaTime);
+
+        // 应用旋转
+        rb.MoveRotation(Quaternion.Euler(0,0, smoothAngle));
+    }
     void HandleIdleState()
     {
         animator.SetBool("Walk",false);
@@ -85,7 +102,7 @@ public class AntController : MonoBehaviour
 
     void HandleChaseState()
         {
-            animator.SetBool("Walk",false);
+            animator.SetBool("Walk",true);
             if (player == null)
                 return;
 
@@ -100,19 +117,19 @@ public class AntController : MonoBehaviour
                 Vector2 newDirection = Vector2.up; // 根据具体需求调整方向
                 rb.velocity = newDirection * verticalMoveSpeed;
                 // 可选：旋转蚂蚁的精灵以适应新方向
-                transform.rotation = Quaternion.Euler(0, 0, 90f);
+                //transform.rotation = Quaternion.Euler(0, 0, 90f);
             }
             else
             {
                 // 如果没有遇到墙面，保持水平移动
                 rb.velocity = direction * moveSpeed;
-                transform.rotation = Quaternion.identity; // 恢复至水平
+                //transform.rotation = Quaternion.identity; // 恢复至水平
             }
         }
-
-    void OnTriggerEnter2D(Collider2D other)
+    
+    void OnCollisionEnter2D(Collision2D other)
     {
-        if (currentState == AntState.Chase && other.CompareTag("Player"))
+        if (currentState == AntState.Chase && other.gameObject.CompareTag("Player"))
         {
             // 转换到捕杀状态
             currentState = AntState.Kill;
@@ -142,15 +159,23 @@ public class AntController : MonoBehaviour
         // 重置状态
         currentState = AntState.Chase;
         isCapturing = false;
+        animator.SetBool("Kill",false);
     }
 
     // Method to trigger state transition from Idle to Chase
+    public void JudgeChaseCondition()
+    {
+        if ((player.position-transform.position).magnitude<chaseRange)
+        {
+            StartChasing();
+        }
+    }
     public void StartChasing()
     {
         if (currentState == AntState.Idle)
         {
             currentState = AntState.Chase;
-            transform.rotation = Quaternion.identity; // 确保为水平状态
+            //transform.rotation = Quaternion.identity; // 确保为水平状态
         }
     }
 }
