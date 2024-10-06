@@ -10,7 +10,7 @@ public class HiddenPlaceControl : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Timer Reset!");
-            SpiderController.Instance.TimerReset();
+            CatController.Instance.TimerReset();
         }
     }
 }

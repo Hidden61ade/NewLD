@@ -132,6 +132,7 @@ public class AntController : MonoBehaviour
         if (currentState == AntState.Chase && other.gameObject.CompareTag("Player"))
         {
             // 转换到捕杀状态
+            
             currentState = AntState.Kill;
             rb.velocity = Vector2.zero; // 停止移动
             StartCoroutine(KillRoutine());

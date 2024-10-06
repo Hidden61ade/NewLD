@@ -28,7 +28,6 @@ public class DangerousLiquid : MonoBehaviour
             {
                 Debug.Log("DeadlyDrop not found!");
             }
-            return;
         }
         
     }

@@ -3,19 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using QFramework;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class SpiderController : MonoSingleton<SpiderController>
+public class MouseController : MonoSingleton<MouseController>
 {
-    public SpiderState curState;
+    public MouseState curState;
     public float maxExposureTime;
     public float timer;
     private GameManager gameManager;
 
-    // Capture parameters
-    [Header("此参数应该与kill动画时长相同")]
-    public float killTime = 0.3f;
-    
+    // Chasing parameters
+    [Header("当人物远离怪物时,速度提升率")] 
+    public float ChasingIncrese = 0f;
+
+    public float maxSpeed = 2;
+
+    public float minSpeed = 1;
+    private float disdance;
+
+    private Vector2 dir;
     // Internal variables
     private Rigidbody2D rb;
     private Vector3 respawnPoint;
@@ -26,15 +33,16 @@ public class SpiderController : MonoSingleton<SpiderController>
 
     public Animator animator;
     // Start is called before the first frame update
-    public enum SpiderState
+    public enum MouseState
     {
         Idle,
+        Chasing,
         Kill 
     }
     void Awake()
     {
-        curState = SpiderState.Idle;
-        timer = maxExposureTime;
+        curState = MouseState.Idle;
+        disdance = 10000;
         rb = GetComponent<Rigidbody2D>();
         gameManager = GameManager.Instance;
         if (playerTransform == null)
@@ -63,21 +71,20 @@ public class SpiderController : MonoSingleton<SpiderController>
     // Update is called once per frame
     void Update()
     {
-        timer -= Time.deltaTime;
-        if (timer<=0)
-        {
-            curState = SpiderState.Kill;
-            animator.SetTrigger("Kill");
-        }
-
+        disdance = (transform.position - playerTransform.position).magnitude;
         switch (curState)
         {
-            case SpiderState.Idle:
+            case MouseState.Idle:
             {
                 HandleIdleState();
                 break;
             }
-            case SpiderState.Kill:
+            case MouseState.Chasing:
+            {
+                HandleChasingState();
+                break;
+            }
+            case MouseState.Kill:
             {
                 HandleKillState();
                 break;
@@ -85,12 +92,10 @@ public class SpiderController : MonoSingleton<SpiderController>
         }
     }
 
-    public void TimerReset()
+    public void HandleChasingState()
     {
-        timer = maxExposureTime;
-        
+        //rb.velocity = dir*Mathf.Clamp(minSpeed+)
     }
-
     private void HandleIdleState()
     {
         //TODO：animator change;
@@ -103,7 +108,7 @@ public class SpiderController : MonoSingleton<SpiderController>
 
     public IEnumerator KillAction()
     {
-        transform.DOMove(playerTransform.position, killTime);//用DOTween包实现移动。
+        TypeEventSystem.Global.Send<OnPlayerDiedEvents>();
         yield break;
     }
 }
