@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using QFramework;
 
 namespace Kuchinashi.SceneControl
 {
@@ -216,7 +217,7 @@ namespace Kuchinashi.SceneControl
             yield return new WaitUntil(() => {return CanTransition;});
             CanTransition = false;
             SceneManager.SetActiveScene(SceneManager.GetSceneByName(targetScene));
-
+            TypeEventSystem.Global.Send<OnSceneLoadedEvent>();
             action?.Invoke();
 
             yield return Fade(0);

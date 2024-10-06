@@ -14,7 +14,11 @@ public class OnLevelResetEvent
 {
 
 }
-public class OnStateChageEvent
+public class OnStateChangeEvent
+{
+
+}
+public class OnSceneLoadedEvent
 {
 
 }

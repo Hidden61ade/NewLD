@@ -5,12 +5,11 @@ using Cinemachine;
 
 public class CameraControl : MonoBehaviour
 {
-    public Transform player; // 角色的Transform
+    public static Transform player; // 角色的Transform
     private CinemachineVirtualCamera virtualCamera;
     private CinemachineFramingTransposer framingTransposer;
 
-    void Start()
-    {
+    public void SetCameraFollow(Transform player){
         // 获取Cinemachine虚拟摄像机组件
         virtualCamera = GetComponent<CinemachineVirtualCamera>();
         if (virtualCamera != null)
@@ -18,17 +17,10 @@ public class CameraControl : MonoBehaviour
             // 获取FramingTransposer组件
             framingTransposer = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         }
-    }
+        // 设置摄像机跟随目标为角色
+        virtualCamera.Follow = player;
 
-    void Update()
-    {
-        if (player != null && framingTransposer != null)
-        {
-            // 设置摄像机跟随目标为角色
-            virtualCamera.Follow = player;
-
-            // 设置角色在屏幕中的位置，偏左
-            framingTransposer.m_ScreenX = 0.3f; // 0.3表示角色在屏幕左侧30%的位置
-        }
+        // 设置角色在屏幕中的位置，偏左
+        framingTransposer.m_ScreenX = 0.3f; // 0.3表示角色在屏幕左侧30%的位置
     }
 }

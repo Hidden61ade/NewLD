@@ -7,6 +7,7 @@ using QFramework;
 
 public class GameManager : MonoSingleton<GameManager>
 {
+    public GameObject Player { get; private set; }
     private bool isGamePaused = false;
 
     public Scene currentscene;
@@ -23,16 +24,34 @@ public class GameManager : MonoSingleton<GameManager>
         TypeEventSystem.Global.Register<OnLevelCompleteEvent>(e => HandleLevelComplete()).UnRegisterWhenGameObjectDestroyed(gameObject);
 
         // 初始化复活点为玩家的起始位置
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        Player = GameObject.FindGameObjectWithTag("Player");
+        if (Player != null)
         {
-            playerTransform = player.transform;
+            playerTransform = Player.transform;
             respawnPoint = playerTransform.position;
         }
         else
         {
             Debug.LogError("Player not found in the scene. Please ensure the player has the 'Player' tag.");
         }
+    }
+    private void Start()
+    {
+        TypeEventSystem.Global.Register<OnSceneLoadedEvent>(e =>
+        {
+            Player = GameObject.FindGameObjectWithTag("Player");
+
+            if (Player != null)
+            {
+                playerTransform = Player.transform;
+                respawnPoint = playerTransform.position;
+            }
+            else
+            {
+                Debug.LogError("Player not found in the scene. Please ensure the player has the 'Player' tag.");
+            }
+            GameObject.Find("Virtual Camera").GetComponent<CameraControl>().SetCameraFollow(playerTransform);
+        });
     }
 
     // 设置复活点的方法，由 Checkpoint 调用

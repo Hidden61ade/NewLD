@@ -15,7 +15,7 @@ public class StateEnemyTest : StatedParameter<StateEnemyTest>
     [StatedPara]public bool d = false;
     private void Start() {
         LookPara(this);
-        TypeEventSystem.Global.Register<OnStateChageEvent>(e=>{
+        TypeEventSystem.Global.Register<OnStateChangeEvent>(e=>{
             ResetPara(this);
         });
         StartCoroutine(TESTER());
@@ -23,11 +23,11 @@ public class StateEnemyTest : StatedParameter<StateEnemyTest>
 
     IEnumerator TESTER(){
         yield return new WaitForSeconds(10);
-        TypeEventSystem.Global.Send<OnStateChageEvent>();
+        TypeEventSystem.Global.Send<OnStateChangeEvent>();
         yield return new WaitForSeconds(5);
         LookPara(this);
         Debug.Log("PARAMETER LOOKED");
         yield return new WaitForSeconds(10);
-        TypeEventSystem.Global.Send<OnStateChageEvent>();
+        TypeEventSystem.Global.Send<OnStateChangeEvent>();
     }
 }
