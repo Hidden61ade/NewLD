@@ -16,8 +16,7 @@ public class PlayControl : MonoSingleton<PlayControl>
     public float moveSpeed;// 行动速度,由是奔跑还是行走觉得
     public float pushSpeed = 1;// 推物速度
     public string item;// 道具tag
-    public string pushWall = "PushWall";// 推动墙layer
-    public string ground = "Ground";// 地面layer
+
     //public float g = 9.8f;
     //public float yDown = 0;
 
@@ -37,8 +36,15 @@ public class PlayControl : MonoSingleton<PlayControl>
 
     public float RollDuration;// 翻滚持续时间 //周：此处的时间需要与动画长度相同
 
+
+    private bool canInteract = false;
+
     private Rigidbody2D rigidbody2d;
     private BoxCollider2D boxCollider2d;
+
+    private string pushWall = "PushWall";// 推动墙layer
+    private string ground = "Ground";// 地面layer
+    private string interact = "Interact";
 
     private Vector3 jumpCollisionPos; // 繁琐的三面碰撞检测坐标
     private Vector3 moveCollisionPosL;
@@ -88,6 +94,10 @@ public class PlayControl : MonoSingleton<PlayControl>
     {
         if (other.gameObject.CompareTag(item))
             canCatch = true;
+        if (other.gameObject.CompareTag(interact))
+        {
+            canInteract = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -95,6 +105,14 @@ public class PlayControl : MonoSingleton<PlayControl>
         if (other.CompareTag(item)) // 检查是否是特定标签的物体
         {
             canCatch = false; // 离开触发器
+        }
+
+        if (other.gameObject.CompareTag(interact))
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                // TODO: 物体被触发
+            }
         }
     }
     private void OnCollisionStay2D(Collision2D collision)// 推东西
@@ -191,13 +209,6 @@ public class PlayControl : MonoSingleton<PlayControl>
 
         canPush = Physics2D.Raycast(moveCollisionPosR, Vector2.right, 0.01f) || Physics2D.Raycast(moveCollisionPosL, Vector2.left, 0.01f);
     }
-    //void OnDrawGizmos()
-    //{
-    //    // 可视化射线检测
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawRay(moveCollisionPosR - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.right);
-    //    Gizmos.DrawRay(moveCollisionPosL - Vector3.up * GetComponent<Collider2D>().bounds.extents.y, Vector2.left);
-    //}
 
     void ActionCatch()
     {
@@ -208,16 +219,25 @@ public class PlayControl : MonoSingleton<PlayControl>
             {
                 isCatch = true;
                 PlayerAnimatorManager.Instance.ChangePickState(isCatch);
-                Debug.Log("拿");
+                //Debug.Log("拿");
             }
             else if(isCatch)
             {
                 isCatch = false;
                 PlayerAnimatorManager.Instance.ChangePickState(isCatch);
-                Debug.Log("放");
+                //Debug.Log("放");
             }
         }
     }// 道具交互
+
+    //void ActionInteract()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.E) && canInteract)
+    //    {
+
+    //    }
+
+    //}
 
     void ActionJump()
     {
