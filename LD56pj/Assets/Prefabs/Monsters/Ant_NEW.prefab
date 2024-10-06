@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6953526214013201499}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -80, y: -23.02, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
@@ -51,8 +51,9 @@ MonoBehaviour:
   currentState: 0
   moveSpeed: 2
   verticalMoveSpeed: 2
-  killRange: 0.5
+  killRange: 1
   preKillDelay: 0.5
+  distance: 0
   chaseRange: 150
   wallLayerMask:
     serializedVersion: 2

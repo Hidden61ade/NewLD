@@ -24,6 +24,7 @@ public class AntController : MonoBehaviour
     // Capture parameters
     public float killRange = 0.5f;
     public float preKillDelay = 0.5f; // 前摇时间
+    public float distance;
     public float chaseRange = 5f;
     public LayerMask wallLayerMask;
 
@@ -67,6 +68,7 @@ public class AntController : MonoBehaviour
 
     void Update()
     {
+        distance =  Vector2.Distance(transform.position, player.position);
         JudgeChaseCondition();
         HandleOrientation();
         switch (currentState)
@@ -78,7 +80,7 @@ public class AntController : MonoBehaviour
                 HandleChaseState();
                 break;
             case AntState.Kill:
-                // Kill state handled via collision and coroutine
+                HandleChaseState();
                 break;
         }
     }
@@ -127,14 +129,14 @@ public class AntController : MonoBehaviour
             }
         }
     
-    void OnCollisionEnter2D(Collision2D other)
+    void OnTriggerStay2D(Collider2D other)
     {
         if (currentState == AntState.Chase && other.gameObject.CompareTag("Player"))
         {
             // 转换到捕杀状态
             
             currentState = AntState.Kill;
-            rb.velocity = Vector2.zero; // 停止移动
+            //rb.velocity = Vector2.zero; // 停止移动
             StartCoroutine(KillRoutine());
         }
     }
@@ -151,8 +153,7 @@ public class AntController : MonoBehaviour
         yield return new WaitForSeconds(preKillDelay);
 
         // 检查玩家是否仍在捕杀范围内
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        if (distanceToPlayer <= killRange)
+        if (distance <= killRange)
         {
             gameManager.HandlePlayerDeath();
         }
@@ -166,7 +167,7 @@ public class AntController : MonoBehaviour
     // Method to trigger state transition from Idle to Chase
     public void JudgeChaseCondition()
     {
-        if ((player.position-transform.position).magnitude<chaseRange)
+        if (distance<chaseRange)
         {
             StartChasing();
         }
