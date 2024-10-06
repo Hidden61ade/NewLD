@@ -9,7 +9,7 @@ public class Checkpoint : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
             // 更新当前存档点的位置
-            GameManager.Instance.SetRespawnPoint(transform.position);
+            GameManager.Instance.SetRespawnPoint(collision.transform.position);
             Debug.Log("Checkpoint reached! Respawn point updated.");
         }
     }
