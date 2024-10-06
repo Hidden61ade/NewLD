@@ -9,11 +9,24 @@ using UnityEngine;
 
 public class PlayerAnimatorManager : MonoSingleton<PlayerAnimatorManager>
 {
+    [Header("可自动获取")]
     public Animator playerAnimator;
     /*public float moveSpeed;
     public float crouchSpeed;//Speed when crouching
     public float runSpeed; //If speed is greater than runSpeed ,switch to tun;
     public float dashTime;*/
+
+    private void Awake()
+    {
+        if (playerAnimator==null)
+        {
+            playerAnimator=gameObject.GetComponent<Animator>();
+            if (playerAnimator==null)
+            {
+                Debug.Log("没有找到animator,请确保挂载了animator");
+            }
+        }
+    }
 
     public void SwitchToIdle()
     {
@@ -30,6 +43,11 @@ public class PlayerAnimatorManager : MonoSingleton<PlayerAnimatorManager>
     public void SwitchToDash() //由于是一次性的动作，所以不需要切换状态
     {
         playerAnimator.CrossFade("Dash",0);
+    }
+
+    public void SwitchToDie()
+    {
+        playerAnimator.CrossFade("Die",0);
     }
     public void ChangeCrouchState(bool state)
     {

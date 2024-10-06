@@ -5,7 +5,7 @@ using DG.Tweening;
 using QFramework;
 using UnityEngine;
 
-public class SpiderController : MonoBehaviour
+public class SpiderController : MonoSingleton<SpiderController>
 {
     public SpiderState curState;
     public float maxExposureTime;
@@ -13,6 +13,7 @@ public class SpiderController : MonoBehaviour
     private GameManager gameManager;
 
     // Capture parameters
+    [Header("此参数应该与kill动画时长相同")]
     public float killTime = 0.3f;
     
     // Internal variables
@@ -66,6 +67,7 @@ public class SpiderController : MonoBehaviour
         if (timer<=0)
         {
             curState = SpiderState.Kill;
+            animator.SetTrigger("Kill");
         }
 
         switch (curState)
@@ -97,7 +99,6 @@ public class SpiderController : MonoBehaviour
     private void HandleKillState()
     {
         StartCoroutine(KillAction());
-        //TODO：animator change;
     }
 
     public IEnumerator KillAction()
