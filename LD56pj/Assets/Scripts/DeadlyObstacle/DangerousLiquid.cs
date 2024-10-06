@@ -8,10 +8,10 @@ public class DangerousLiquid : MonoBehaviour
 {
     [Header("液体滴下的间隔")]
     public float deltaTime = 3.0f;
-
     public float timer;
-
-    [Header("可自动获取")] public GameObject DeadlyDrp;
+    //[Header("液滴生成时间,-1代表使用DeadlyDrop的参数")]
+    //public float dropLivingTime = -1;
+    public GameObject deadlyDrop;
     private void OnEnable()
     {
         timer = deltaTime;
@@ -20,11 +20,17 @@ public class DangerousLiquid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DeadlyDrp = GameObject.Find("DeadlyDrop");
-        if (DeadlyDrp==null)
+       
+        if (deadlyDrop==null)
         {
-            Debug.Log("Drop not found!");
+            deadlyDrop = GameObject.Find("DeadlyDrop");
+            if (deadlyDrop==null)
+            {
+                Debug.Log("DeadlyDrop not found!");
+            }
+            return;
         }
+        
     }
 
     // Update is called once per frame
@@ -35,7 +41,7 @@ public class DangerousLiquid : MonoBehaviour
         {
             timer = deltaTime;
             float x = Random.Range(-0.5f, 0.5f);
-            Instantiate(DeadlyDrp, transform.position + new Vector3(x, 0, 0),Quaternion.identity);
+            Instantiate(deadlyDrop, transform.position + new Vector3(x, 0, 0),Quaternion.identity);
         }
     }
 }
