@@ -1,16 +1,16 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class Checkpoint : MonoBehaviour
+public class CiDeathEffect : MonoBehaviour
 {
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // 检查进入触发器的是否为玩家
+        // 检查碰撞的是否为玩家
         if (collision.collider.CompareTag("Player"))
         {
             // 更新当前存档点的位置
-            GameManager.Instance.SetRespawnPoint(transform.position);
-            Debug.Log("Checkpoint reached! Respawn point updated.");
+            GameManager.Instance.HandlePlayerDeath();
+            Debug.Log("You died!");
         }
     }
 }

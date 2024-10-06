@@ -3,7 +3,9 @@ guid: 3616976ca28845d4e9a22955ffd9c14b
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - creditsPanel: {fileID: 6718184666694481574, guid: 1c730b68239da3e40822bb9f8d1406b2, type: 3}
+  - closeButton: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

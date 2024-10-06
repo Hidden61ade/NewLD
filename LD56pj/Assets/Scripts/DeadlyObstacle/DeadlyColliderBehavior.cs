@@ -11,6 +11,7 @@ public class DeadlyColliderBehavior : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             TypeEventSystem.Global.Send<OnPlayerDiedEvents>();
+            Debug.Log("Player died.");
         }
     }
 }
