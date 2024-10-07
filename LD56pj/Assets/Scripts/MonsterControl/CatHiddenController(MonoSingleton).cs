@@ -133,6 +133,14 @@ public class CatHiddenController : MonoBehaviour
         }
     }
 
+    public void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            canAttack = true;
+        }
+    }
+
     public void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
