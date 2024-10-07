@@ -9,6 +9,10 @@ public class BalancingPlatforms : MonoBehaviour
     public GameObject platform1;  // 平台1
     public GameObject platform2;  // 平台2
     public float platformSpeed = 2f;  // 平台的移动速度
+
+    // public int platformMoveDistance = 4;
+
+    // public int platformMoveDistance1 = -4;
     private Rigidbody2D rb1;  // 平台1的刚体
     private Rigidbody2D rb2;  // 平台2的刚体
     private bool isPlayerOnPlatform1 = false;
@@ -48,13 +52,13 @@ public class BalancingPlatforms : MonoBehaviour
         // 根据玩家是否站在平台上调整平台的运动
         if (plat1IsOn && platform1.transform.position.y - platPos1.y < maxHight)
         {
-            MovePlatform(rb1, 1);  // Platform 1 下移
-            MovePlatform(rb2, -1);   // Platform 2 上移
+            MovePlatform(rb1, 7);  // Platform 1 下移
+            MovePlatform(rb2, -4);   // Platform 2 上移
         }
         else if (plat2IsOn && platform2.transform.position.y - platPos2.y < maxHight)
         {
-            MovePlatform(rb1, -1);   // Platform 1 上移
-            MovePlatform(rb2, 1);  // Platform 2 下移
+            MovePlatform(rb1, -7);   // Platform 1 上移
+            MovePlatform(rb2, 4);  // Platform 2 下移
         }
         else
         {
