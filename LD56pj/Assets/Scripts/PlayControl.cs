@@ -357,7 +357,7 @@ public class PlayControl : MonoSingleton<PlayControl>
 
     public IEnumerator IEActionRoll()
     {
-        if (Input.GetMouseButtonDown(0) && isGround && !isPush)
+        if (Input.GetMouseButtonDown(0) && isGround && !isPush && !isGetDown)
         {
             rigidbody2d.AddForce(Vector2.right * rollPower * facing, ForceMode2D.Impulse);
             isRoll = true;
@@ -455,17 +455,7 @@ public class PlayControl : MonoSingleton<PlayControl>
         moveSpeed = 0;
         PlayerAnimatorManager.Instance.SwitchToDie();
     }
-    //void FakeG()
-    //{
-    //    if(isGround)
-    //    {
-    //        yDown = 0;
-    //    }
-    //    else
-    //    {
-    //        yDown += g * Time.deltaTime / 10;
-    //    }
-    //}
+
     //void OnDrawGizmos()
     //{
     //    // 可视化射线检测
@@ -477,25 +467,6 @@ public class PlayControl : MonoSingleton<PlayControl>
     //}
 
 
-    //void ActionCatch()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.E))
-    //    {
-    //        //Debug.Log("按");
-    //        if (!isCatch && canCatch)
-    //        {
-    //            isCatch = true;
-    //            PlayerAnimatorManager.Instance.ChangePickState(isCatch);
-    //            //Debug.Log("拿");
-    //        }
-    //        else if (isCatch)
-    //        {
-    //            isCatch = false;
-    //            PlayerAnimatorManager.Instance.ChangePickState(isCatch);
-    //            //Debug.Log("放");
-    //        }
-    //    }
-    //}// 道具交互
-
+ 
 }
 
