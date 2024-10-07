@@ -46,15 +46,15 @@ public class BalancingPlatforms : MonoBehaviour
         }
         //Debug.Log(platform1.transform.position.y - platPos1.y >= -maxHight);
         // 根据玩家是否站在平台上调整平台的运动
-        if (plat1IsOn && platform1.transform.position.y - platPos1.y >= -maxHight)
+        if (plat1IsOn && platform1.transform.position.y - platPos1.y < maxHight)
         {
-            MovePlatform(rb1, -1);  // Platform 1 下移
-            MovePlatform(rb2, 1);   // Platform 2 上移
+            MovePlatform(rb1, 1);  // Platform 1 下移
+            MovePlatform(rb2, -1);   // Platform 2 上移
         }
-        else if (plat2IsOn && platform2.transform.position.y - platPos2.y >= -maxHight)
+        else if (plat2IsOn && platform2.transform.position.y - platPos2.y < maxHight)
         {
-            MovePlatform(rb1, 1);   // Platform 1 上移
-            MovePlatform(rb2, -1);  // Platform 2 下移
+            MovePlatform(rb1, -1);   // Platform 1 上移
+            MovePlatform(rb2, 1);  // Platform 2 下移
         }
         else
         {
