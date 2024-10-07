@@ -5,14 +5,11 @@ using UnityEngine;
 public class Mouse1Trigger : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            MouseController1.Instance.curState = MouseController1.MouseState.Chasing;
+        }
     }
 }

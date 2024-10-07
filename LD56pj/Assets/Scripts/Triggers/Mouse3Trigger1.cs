@@ -6,7 +6,7 @@ public class Mouse3Trigger : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
             MouseController3.Instance.curState = MouseController3.MouseState.Chasing;
         }
