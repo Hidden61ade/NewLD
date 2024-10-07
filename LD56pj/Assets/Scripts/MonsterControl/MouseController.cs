@@ -1,21 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using QFramework;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class MouseController : MonoSingleton<MouseController>
+public class MouseController : MonoBehaviour
 {
     public MouseState curState;
-    public float maxExposureTime;
-    public float timer;
     private GameManager gameManager;
 
     // Chasing parameters
     [Header("当人物远离怪物时,速度提升率")] 
-    public float ChasingIncrese = 0f;
+    public float SpeedIncrese = 0f;
 
     public float maxSpeed = 2;
 
@@ -71,7 +67,8 @@ public class MouseController : MonoSingleton<MouseController>
     // Update is called once per frame
     void Update()
     {
-        disdance = (transform.position - playerTransform.position).magnitude;
+        disdance = ((Vector2)transform.position - (Vector2)playerTransform.position).magnitude;
+        dir = (-(Vector2)transform.position + (Vector2)playerTransform.position).normalized;
         switch (curState)
         {
             case MouseState.Idle:
@@ -91,24 +88,36 @@ public class MouseController : MonoSingleton<MouseController>
             }
         }
     }
-
+    
     public void HandleChasingState()
     {
-        //rb.velocity = dir*Mathf.Clamp(minSpeed+)
+        rb.velocity = dir * Mathf.Clamp(minSpeed + SpeedIncrese * disdance, minSpeed, maxSpeed);
+        animator.SetBool("Chase",true);
     }
     private void HandleIdleState()
     {
-        //TODO：animator change;
+        animator.SetBool("Chase",false);
+        rb.velocity = Vector2.zero;
     }
 
     private void HandleKillState()
     {
+        //animator.SetBool("Kill",true);
         StartCoroutine(KillAction());
     }
 
     public IEnumerator KillAction()
     {
-        TypeEventSystem.Global.Send<OnPlayerDiedEvents>();
+        GameManager.Instance.HandlePlayerDeath();
         yield break;
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            curState = MouseState.Kill;
+            HandleKillState();
+        }
     }
 }
