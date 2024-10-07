@@ -49,7 +49,7 @@ public class AntController : MonoBehaviour
         TypeEventSystem.Global.Register<OnLevelResetEvent>(e =>
         {
             Init();
-        });
+        }).UnRegisterWhenGameObjectDestroyed(gameObject);
         if (animator==null)
         {
             Debug.Log("Animator not found! 确保ant装载了animator!");

@@ -18,7 +18,7 @@ public class DropGroundColliderDetecter : MonoBehaviour
     {
         if (other.CompareTag("Ground"))
         {
-            Debug.Log("destroyDrop");
+            // Debug.Log("destroyDrop");
             Destroy(fatherDrop.gameObject);
         }
     }

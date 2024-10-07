@@ -79,11 +79,11 @@ public class FlashlightController : MonoBehaviour
         mousePos.z = 0f; // 确保 z 轴为 0
 
         // 调试日志
-        Debug.Log($"Camera Position: {mainCamera.transform.position}, Player Position: {player.position}, Mouse World Position: {mousePos}");
+        // Debug.Log($"Camera Position: {mainCamera.transform.position}, Player Position: {player.position}, Mouse World Position: {mousePos}");
 
         // 计算手电筒到鼠标的方向
         Vector3 direction = (mousePos - player.position).normalized;
-        Debug.Log($"Direction: {direction}");
+        // Debug.Log($"Direction: {direction}");
 
         // 计算目标旋转
         Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, direction);
