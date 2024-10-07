@@ -1,4 +1,5 @@
 using System.Collections;
+using QFramework;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ public class AntController : MonoBehaviour
     public float keepChaseRange = 5f;
     private float distance;
     private float chaseRange;
-
+    private Vector3 originPosition;
     public LayerMask wallLayerMask;
 
     // Internal variables
@@ -44,6 +45,11 @@ public class AntController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         gameManager = GameManager.Instance;
         animator = gameObject.GetComponent<Animator>();
+        originPosition = transform.position;
+        TypeEventSystem.Global.Register<OnLevelResetEvent>(e =>
+        {
+            Init();
+        });
         if (animator==null)
         {
             Debug.Log("Animator not found! 确保ant装载了animator!");
@@ -62,7 +68,16 @@ public class AntController : MonoBehaviour
             Debug.LogError("GameManager 未找到！");
         }
     }
-
+    
+    
+    public void Init()
+    {
+        transform.position = originPosition;
+        currentState = AntState.Idle;
+        animator.CrossFade("Idle",0);
+        isCapturing = false;
+        chaseRange = triggerChaseRange;
+    }
     void Start()
     {
         // Initial state is Idle; no additional setup needed

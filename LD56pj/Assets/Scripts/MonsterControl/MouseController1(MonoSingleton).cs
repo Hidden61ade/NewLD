@@ -26,7 +26,8 @@ public class MouseController1 : MonoSingleton<MouseController1>
     private Rigidbody2D rb;
     private Vector3 respawnPoint;
     private bool isCapturing = false;
-    
+
+    private Vector3 origenPosition;
     [Header("以下内容可自动获取引用")]
     public Transform playerTransform; // Reference to the player
 
@@ -45,6 +46,11 @@ public class MouseController1 : MonoSingleton<MouseController1>
         rb = GetComponent<Rigidbody2D>();
         gameManager = GameManager.Instance;
         gameObject.GetComponent<SpriteRenderer>().DOFade(1, 0.01f);
+        origenPosition = transform.position;
+        TypeEventSystem.Global.Register<OnLevelResetEvent>(e =>
+        {
+            Init();
+        });
         if (playerTransform == null)
         {
             playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -68,6 +74,13 @@ public class MouseController1 : MonoSingleton<MouseController1>
         }
     }
 
+    public void Init()
+    {
+        transform.position = origenPosition;
+        curState = MouseState.Idle;
+        disdance = 10000;
+        isCapturing = false;
+    }
     // Update is called once per frame
     void Update()
     {
