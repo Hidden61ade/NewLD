@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using QFramework;
 using UnityEngine;
 
 public class MouseController : MonoBehaviour
 {
     public MouseState curState;
+    [Header("出现、消失动画的时间")]
+    public float appearTime;
     private GameManager gameManager;
 
     // Chasing parameters
@@ -41,6 +44,7 @@ public class MouseController : MonoBehaviour
         disdance = 10000;
         rb = GetComponent<Rigidbody2D>();
         gameManager = GameManager.Instance;
+        gameObject.GetComponent<SpriteRenderer>().DOFade(1, 0.01f);
         if (playerTransform == null)
         {
             playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -119,5 +123,15 @@ public class MouseController : MonoBehaviour
             curState = MouseState.Kill;
             HandleKillState();
         }
+    }
+
+    public void AppearAction()
+    {
+        gameObject.GetComponent<SpriteRenderer>().DOFade(1, appearTime);
+    }
+    
+    public void DisAppearAction()
+    {
+        gameObject.GetComponent<SpriteRenderer>().DOFade(0, appearTime);
     }
 }
