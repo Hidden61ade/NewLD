@@ -10,10 +10,10 @@ public class BoxPushed : StatedParameter<BoxPushed>
 
     [StatedPara]private Vector3 mPosition
     {
-        get { return rb.position; }
+        get { return transform.position; }
         set
         {
-            rb.position = value;
+            transform.position = value;
         }
     }
 
@@ -24,13 +24,9 @@ public class BoxPushed : StatedParameter<BoxPushed>
         rb.freezeRotation = true;
         rb.constraints = RigidbodyConstraints2D.FreezePositionX;
 
-        LookPara(this);//TODO: 接收回档信息
-        //TypeEventSystem.Global.Register<OnStateChangeEvent>(e =>
-        //{
-        //    ResetPara(this);
-        //});
+        LookPara(this);
         TypeEventSystem.Global.Register<OnLevelResetEvent>(e => {
-            Debug.Log("Reseted:\t"+gameObject.name);
+            //Debug.Log("Reseted:\t"+gameObject.name);
             ResetPara(this); }).UnRegisterWhenGameObjectDestroyed(gameObject);
     }
 

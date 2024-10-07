@@ -229,4 +229,4 @@ MonoBehaviour:
   isOpen: 0
   Off: {fileID: 21300000, guid: b946a9eea287b41d28da1d9aa94b66cf, type: 3}
   On: {fileID: 21300000, guid: e3dd0459e59ac4151b0572f74f0717fc, type: 3}
-  light: {fileID: 5577733918760004824}
+  mlight: {fileID: 5577733918760004824}

@@ -160,8 +160,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 114.02507, y: -0.5400001, z: 0}
-  m_LocalScale: {x: 3.64, y: 0.30000004, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 5.02, y: 0.4137363, z: 1.3791208}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 485908464842177910}
   m_Father: {fileID: 0}
@@ -306,12 +306,12 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 12.64}
-  m_ConnectedAnchor: {x: 114.02507, y: 3.2520003}
+  m_ConnectedAnchor: {x: 409.52, y: 0.069627285}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 30
-    m_UpperAngle: -30
+    m_LowerAngle: 20
+    m_UpperAngle: -20
