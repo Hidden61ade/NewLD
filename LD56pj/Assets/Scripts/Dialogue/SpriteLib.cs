@@ -26,5 +26,4 @@ public struct NSpair//name_sprite_pair
     public string spriteName;
     [Header("Image")]
     public Sprite img;
-    
 }
