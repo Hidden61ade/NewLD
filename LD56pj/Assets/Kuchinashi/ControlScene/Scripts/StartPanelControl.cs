@@ -18,8 +18,8 @@ public class StartPanelControl : MonoBehaviour
 
         mStartButton.onClick.AddListener(() =>
         {
-            SceneControl.SwitchSceneWithoutConfirm("TestScene");
-            // SceneControl.SwitchSceneWithoutConfirm("chapter 1");
+            // SceneControl.SwitchSceneWithoutConfirm("TestScene");
+            SceneControl.SwitchSceneWithoutConfirm("chapter 1");
         });
         mExitButton.onClick.AddListener(() =>
         {
