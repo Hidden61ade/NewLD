@@ -7,6 +7,7 @@ public class BalancingPlatformSon : MonoBehaviour
 {
     public bool isOn = false;
     private Rigidbody2D rb;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,9 +24,9 @@ public class BalancingPlatformSon : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Box"))
         {
-            Debug.Log("×°ÁË");
+            //Debug.Log("è£…äº†");
             if (collision.gameObject.transform.position.y > transform.position.y)
             {
                 isOn = true;
@@ -34,7 +35,7 @@ public class BalancingPlatformSon : MonoBehaviour
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Box"))
         {
             isOn = false;
         }

@@ -3,33 +3,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoxPushed : MonoBehaviour
+public class BoxPushed : StatedParameter<BoxPushed>
 {
-    private Vector3 startPos;
     private Rigidbody2D rb;
     public bool isBePushed = false;
+
+    [StatedPara]private Vector3 mPosition
+    {
+        get { return transform.position; }
+        set
+        {
+            transform.position = value;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        startPos = transform.position;
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
-        rb.constraints = RigidbodyConstraints2D.FreezePositionY;
         rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+
+        LookPara(this);//TODO: 接收回档信息
+        //TypeEventSystem.Global.Register<OnStateChangeEvent>(e =>
+        //{
+        //    ResetPara(this);
+        //});
     }
 
     // Update is called once per frame
     void Update()
     {
-        TypeEventSystem.Global.Register<OnLevelResetEvent>(e => RestartBox()).UnRegisterWhenGameObjectDestroyed(gameObject);
+        //TypeEventSystem.Global.Register<OnLevelResetEvent>(e => RestartBox()).UnRegisterWhenGameObjectDestroyed(gameObject);
         BePushed();
     }
 
-    private void RestartBox()
-    {
-        transform.position = startPos;
-    }
 
     public void BePushed()
     {
@@ -41,7 +49,6 @@ public class BoxPushed : MonoBehaviour
         else
         {
             rb.freezeRotation = true;
-            rb.constraints = RigidbodyConstraints2D.FreezePositionY;
             rb.constraints = RigidbodyConstraints2D.FreezePositionX;
         }
     }

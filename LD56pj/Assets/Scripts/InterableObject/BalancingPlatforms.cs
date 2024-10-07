@@ -6,34 +6,46 @@ using UnityEngine;
 
 public class BalancingPlatforms : MonoBehaviour
 {
-    public GameObject platform1;  // Æ½Ì¨1
-    public GameObject platform2;  // Æ½Ì¨2
-    public float platformSpeed = 2f;  // Æ½Ì¨µÄÒÆ¶¯ËÙ¶È
-    private Rigidbody2D rb1;  // Æ½Ì¨1µÄ¸ÕÌå
-    private Rigidbody2D rb2;  // Æ½Ì¨2µÄ¸ÕÌå
+    public GameObject platform1;  // å¹³å°1
+    public GameObject platform2;  // å¹³å°2
+    public float platformSpeed = 2f;  // å¹³å°çš„ç§»åŠ¨é€Ÿåº¦
+    private Rigidbody2D rb1;  // å¹³å°1çš„åˆšä½“
+    private Rigidbody2D rb2;  // å¹³å°2çš„åˆšä½“
     public bool isPlayerOnPlatform1 = false;
     public bool isPlayerOnPlatform2 = false;
 
+    public float maxHight = 0.1f;
+
+    private Vector3 platPos1;
+    private Vector3 platPos2;
     void Start()
     {
         rb1 = platform1.GetComponent<Rigidbody2D>();
         rb2 = platform2.GetComponent<Rigidbody2D>();
+        platPos1 = platform1.transform.position;
+        platPos2 = platform2.transform.position;
+
+        rb1.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+        rb2.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+        rb1.freezeRotation = true;
+        rb2.freezeRotation = true;
+
 
     }
 
     void Update()
     {
-        // ¸ù¾İÍæ¼ÒÊÇ·ñÕ¾ÔÚÆ½Ì¨ÉÏµ÷ÕûÆ½Ì¨µÄÔË¶¯
-        if (platform1.GetComponent<BalancingPlatformSon>().isOn)
+        //Debug.Log(platform1.transform.position.y - platPos1.y >= -maxHight);
+        // æ ¹æ®ç©å®¶æ˜¯å¦ç«™åœ¨å¹³å°ä¸Šè°ƒæ•´å¹³å°çš„è¿åŠ¨
+        if (platform1.GetComponent<BalancingPlatformSon>().isOn && platform1.transform.position.y - platPos1.y >= -maxHight)
         {
-            Debug.Log("¸Ä¶¯");
-            MovePlatform(rb1, -1);  // Platform 1 ÏÂÒÆ
-            MovePlatform(rb2, 1);   // Platform 2 ÉÏÒÆ
+            MovePlatform(rb1, -1);  // Platform 1 ä¸‹ç§»
+            MovePlatform(rb2, 1);   // Platform 2 ä¸Šç§»
         }
-        else if (platform2.GetComponent<BalancingPlatformSon>().isOn)
+        else if (platform2.GetComponent<BalancingPlatformSon>().isOn && platform2.transform.position.y - platPos2.y >= -maxHight)
         {
-            MovePlatform(rb1, 1);   // Platform 1 ÉÏÒÆ
-            MovePlatform(rb2, -1);  // Platform 2 ÏÂÒÆ
+            MovePlatform(rb1, 1);   // Platform 1 ä¸Šç§»
+            MovePlatform(rb2, -1);  // Platform 2 ä¸‹ç§»
         }
         else
         {
@@ -41,17 +53,27 @@ public class BalancingPlatforms : MonoBehaviour
         }
     }
 
-    // ¿ØÖÆÆ½Ì¨ÒÆ¶¯µÄº¯Êı
+    // æ§åˆ¶å¹³å°ç§»åŠ¨çš„å‡½æ•°
     void MovePlatform(Rigidbody2D rb, int direction)
     {
-        rb.velocity = new Vector2(rb.velocity.x, direction * platformSpeed);
+        //rb.constraints = RigidbodyConstraints2D.None;
+        //rb.constraints = RigidbodyConstraints2D.FreezePositionX;// è§£å†»æ‰€æœ‰çº¦æŸ
+        //rb.freezeRotation = true;
+        //rb.velocity = new Vector2(rb.velocity.x, direction * platformSpeed);+
+        rb.transform.position = new Vector2(rb.transform.position.x, rb.transform.position.y + (direction * platformSpeed * Time.deltaTime));
+
+
     }
 
-    // Í£Ö¹Æ½Ì¨ÔË¶¯
+    // åœæ­¢å¹³å°è¿åŠ¨
     void StopPlatforms()
     {
-        rb1.velocity = new Vector2(rb1.velocity.x, 0);
-        rb2.velocity = new Vector2(rb2.velocity.x, 0);
+        rb1.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+        rb2.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+        rb1.freezeRotation = true;
+        rb2.freezeRotation = true;
+        //rb2.velocity = new Vector2(rb2.velocity.x, 0);
+        //Debug.Log(platform1.transform.position.y - platPos1.y);
     }
 
 }
