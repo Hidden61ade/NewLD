@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   DialogueNodes:
+  - PNGSprite: {fileID: 21300000, guid: 796dcd1b8b81c4e5f8f69494c7ae2f58, type: 3}
+    content: 'TAB to Continue.
+
+'
   - PNGSprite: {fileID: 21300000, guid: c73599e9190064a91884c3185b92592c, type: 3}
     content: ......mice, rats, rabbits, primates, cats, dogs, and other animals are
       locked inside barren cages in laboratories across the country. They languish
@@ -47,3 +51,22 @@ MonoBehaviour:
   - PNGSprite: {fileID: 21300000, guid: 796dcd1b8b81c4e5f8f69494c7ae2f58, type: 3}
     content: 'Senpai: Shoosh......Stay quiet! Some say it''s the <b>skunk factory
       and the true R&amp;D department</b> of our company......'
+  - PNGSprite: {fileID: 21300000, guid: 796dcd1b8b81c4e5f8f69494c7ae2f58, type: 3}
+    content: 'Player Control
+
+
+      A&D to move
+
+      SHIFT to dash
+
+      SPACE
+      BAR to jump
+
+      E to sensitive interact
+
+      Right click your MOUSE to
+      roll forward
+
+      S to crouch
+
+      Move your mouse to direct your torch!!!!'
