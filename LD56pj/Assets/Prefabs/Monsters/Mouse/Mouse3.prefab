@@ -321,7 +321,7 @@ MonoBehaviour:
   leftPoint: 507
   rightPoint: 530
   wanderIntervalTime: 5
-  SpeedIncrese: 0
+  SpeedIncrese: 0.1
   maxSpeed: 2
   minSpeed: 1
   playerTransform: {fileID: 0}

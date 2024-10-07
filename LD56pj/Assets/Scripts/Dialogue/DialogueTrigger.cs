@@ -20,7 +20,7 @@ public class DialogueTrigger : MonoBehaviour
 
     public IEnumerator putDialogue()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2.5f);
         DialogueManager.Instance.PutDialogue(dialogue);
     }
 }

@@ -147,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curState: 1
   appearTime: 0
-  SpeedIncrese: 0
+  SpeedIncrese: 0.1
   maxSpeed: 2
   minSpeed: 1
   playerTransform: {fileID: 0}
