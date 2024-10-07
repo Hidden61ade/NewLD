@@ -10,9 +10,7 @@ namespace GameAudio
     {
         private Stack<AudioSource> mUsableAudioSources = new();
         private List<AudioSource> mUsedAS = new();
-        private Dictionary<string, AudioClip> mMusics = new();
-
-        private ResLoader resLoader = ResLoader.Allocate();
+        public Dictionary<string, AudioClip> mMusics { get; private set; } = new();
 
         public AudioContainer audioContainer;
         public bool IsContainerReady = false;
@@ -32,11 +30,10 @@ namespace GameAudio
             {
                 StartCoroutine(GetContainer());
             }).UnRegisterWhenGameObjectDestroyed(gameObject);
-            ResKit.Init();
         }
         public void PlayFootsteps()
         {
-            AudioKit.PlaySound("ftstp-1-" + randTab[pRandTab++], volumeScale: 0.6f);
+            AudioKit.PlaySound("ftstp-1-" + randTab[pRandTab++], volumeScale: 0.4f);
             if (pRandTab == 15) pRandTab = 0;
         }
         public void PlayMusic(string name)
@@ -51,7 +48,7 @@ namespace GameAudio
             temp.Play();
             FadeIn(temp);
         }
-        public void PlayMusic(string name, out AudioSourceHandler audioSourceHandler)
+        public void PlayMusic(string name, out AudioSourceHandler audioSourceHandler, float volumeScale = 1.0f)
         {
             if (!mMusics.ContainsKey(name))
             {
@@ -62,24 +59,25 @@ namespace GameAudio
             temp.volume = 0f;
             temp.Play();
             audioSourceHandler = new(temp);
-            FadeIn(temp);
+            FadeIn(temp, defaultVol * volumeScale);
         }
         public void StopMusic(AudioSource audioSource)
         {
             FadeOutAndRelease(audioSource);
         }
 
-        public void PlayMusicWithoutTransition(string name)
+        public void PlayMusicWithoutTransition(string name, float volumeScale = 1.0f)
         {
             if (!mMusics.ContainsKey(name))
             {
                 return;
             }
             var t = AllocateChannel();
+            t.volume = defaultVol * volumeScale;
             t.clip = mMusics[name];
             t.Play();
         }
-        public void PlayMusicWithoutTransition(string name, out AudioSourceHandler audioSourceHandler)
+        public void PlayMusicWithoutTransition(string name, out AudioSourceHandler audioSourceHandler, float volumeScale = 1.0f)
         {
             if (!mMusics.ContainsKey(name))
             {
@@ -87,6 +85,7 @@ namespace GameAudio
             }
             var t = AllocateChannel();
             t.clip = mMusics[name];
+            t.volume = defaultVol * volumeScale;
             audioSourceHandler = new(t);
             t.Play();
         }
@@ -94,6 +93,13 @@ namespace GameAudio
         {
             audioSource.Stop();
             ReleaseChannel(audioSource);
+        }
+        public void StopAll()
+        {
+            foreach (var i in mUsedAS)
+            {
+                StopMusic(i);
+            }
         }
         private void FadeIn(AudioSource audioSource, float target = 1)
         {
@@ -103,7 +109,7 @@ namespace GameAudio
         {
             StartCoroutine(FadeTo(audioSource, target, action: () => ReleaseChannel(audioSource)));
         }
-        private void FadeOut(AudioSource audioSource, float target = 0)
+        public void FadeOut(AudioSource audioSource, float target = 0)
         {
             StartCoroutine(FadeTo(audioSource, target));
         }
@@ -122,6 +128,7 @@ namespace GameAudio
                 mMusics.Add(i.name, i);
             }
             Debug.Log("AudiosReady");
+            TypeEventSystem.Global.Send<OnAudioLoadedEvent>();
         }
 #nullable enable
         IEnumerator FadeTo(AudioSource audioSource, float target, Action? action = null, float duration = 1.0f)
@@ -168,6 +175,7 @@ namespace GameAudio
         public class AudioSourceHandler
         {
             private AudioSource audioSource;
+            private Coroutine currentFadeCoroutine;
             public AudioSourceHandler(AudioSource audioSource)
             {
                 this.audioSource = audioSource;
@@ -180,6 +188,43 @@ namespace GameAudio
             {
                 AudioManager.Instance.StopMusicWithoutTransition(audioSource);
             }
+            /// <summary>
+            /// 设置音源的音量，带有渐变效果
+            /// </summary>
+            /// <param name="targetVolume">目标音量</param>
+            /// <param name="duration">渐变时长</param>
+            public void SetVolume(float targetVolume, float duration)
+            {
+                if (currentFadeCoroutine != null)
+                {
+                    AudioManager.Instance.StopCoroutine(currentFadeCoroutine);
+                }
+                currentFadeCoroutine = AudioManager.Instance.StartCoroutine(FadeTo(targetVolume, duration));
+            }
+
+            /// <summary>
+            /// 渐变音量的协程
+            /// </summary>
+            private IEnumerator FadeTo(float targetVolume, float duration)
+            {
+                float startVolume = audioSource.volume;
+                float elapsedTime = 0f;
+
+                while (elapsedTime < duration)
+                {
+                    yield return null;
+                    elapsedTime += Time.deltaTime;
+                    audioSource.volume = Mathf.Lerp(startVolume, targetVolume, elapsedTime / duration);
+                }
+
+                audioSource.volume = targetVolume;
+            }
+            public void SetLoop(bool var){
+                audioSource.loop = var;
+            }
         }
     }
+}
+public class OnAudioLoadedEvent{
+
 }
