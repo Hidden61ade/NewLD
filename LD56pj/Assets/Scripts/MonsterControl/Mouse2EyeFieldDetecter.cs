@@ -18,8 +18,6 @@ public class Mouse2EyeFieldDetecter : MonoSingleton<Mouse2EyeFieldDetecter>
         {
             StartCoroutine(RunToEat());
         }
-        Debug.Log("碰撞物不是玩家，也不是奶酪");
-        
     }
 
     IEnumerator RunToEat()

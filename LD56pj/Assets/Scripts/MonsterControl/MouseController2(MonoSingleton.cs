@@ -6,6 +6,7 @@ using QFramework;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.PlayerLoop;
+using Debug = UnityEngine.Debug;
 
 public class MouseController2 : MonoSingleton<MouseController2>
 {
@@ -24,6 +25,7 @@ public class MouseController2 : MonoSingleton<MouseController2>
     private Transform playerTransform;
     private void Awake()
     {
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         originPosition = transform.position;
         isEat = false;
         animator = gameObject.GetComponent<Animator>();
@@ -49,9 +51,12 @@ public class MouseController2 : MonoSingleton<MouseController2>
     }
     IEnumerator KillAction()
     {
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        if (playerTransform==null)
+        {
+           Debug.Log("Nulll!!!");
+        }
         transform.DOMove(playerTransform.position, 0.1f);
-        yield return new WaitForSeconds(0.17f);
+        yield return new WaitForSeconds(0.2f);
         GameManager.Instance.HandlePlayerDeath();
         yield break;
     }
