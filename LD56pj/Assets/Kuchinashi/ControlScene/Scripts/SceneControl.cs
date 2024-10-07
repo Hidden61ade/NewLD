@@ -80,7 +80,7 @@ namespace Kuchinashi.SceneControl
         }
         IEnumerator InitialLoad(){
             CurrentScene = "MainScene";
-            SceneManager.LoadScene("MainScene");
+            SceneManager.LoadScene("MainScene",LoadSceneMode.Additive);
             yield return null;
             var a =SceneManager.SetActiveScene(SceneManager.GetSceneByName("MainScene"));
             Debug.Log(a);
