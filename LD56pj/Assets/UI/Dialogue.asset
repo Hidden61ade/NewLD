@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d2ef3cdd15f81488f0cab18829b213, type: 3}
+  m_Name: Dialogue
+  m_EditorClassIdentifier: 
+  DialogueNodes:
+  - PNGSprite: {fileID: 21300000, guid: c73599e9190064a91884c3185b92592c, type: 3}
+    content: '"......mice, rats, rabbits, primates, cats, dogs, and other animals
+      are locked inside barren cages in laboratories across the country. They languish
+      in pain, suffer from extreme frustration, ache with loneliness, and long to
+      be free."(*PETA*,*Animal Testing Facts and Alternatives*)'
+  - PNGSprite: {fileID: 21300000, guid: 9add0e4670c3e4b8192b11f6972ef0a8, type: 3}
+    content: ": You, James, as a new recruit in the major consumer goods\n and household
+      product enterprise *B&G*, tonight you are assigned to stay and overwatch the
+      ***8th Warehouse*** in the firm's HQ."
+  - PNGSprite: {fileID: 21300000, guid: 9add0e4670c3e4b8192b11f6972ef0a8, type: 3}
+    content: ": It was supposed to be some easy money to earn, given the chance of
+      gaining some handsome wages just by overwatching the \"Warehouse\" without
+      any significant effort on a night shift. Plus, the company is famous for it's
+      high moral standard......\u201Cabandoning animal experiments\u201D something
+      like that......"
+  - PNGSprite: {fileID: 21300000, guid: 9add0e4670c3e4b8192b11f6972ef0a8, type: 3}
+    content: ': However......'
+  - PNGSprite: {fileID: 21300000, guid: 796dcd1b8b81c4e5f8f69494c7ae2f58, type: 3}
+    content: 'Some random recruit gossiping with a senior: Senpai, have you ever
+      heard about anyone who have worked in **the 8th warehouse?**'
+  - PNGSprite: {fileID: 21300000, guid: 796dcd1b8b81c4e5f8f69494c7ae2f58, type: 3}
+    content: 'Senpai: Well there''s some sort of strange about the 8th warehouse.
+      You see, it''s just merely a warehouse but it has a much larger area than some
+      of our office buildings, and the transportation to it is heavily-guarded......'
+  - PNGSprite: {fileID: 21300000, guid: 796dcd1b8b81c4e5f8f69494c7ae2f58, type: 3}
+    content: 'The recruit: Maybe the company''s...... doing something secret there
+      **that can''t  be told**?'
+  - PNGSprite: {fileID: 21300000, guid: 796dcd1b8b81c4e5f8f69494c7ae2f58, type: 3}
+    content: 'Senpai: Shoosh......Stay quiet! Somesay it''s the **skunk factory and
+      the true R&D department** of our company...... '
