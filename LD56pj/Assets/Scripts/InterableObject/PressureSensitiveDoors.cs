@@ -5,6 +5,7 @@ using UnityEngine;
 public class PressureSensitiveDoors : MonoBehaviour
 {
     public GameObject[] buttons;
+    public bool isButton = false;
     [SerializeField] private bool isOpen;
     private BoxCollider2D boxCollider;
     private void OnDestroy()
@@ -31,6 +32,7 @@ public class PressureSensitiveDoors : MonoBehaviour
         {
             boxCollider.enabled = true;
         }
+        isButton = buttons[0].GetComponent<ButtonOfPressureSensitiveDoor>().isOpen;
     }
     IEnumerator CheckDoorOpen()
     {
@@ -43,6 +45,7 @@ public class PressureSensitiveDoors : MonoBehaviour
                 yield return null;
             }
             this.isOpen = temp;
+            
         }
     }
 }
