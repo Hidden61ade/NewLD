@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using Kuchinashi.SceneControl;
 using UnityEngine.SceneManagement;
 using QFramework;
+using System;
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -51,7 +52,11 @@ public class GameManager : MonoSingleton<GameManager>
             {
                 Debug.LogError("Player not found in the scene. Please ensure the player has the 'Player' tag.");
             }
+            try{
             GameObject.Find("Virtual Camera").GetComponent<CameraControl>().SetCameraFollow(playerTransform);
+            }catch(Exception){
+                Debug.LogError(new NullReferenceException("Virtual Camera Does Not Exist"));
+            }
         });
     }
 
