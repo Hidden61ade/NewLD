@@ -20,6 +20,7 @@ namespace Kuchinashi.SceneControl
 
         private void Awake()
         {
+            DontDestroyOnLoad(gameObject);
             Instance = this;
             CurrentScene = "ControlScene";
 
@@ -79,7 +80,7 @@ namespace Kuchinashi.SceneControl
         }
         IEnumerator InitialLoad(){
             CurrentScene = "MainScene";
-            SceneManager.LoadScene("MainScene",LoadSceneMode.Additive);
+            SceneManager.LoadScene("MainScene");
             yield return null;
             var a =SceneManager.SetActiveScene(SceneManager.GetSceneByName("MainScene"));
             Debug.Log(a);

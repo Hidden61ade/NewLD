@@ -20,6 +20,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         TypeEventSystem.Global.Register<OnPlayerDiedEvents>(e => HandlePlayerDeath()).UnRegisterWhenGameObjectDestroyed(gameObject);
         TypeEventSystem.Global.Register<OnLevelCompleteEvent>(e => HandleLevelComplete()).UnRegisterWhenGameObjectDestroyed(gameObject);
 
