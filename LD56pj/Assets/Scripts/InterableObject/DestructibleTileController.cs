@@ -31,7 +31,7 @@ public class DestructibleTileController : StatedParameter<DestructibleTileContro
         LookPara(this);
         TypeEventSystem.Global.Register<OnLevelResetEvent>(e =>
         {
-            Debug.Log("HHHHHHHHHHEeeeeeee");
+            StopAllCoroutines();
             ResetPara(this);
         }).UnRegisterWhenGameObjectDestroyed(gameObject);
     }
