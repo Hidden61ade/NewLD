@@ -5,9 +5,14 @@ using UnityEngine;
 public class PressureSensitiveDoors : MonoBehaviour
 {
     public GameObject[] buttons;
-    public bool isButton = false;
+
     [SerializeField] private bool isOpen;
     private BoxCollider2D boxCollider;
+    public Sprite close;
+    public Sprite open;
+
+    private SpriteRenderer spriteRenderer;
+
     private void OnDestroy()
     {
         StopAllCoroutines();
@@ -17,6 +22,7 @@ public class PressureSensitiveDoors : MonoBehaviour
     void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         StartCoroutine(CheckDoorOpen());
     }
 
@@ -27,12 +33,13 @@ public class PressureSensitiveDoors : MonoBehaviour
         if (isOpen)
         {
             boxCollider.enabled = false;
+            spriteRenderer.sprite = open;
         }
         else
         {
             boxCollider.enabled = true;
+            spriteRenderer.sprite = close;
         }
-        isButton = buttons[0].GetComponent<ButtonOfPressureSensitiveDoor>().isOpen;
     }
     IEnumerator CheckDoorOpen()
     {
