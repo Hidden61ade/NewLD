@@ -11,6 +11,7 @@ TagManager:
   - DestructableTile
   - Box
   - PushWall
+  - DestructibleTile
   layers:
   - Default
   - TransparentFX
