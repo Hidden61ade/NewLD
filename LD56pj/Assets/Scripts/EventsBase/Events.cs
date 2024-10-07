@@ -18,6 +18,9 @@ public class OnStateChangeEvent
 {
 
 }
+public class OnSceneLoadingStartEvent{
+
+}
 public class OnSceneLoadedEvent
 {
 

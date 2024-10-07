@@ -188,11 +188,11 @@ namespace Kuchinashi.SceneControl
 
         IEnumerator SwitchSceneCoroutine(string targetScene, Action action = null)
         {
+            TypeEventSystem.Global.Send<OnSceneLoadingStartEvent>();
             yield return Fade(1);
             yield return new WaitForSeconds(1f);
 
             IsTransiting = true;
-            Debug.Log(SceneManager.GetActiveScene().name);
             SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
 
             var operation = SceneManager.LoadSceneAsync(targetScene, LoadSceneMode.Additive);

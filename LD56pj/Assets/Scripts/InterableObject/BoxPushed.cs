@@ -36,6 +36,7 @@ public class BoxPushed : StatedParameter<BoxPushed>
     {
         //TypeEventSystem.Global.Register<OnLevelResetEvent>(e => RestartBox()).UnRegisterWhenGameObjectDestroyed(gameObject);
         BePushed();
+        rb.freezeRotation = true;
     }
 
 
