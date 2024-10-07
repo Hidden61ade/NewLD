@@ -52,21 +52,18 @@ MonoBehaviour:
     content: 'Senpai: Shoosh......Stay quiet! Some say it''s the <b>skunk factory
       and the true R&amp;D department</b> of our company......'
   - PNGSprite: {fileID: 21300000, guid: 796dcd1b8b81c4e5f8f69494c7ae2f58, type: 3}
-    content: 'Player Control
-
-
-      A&D to move
+    content: 'A&D to move
 
       SHIFT to dash
 
-      SPACE
-      BAR to jump
+      SPACE BAR to jump
 
-      E to sensitive interact
+      E
+      to sensitive interact
 
-      Right click your MOUSE to
-      roll forward
+      Right click your MOUSE to roll forward
 
-      S to crouch
+      S
+      to crouch
 
       Move your mouse to direct your torch!!!!'
