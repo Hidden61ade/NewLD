@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 using Image = UnityEngine.UIElements.Image;
 
@@ -17,6 +18,7 @@ public class DialogueManager : MonoBehaviour
     //public Image leftCharacterImg;
     //public Image rightCharacterImg;
     public GameObject backGround;
+    public Image backgroundImage;
 
     private int _remainDialogueNode;
     private int _dialogueIndex;
@@ -26,6 +28,7 @@ public class DialogueManager : MonoBehaviour
     {
         Instance = this;
         talkPanel.SetActive(false);
+        backgroundImage = backGround.GetComponent<Image>();
     }
 
     private void Update()
@@ -44,7 +47,7 @@ public class DialogueManager : MonoBehaviour
 
     public void Init()
     {
-        backGround = null;
+        backgroundImage.sprite= null;
         contentText.text = "";
     }
     public void PutDialogue(Dialogue dialogue)//放置对话段落
@@ -69,7 +72,7 @@ public class DialogueManager : MonoBehaviour
         _dialogueIndex++;
         if (dialogueNode.PNGSprite != null)
         {
-            backGround.GetComponent<Image>().sprite = dialogueNode.PNGSprite;
+            backgroundImage.sprite = dialogueNode.PNGSprite;
         }
         /*if (!_charactersIsFull)
         {
