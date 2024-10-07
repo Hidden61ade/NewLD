@@ -11,7 +11,9 @@ public class DoorToNextScene : MonoBehaviour
         {
             // 调用SceneControl中的方法来加载下一个场景
             Debug.Log("Player entered the door.");
-            UnityEngine.SceneManagement.SceneManager.LoadScene("chapter 2");
+            string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            string nextSceneName = currentSceneName == "chapter 1" ? "chapter 2" : "chapter 3";
+            UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
         }
     }
 }
