@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using QFramework;
 using UnityEngine;
 
 public class CiDeathEffect : MonoBehaviour
@@ -9,7 +10,7 @@ public class CiDeathEffect : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
             // 更新当前存档点的位置
-            GameManager.Instance.HandlePlayerDeath();
+            TypeEventSystem.Global.Send<OnPlayerDiedEvents>();
             Debug.Log("You died!");
         }
     }

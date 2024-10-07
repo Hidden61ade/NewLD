@@ -67,7 +67,7 @@ public class MouseController2 : MonoSingleton<MouseController2>
             }
         }
         yield return new WaitForSeconds(animationTime);
-        GameManager.Instance.HandlePlayerDeath();
+        TypeEventSystem.Global.Send<OnPlayerDiedEvents>();
         yield break;
     }
 

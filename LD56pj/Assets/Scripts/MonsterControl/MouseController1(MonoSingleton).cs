@@ -126,7 +126,7 @@ public class MouseController1 : MonoSingleton<MouseController1>
 
     public IEnumerator KillAction()
     {
-        GameManager.Instance.HandlePlayerDeath();
+        TypeEventSystem.Global.Send<OnPlayerDiedEvents>();
         yield break;
     }
     

@@ -22,7 +22,7 @@ public class GameManager : MonoSingleton<GameManager>
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
-        TypeEventSystem.Global.Register<OnPlayerDiedEvents>(e => HandlePlayerDeath()).UnRegisterWhenGameObjectDestroyed(gameObject);
+        TypeEventSystem.Global.Register<OnPlayerDiedEvents>(e => HandlePlayerDeath(e)).UnRegisterWhenGameObjectDestroyed(gameObject);
         TypeEventSystem.Global.Register<OnLevelCompleteEvent>(e => HandleLevelComplete()).UnRegisterWhenGameObjectDestroyed(gameObject);
 
         // 初始化复活点为玩家的起始位置
@@ -52,9 +52,12 @@ public class GameManager : MonoSingleton<GameManager>
             {
                 Debug.LogError("Player not found in the scene. Please ensure the player has the 'Player' tag.");
             }
-            try{
-            GameObject.Find("Virtual Camera").GetComponent<CameraControl>().SetCameraFollow(playerTransform);
-            }catch(Exception){
+            try
+            {
+                GameObject.Find("Virtual Camera").GetComponent<CameraControl>().SetCameraFollow(playerTransform);
+            }
+            catch (Exception)
+            {
                 Debug.LogError(new NullReferenceException("Virtual Camera Does Not Exist"));
             }
         });
@@ -68,17 +71,36 @@ public class GameManager : MonoSingleton<GameManager>
     }
 
     // 处理角色死亡状态
-    public void HandlePlayerDeath()
+    public void HandlePlayerDeath(OnPlayerDiedEvents e)
     {
         if (!isGamePaused)
         {
             isGamePaused = true;
             Time.timeScale = 0; // 暂停游戏
             PlayControl.Instance.ActionDie();
-            UIManager.Instance.ShowDeathMessage();
+            if (!e.skipMessage)
+            {
+                UIManager.Instance.ShowDeathMessage();
+                // 等待玩家左键点击以复活
+                StartCoroutine(WaitForPlayerRespawn());
+            }
+            else
+            {
+                Time.timeScale = 1; // 恢复游戏
+                isGamePaused = false;
+                TypeEventSystem.Global.Send<OnLevelResetEvent>();
 
-            // 等待玩家左键点击以复活
-            StartCoroutine(WaitForPlayerRespawn());
+                // 复活玩家
+                if (playerTransform != null)
+                {
+                    playerTransform.position = respawnPoint;
+                    Debug.Log("Player respawned at: " + respawnPoint);
+                }
+                else
+                {
+                    Debug.LogError("Player Transform is null. Cannot respawn.");
+                }
+            }
         }
     }
 

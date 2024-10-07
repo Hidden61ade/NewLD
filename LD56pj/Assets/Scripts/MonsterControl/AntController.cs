@@ -176,7 +176,7 @@ public class AntController : MonoBehaviour
         // 检查玩家是否仍在捕杀范围内
         if (distance <= killRange)
         {
-            gameManager.HandlePlayerDeath();
+            TypeEventSystem.Global.Send<OnPlayerDiedEvents>();
         }
 
         // 重置状态

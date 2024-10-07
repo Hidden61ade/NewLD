@@ -99,7 +99,7 @@ public class CatChasing : MonoSingleton<CatChasing>
         yield return new WaitForSeconds(0.3f);
         PlayControl.Instance.ActionDie();
         yield return new WaitForSeconds(0.1f);
-        gameManager.HandlePlayerDeath();
+        TypeEventSystem.Global.Send<OnPlayerDiedEvents>();
         yield break;
     }
 }

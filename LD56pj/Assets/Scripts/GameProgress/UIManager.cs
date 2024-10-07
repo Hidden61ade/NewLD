@@ -118,4 +118,9 @@ public class UIManager : MonoSingleton<UIManager>
             creditsPanel.SetActive(false);
         }
     }
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            mPausePanel.SetActive(true);
+        }
+    }
 }

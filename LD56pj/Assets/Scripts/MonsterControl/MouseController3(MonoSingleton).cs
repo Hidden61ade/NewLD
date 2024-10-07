@@ -165,7 +165,7 @@ public MouseState curState;
 
     public IEnumerator KillAction()
     {
-        GameManager.Instance.HandlePlayerDeath();
+        TypeEventSystem.Global.Send<OnPlayerDiedEvents>();
         yield break;
     }
     
@@ -217,7 +217,7 @@ public MouseState curState;
             }
         }
         yield return new WaitForSeconds(animationTime);
-        GameManager.Instance.HandlePlayerDeath();
+        TypeEventSystem.Global.Send<OnPlayerDiedEvents>();
         yield break;
     }
 }
