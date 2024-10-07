@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
-using Image = UnityEngine.UIElements.Image;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -17,25 +16,32 @@ public class DialogueManager : MonoBehaviour
     //public float brightnessWhenNotSpeak = 0.6f;
     //public Image leftCharacterImg;
     //public Image rightCharacterImg;
-    public GameObject backGround;
     public Image backgroundImage;
-
     private int _remainDialogueNode;
     private int _dialogueIndex;
     private DialogueNode[] _dialogueNodes;
     private int _remainCharacterSpace = 2;
-    private void Awake()
+    private void Start()
     {
         Instance = this;
         talkPanel.SetActive(false);
-        backgroundImage = backGround.GetComponent<Image>();
+        if (talkPanel==null)
+        {
+            Debug.Log("talkPanel is null");
+        }
+
+        if (contentText ==null)
+        {
+            Debug.Log("contentText is null");
+        }
     }
 
     private void Update()
     {
         //backGround = transform.Find("GraphImg");
-        if (Input.GetKeyDown(KeyCode.Space))//按下space进入下一个对话
+        if (Input.GetKeyDown(KeyCode.Tab))//按下space进入下一个对话
         {
+            Debug.Log("get key down");
             PutDialogueNode();
         }
     }
@@ -47,7 +53,16 @@ public class DialogueManager : MonoBehaviour
 
     public void Init()
     {
-        backgroundImage.sprite= null;
+        // 创建一个透明的 Texture2D
+        Texture2D texture = new Texture2D(1, 1);
+        texture.SetPixel(0, 0, new Color(0, 0, 0, 0)); // 透明色
+        texture.Apply();
+
+        // 创建一个 Sprite
+        Sprite transparentSprite = Sprite.Create(texture, new Rect(0, 0, 1, 1), new Vector2(0.5f, 0.5f));
+        
+        // 将背景图像设置为透明 Sprite
+        backgroundImage.sprite = transparentSprite;
         contentText.text = "";
     }
     public void PutDialogue(Dialogue dialogue)//放置对话段落
@@ -70,6 +85,7 @@ public class DialogueManager : MonoBehaviour
         _remainDialogueNode--;
         DialogueNode dialogueNode = _dialogueNodes[_dialogueIndex];
         _dialogueIndex++;
+        contentText.text = dialogueNode.content;
         if (dialogueNode.PNGSprite != null)
         {
             backgroundImage.sprite = dialogueNode.PNGSprite;
