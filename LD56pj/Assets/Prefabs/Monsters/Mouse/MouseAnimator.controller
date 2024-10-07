@@ -193,9 +193,7 @@ AnimatorState:
   m_Name: Idle
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: -8905804285502799100}
-  - {fileID: -1440969595319289968}
+  m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -221,8 +219,7 @@ AnimatorState:
   m_Name: Kill
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: -9072691399499038329}
+  m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -282,9 +279,7 @@ AnimatorState:
   m_Name: Chase
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: -490370553342676844}
-  - {fileID: 7139011458940233938}
+  m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -294,7 +289,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 0}
+  m_Motion: {fileID: 7400000, guid: 0f87117e608abf3428495072d214aea0, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
