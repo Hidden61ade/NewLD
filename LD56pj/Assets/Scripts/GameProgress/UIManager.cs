@@ -24,6 +24,7 @@ public class UIManager : MonoSingleton<UIManager>
 
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         UICanvas = GameObject.Find("UICanvas").transform;
         mDeathMessage = UICanvas.Find("DeathMessage").gameObject;
         mDialoguePanel = UICanvas.Find("DialoguePanel").gameObject;
