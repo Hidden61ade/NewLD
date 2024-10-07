@@ -418,7 +418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   platform1: {fileID: 515760743}
   platform2: {fileID: 490503441}
-  platformSpeed: 2
+  platformSpeed: 0.5
   isPlayerOnPlatform1: 0
   isPlayerOnPlatform2: 0
 --- !u!4 &122562900
@@ -551,7 +551,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 5
+  m_Constraints: 0
 --- !u!61 &490503445
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -757,7 +757,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -768,7 +768,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 5
+  m_Constraints: 0
 --- !u!114 &515760748
 MonoBehaviour:
   m_ObjectHideFlags: 0

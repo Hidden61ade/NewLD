@@ -164,14 +164,18 @@ public class PlayControl : MonoSingleton<PlayControl>
                 {
                     tempCanPush = true; // 用临时变量记录
                     pushBox = contact.collider.gameObject;
+                    
 
                 }
             }
         }
-
         // 在循环外统一更新推状态
         canPush = tempCanPush;
-        PlayerAnimatorManager.Instance.ChangePushState(isPush);
+        if (pushBox != null)
+        {
+            pushBox.GetComponent<BoxPushed>().isBePushed = tempCanPush;
+        }
+        //PlayerAnimatorManager.Instance.ChangePushState(isPush);
 
         // 检查是否碰撞到了水平面
         isColl = a > 0;
@@ -180,7 +184,16 @@ public class PlayControl : MonoSingleton<PlayControl>
         //isGround = b > 0;
     }
 
-
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        foreach (ContactPoint2D contact in collision.contacts)
+        {
+            if (contact.collider.CompareTag(Box))
+            {
+                contact.collider.gameObject.GetComponent<BoxPushed>().isBePushed = false;
+            }
+        }
+    }
 
     void Actions()
     {
@@ -334,7 +347,7 @@ public class PlayControl : MonoSingleton<PlayControl>
             }
         }
 
-
+        PlayerAnimatorManager.Instance.ChangePushState(isPush);
     }
 
     void ActionRoll()
