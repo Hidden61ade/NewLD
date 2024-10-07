@@ -17,6 +17,7 @@ public class MouseEyeFieldDetecter : MonoBehaviour
         else if(other.gameObject.GetComponent<BoxPushed>()!=null)
         {
             Debug.Log("cheese!");
+            AudioKit.PlaySound("RatSound");
             StartCoroutine(RunToEat(other.transform.position));
         }
     }
