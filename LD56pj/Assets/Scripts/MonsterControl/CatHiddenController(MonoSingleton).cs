@@ -4,24 +4,25 @@ using System.Collections.Generic;
 using DG.Tweening;
 using QFramework;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 
-public class CatController : MonoSingleton<CatController>
+public class CatHiddenController : MonoBehaviour
 {
     public CatState curState;
     public float maxExposureTime;
     public float timer;
+    public bool canAttack;
+    public float animationSpeed = 1;
     private GameManager gameManager;
 
-    // Capture parameters
-    [Header("此参数应该与kill动画时长相同")]
-    public float killTime = 0.3f;
-    
+    private Vector3 pawOriginPos;
     // Internal variables
     private Rigidbody2D rb;
     private Vector3 respawnPoint;
     private bool isCapturing = false;
     
     [Header("以下内容可自动获取引用")]
+    public Transform paw;
     public Transform playerTransform; // Reference to the player
 
     public Animator animator;
@@ -33,10 +34,19 @@ public class CatController : MonoSingleton<CatController>
     }
     void Awake()
     {
+        animator = gameObject.GetComponent<Animator>();
+        canAttack = false;
+        animator.speed = animationSpeed;
         curState = CatState.Idle;
         timer = maxExposureTime;
         rb = GetComponent<Rigidbody2D>();
         gameManager = GameManager.Instance;
+        paw = transform.Find("paw");
+        pawOriginPos = paw.position;
+        TypeEventSystem.Global.Register<OnLevelResetEvent>(e =>
+        {
+            Init();
+        });
         if (playerTransform == null)
         {
             playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -60,16 +70,30 @@ public class CatController : MonoSingleton<CatController>
         }
     }
 
+    public void Init()
+    {
+        paw.position = pawOriginPos;
+        canAttack = false;
+        animator.speed = animationSpeed;
+        TimerReset();
+    }
     // Update is called once per frame
     void Update()
     {
-        timer -= Time.deltaTime;
-        if (timer<=0)
+        if (canAttack)
         {
-            curState = CatState.Kill;
-            animator.SetTrigger("Kill");
+            timer -= Time.deltaTime;
+            if (timer<=0)
+            {
+                curState = CatState.Kill;
+                animator.SetTrigger("Kill");
+            }
+            else 
+            {
+                //摇头越快，代表remained exposure time的减少
+                animator.speed = animationSpeed * (Mathf.Clamp(maxExposureTime / timer, 1, 10));
+            }
         }
-
         switch (curState)
         {
             case CatState.Idle:
@@ -88,12 +112,11 @@ public class CatController : MonoSingleton<CatController>
     public void TimerReset()
     {
         timer = maxExposureTime;
-        
     }
 
     private void HandleIdleState()
     {
-        //TODO：animator change;
+        animator.CrossFade("Idle",0);
     }
 
     private void HandleKillState()
@@ -101,9 +124,28 @@ public class CatController : MonoSingleton<CatController>
         StartCoroutine(KillAction());
     }
 
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            canAttack = true;
+            Init();
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            canAttack = false;
+            Init();
+        }
+    }
     public IEnumerator KillAction()
     {
-        transform.DOMove(playerTransform.position, killTime);//用DOTween包实现移动。
+        paw.DOMove(playerTransform.position, 0.3f);
+        yield return new WaitForSeconds(0.3f);
+        PlayControl.Instance.ActionDie();
         TypeEventSystem.Global.Send<OnPlayerDiedEvents>();
         yield break;
     }
