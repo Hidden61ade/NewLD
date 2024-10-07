@@ -5,7 +5,7 @@ using DG.Tweening;
 using QFramework;
 using UnityEngine;
 
-public class MouseController : MonoBehaviour
+public class MouseController1 : MonoSingleton<MouseController1>
 {
     public MouseState curState;
     [Header("出现、消失动画的时间")]
@@ -133,5 +133,10 @@ public class MouseController : MonoBehaviour
     public void DisAppearAction()
     {
         gameObject.GetComponent<SpriteRenderer>().DOFade(0, appearTime);
+    }
+
+    public void DigIntoGround()
+    {
+        //TODO
     }
 }

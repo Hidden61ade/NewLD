@@ -33,6 +33,10 @@ public class PlayerAnimatorManager : MonoSingleton<PlayerAnimatorManager>
         GameAudio.AudioManager.Instance.PlayFootsteps();
     }
 
+    public void Init()
+    {
+        playerAnimator.CrossFade("Idle",0);
+    }
     public void SwitchToIdle()
     {
         playerAnimator.SetInteger("SpeedModeInt",0);
@@ -52,7 +56,7 @@ public class PlayerAnimatorManager : MonoSingleton<PlayerAnimatorManager>
 
     public void SwitchToDie()
     {
-        playerAnimator.SetTrigger("Die");
+        playerAnimator.CrossFade("Die",0);
     }
     public void ChangeCrouchState(bool state)
     {

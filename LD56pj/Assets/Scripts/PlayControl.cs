@@ -92,6 +92,7 @@ public class PlayControl : MonoSingleton<PlayControl>
         axisH = Input.GetAxis("Horizontal");
         CollisionDetection();// 更新碰撞检测位置
         Actions();// 更新动作
+        
         // TODO: 速度
     }
 
@@ -101,7 +102,7 @@ public class PlayControl : MonoSingleton<PlayControl>
         PlayerAnimatorManager.Instance.ChangeJumpState(false);
         PlayerAnimatorManager.Instance.ChangeLiftState(false);
         PlayerAnimatorManager.Instance.ChangePushState(false);
-        PlayerAnimatorManager.Instance.SwitchToIdle();
+        PlayerAnimatorManager.Instance.Init();
         isRun = false;// 是否在奔跑
         isGetDown = false;// 是否在趴下
         isRoll = false;// 是否在翻滚
