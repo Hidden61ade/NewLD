@@ -15,6 +15,7 @@ namespace GameAudio
             {
                 AudioManager.AudioSourceHandler handler = null;
                 AudioManager.Instance.PlayMusic(clip.name, out handler, volumeScale: 0f);
+                handler.SetLoop(true);
                 handler.SetVolume(0f, 0f); // 确保初始音量为0
                 tracks.Add(handler);
             }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using QFramework;
+using System;
 
 namespace GameAudio
 {
@@ -31,7 +32,15 @@ namespace GameAudio
                     {
                         if (AudioManager.Instance.audioContainer != null)
                         {
-                            var clip = AudioManager.Instance.mMusics[trackName];
+                            AudioClip clip;
+                            try
+                            {
+                                clip = AudioManager.Instance.mMusics[trackName];
+                            }
+                            catch (Exception)
+                            {
+                                clip = null;
+                            }
                             if (clip != null)
                             {
                                 clips.Add(clip);

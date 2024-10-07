@@ -45,6 +45,7 @@ namespace GameAudio
             var temp = AllocateChannel();
             temp.clip = mMusics[name];
             temp.volume = 0f;
+            temp.loop = true;
             temp.Play();
             FadeIn(temp);
         }
@@ -57,6 +58,7 @@ namespace GameAudio
             var temp = AllocateChannel();
             temp.clip = mMusics[name];
             temp.volume = 0f;
+            temp.loop = true;
             temp.Play();
             audioSourceHandler = new(temp);
             FadeIn(temp, defaultVol * volumeScale);
@@ -74,6 +76,7 @@ namespace GameAudio
             }
             var t = AllocateChannel();
             t.volume = defaultVol * volumeScale;
+            t.loop = true;
             t.clip = mMusics[name];
             t.Play();
         }
@@ -86,6 +89,7 @@ namespace GameAudio
             var t = AllocateChannel();
             t.clip = mMusics[name];
             t.volume = defaultVol * volumeScale;
+            t.loop = true;
             audioSourceHandler = new(t);
             t.Play();
         }
@@ -209,22 +213,25 @@ namespace GameAudio
             {
                 float startVolume = audioSource.volume;
                 float elapsedTime = 0f;
-
-                while (elapsedTime < duration)
+                if (duration != 0)
                 {
-                    yield return null;
-                    elapsedTime += Time.deltaTime;
-                    audioSource.volume = Mathf.Lerp(startVolume, targetVolume, elapsedTime / duration);
+                    while (elapsedTime < duration)
+                    {
+                        yield return null;
+                        elapsedTime += Time.deltaTime;
+                        audioSource.volume = Mathf.Lerp(startVolume, targetVolume, elapsedTime / duration);
+                    }
                 }
-
                 audioSource.volume = targetVolume;
             }
-            public void SetLoop(bool var){
+            public void SetLoop(bool var)
+            {
                 audioSource.loop = var;
             }
         }
     }
 }
-public class OnAudioLoadedEvent{
+public class OnAudioLoadedEvent
+{
 
 }

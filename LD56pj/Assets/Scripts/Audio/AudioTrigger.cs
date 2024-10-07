@@ -7,7 +7,7 @@ public class AudioTrigger : MonoBehaviour
 {
     [HideInInspector] public AudioManager.AudioSourceHandler audioSourceHandler;
     public string songname;
-    [HideInInspector] public bool isPlaying;
+    public bool isPlaying;
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (isPlaying) return;
