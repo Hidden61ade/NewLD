@@ -21,6 +21,7 @@ public class MouseController2 : MonoSingleton<MouseController2>
     private Animator animator;
     private bool isEat;
     private Vector3 originPosition;
+    private Transform playerTransform;
     private void Awake()
     {
         originPosition = transform.position;
@@ -48,6 +49,10 @@ public class MouseController2 : MonoSingleton<MouseController2>
     }
     IEnumerator KillAction()
     {
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        transform.DOMove(playerTransform.position, 0.1f);
+        yield return new WaitForSeconds(0.17f);
+        GameManager.Instance.HandlePlayerDeath();
         yield break;
     }
 
