@@ -24,17 +24,16 @@ public class BoxPushed : StatedParameter<BoxPushed>
         rb.freezeRotation = true;
         rb.constraints = RigidbodyConstraints2D.FreezePositionX;
 
-        LookPara(this);//TODO: 接收回档信息
-        //TypeEventSystem.Global.Register<OnStateChangeEvent>(e =>
-        //{
-        //    ResetPara(this);
-        //});
+        LookPara(this);
+        TypeEventSystem.Global.Register<OnLevelResetEvent>(e => {
+            //Debug.Log("Reseted:\t"+gameObject.name);
+            ResetPara(this); }).UnRegisterWhenGameObjectDestroyed(gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //TypeEventSystem.Global.Register<OnLevelResetEvent>(e => RestartBox()).UnRegisterWhenGameObjectDestroyed(gameObject);
+        
         BePushed();
         rb.freezeRotation = true;
     }

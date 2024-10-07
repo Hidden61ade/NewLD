@@ -75,6 +75,6 @@ public class MouseController2 : MonoSingleton<MouseController2>
     {
         isEat = true;
         transform.DOMove(foodPositionWS, 0.1f);
-        animator.CrossFade("EatCheese",0);
+        animator.CrossFade("PickCheese",0);
     }
 }

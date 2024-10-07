@@ -173,8 +173,16 @@ public class PlayControl : MonoSingleton<PlayControl>
         canPush = tempCanPush;
         if (pushBox != null)
         {
-            pushBox.GetComponent<BoxPushed>().isBePushed = tempCanPush;
+            if (!isPush)
+            {
+                pushBox.GetComponent<BoxPushed>().isBePushed = false;
+            }
+            else
+            {
+                pushBox.GetComponent<BoxPushed>().isBePushed = true;
+            }
         }
+        
         //PlayerAnimatorManager.Instance.ChangePushState(isPush);
 
         // 检查是否碰撞到了水平面

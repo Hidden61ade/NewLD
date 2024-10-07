@@ -1,12 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using QFramework;
 using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class PressureSensitiveDoors : MonoBehaviour
 {
     public GameObject[] buttons;
+
     [SerializeField] private bool isOpen;
+    private bool hasOpend = false;
     private BoxCollider2D boxCollider;
+    public Sprite close;
+    public Sprite open;
+
+    private SpriteRenderer spriteRenderer;
+
     private void OnDestroy()
     {
         StopAllCoroutines();
@@ -16,6 +24,7 @@ public class PressureSensitiveDoors : MonoBehaviour
     void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         StartCoroutine(CheckDoorOpen());
     }
 
@@ -25,11 +34,18 @@ public class PressureSensitiveDoors : MonoBehaviour
         //Debug.Log(button.GetComponent<ButtonOfDoor>().isOpen);
         if (isOpen)
         {
+            if (!hasOpend)
+            {
+                AudioKit.PlaySound("Switch");
+            }
             boxCollider.enabled = false;
+            spriteRenderer.sprite = open;
+            hasOpend = true;
         }
         else
         {
             boxCollider.enabled = true;
+            spriteRenderer.sprite = close;
         }
     }
     IEnumerator CheckDoorOpen()
@@ -43,6 +59,7 @@ public class PressureSensitiveDoors : MonoBehaviour
                 yield return null;
             }
             this.isOpen = temp;
+            
         }
     }
 }
