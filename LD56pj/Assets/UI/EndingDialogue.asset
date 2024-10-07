@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d2ef3cdd15f81488f0cab18829b213, type: 3}
+  m_Name: EndingDialogue
+  m_EditorClassIdentifier: 
+  DialogueNodes:
+  - PNGSprite: {fileID: 21300000, guid: bbb1118705d7942e09d81f820c34a652, type: 3}
+    content: 'As the sun rises and showering all its light, your body size resumming,
+      you successfullly escaped.
+
+'
+  - PNGSprite: {fileID: 21300000, guid: bbb1118705d7942e09d81f820c34a652, type: 3}
+    content: No longer the TINY CREATURE, now you can finally view those animals
+      as tiny creatures again.
+  - PNGSprite: {fileID: 21300000, guid: d24d301bed4194e75bf6f23a81613439, type: 3}
+    content: At the very outside of the 8th warehouse, you bumped into some bulks
+      of scientists who seemed to be the R&D guys in the 8th warehouse.
+  - PNGSprite: {fileID: 21300000, guid: d24d301bed4194e75bf6f23a81613439, type: 3}
+    content: Of course you decided to do something about THEM, would you?
+  - PNGSprite: {fileID: 21300000, guid: 55104e7cc3c68469eaa6cfe5784ed6a2, type: 3}
+    content: '"Procter & Gamble has received criticism from animal advocacy group
+      PETA for the practice of testing on animals.'
+  - PNGSprite: {fileID: 21300000, guid: 55104e7cc3c68469eaa6cfe5784ed6a2, type: 3}
+    content: 'On June 30, 1999, Procter & Gamble announced that it would limit its
+      animal testing practices to its food and drug products which represented less
+      than 20% of its product portfolio.The company invested more than $275 million
+      in the development of alternative testing methods."(Wikipedia)
+
+'
