@@ -15,7 +15,7 @@ namespace GameAudio
         public AudioContainer audioContainer;
         public bool IsContainerReady = false;
 
-        public float defaultVol = 1f;
+        public float defaultVol = 0.8f;
 
         private readonly char[] randTab = new char[] { '0', '2', '1', '1', '0', '1', '3', '2', '1', '1', '3', '0', '3', '0', '2' };
         private int pRandTab = 0;
@@ -33,8 +33,9 @@ namespace GameAudio
         }
         public void PlayFootsteps()
         {
-            AudioKit.PlaySound("ftstp-1-" + randTab[pRandTab++], volumeScale: 0.4f);
-            if (pRandTab == 15) pRandTab = 0;
+            // Do Nothing because this sounds terrible
+            // AudioKit.PlaySound("ftstp-1-" + randTab[pRandTab++], volumeScale: 0.4f);
+            // if (pRandTab == 15) pRandTab = 0;
         }
         public void PlayMusic(string name)
         {

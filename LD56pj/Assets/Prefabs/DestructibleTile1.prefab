@@ -172,5 +172,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destructionDelay: 1
-  destructionEffectPrefab: {fileID: 0}
+  destructionEffectPrefab: {fileID: 1174798401922689957, guid: 319b4310ab21bb04cbc69c77dd7e6ea3, type: 3}
   destructionSound: {fileID: 0}
