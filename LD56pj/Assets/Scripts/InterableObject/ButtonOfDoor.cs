@@ -7,14 +7,14 @@ using UnityEngine.Rendering.Universal;
 public class ButtonOfDoor : MonoBehaviour
 {
     public bool isOpen = false;
-    public GameObject light;
+    public GameObject mlight;
 
     Light2D light2d;
 
     // Start is called before the first frame update
     void Start()
     {
-        light2d = light.GetComponent<Light2D>();
+        light2d = mlight.GetComponent<Light2D>();
         light2d.color = new Color(255f / 255f, 33f / 255f, 20f / 255f);
     }
 

@@ -13,6 +13,8 @@ public class PressureSensitiveDoors : MonoBehaviour
     public Sprite close;
     public Sprite open;
 
+    public bool alwaysOpen = false;
+    public bool telSon = false;
     private SpriteRenderer spriteRenderer;
 
     private void OnDestroy()
@@ -32,7 +34,12 @@ public class PressureSensitiveDoors : MonoBehaviour
     void Update()
     {
         //Debug.Log(button.GetComponent<ButtonOfDoor>().isOpen);
-        if (isOpen)
+        if( hasOpend && alwaysOpen)
+        {
+            isOpen = true;
+            telSon = true;
+        }
+        if (isOpen )
         {
             if (!hasOpend)
             {
@@ -41,6 +48,7 @@ public class PressureSensitiveDoors : MonoBehaviour
             boxCollider.enabled = false;
             spriteRenderer.sprite = open;
             hasOpend = true;
+            
         }
         else
         {

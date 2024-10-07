@@ -13,24 +13,32 @@ public class ButtonOfPressureSensitiveDoor : MonoBehaviour
 
     public GameObject mlight;
 
+
+
     Light2D light2d;
 
     private SpriteRenderer spriteRenderer;
+    private PressureSensitiveDoors ressureSensitiveDoors;
 
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         light2d = mlight.GetComponent<Light2D>();
         light2d.color = new Color(255f / 255f, 33f / 255f, 20f / 255f);
+        ressureSensitiveDoors = transform.parent.GetComponent<PressureSensitiveDoors>();
     }
 
     private void Update()
     {
+        if (ressureSensitiveDoors.telSon)
+        {
+            isOpen = true;
+        }
         if(isOpen)
         {
-            if(hasOpend){
-                return;
-            }
+            //if(hasOpend){
+            //    return;
+            //}
             spriteRenderer.sprite = On;
             light2d.color = new Color(20f / 255f, 255f / 255f, 35f / 255f);
             AudioKit.PlaySound("Switch");
