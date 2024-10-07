@@ -40,7 +40,7 @@ public class DangerousLiquid : MonoBehaviour
         {
             timer = deltaTime;
             float x = Random.Range(-0.5f, 0.5f);
-            Instantiate(deadlyDrop, transform.position + new Vector3(x, -1.05f, 0),Quaternion.identity);
+            Instantiate(deadlyDrop, transform.position + new Vector3(x, -1.05f, 0),Quaternion.identity,transform);
         }
     }
 }

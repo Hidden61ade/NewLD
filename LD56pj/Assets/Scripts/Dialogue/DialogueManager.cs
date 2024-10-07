@@ -16,6 +16,8 @@ public class DialogueManager : MonoBehaviour
     private int _dialogueIndex;
     private DialogueNode[] _dialogueNodes;
     private int _remainCharacterSpace = 2;
+    public Dialogue Dialogue1;
+    public Dialogue Dialogue2;
     private void Start()
     {
         Instance = this;
@@ -31,6 +33,14 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    public void PutDialogue1()
+    {
+        PutDialogue(Dialogue1);
+    }
+    public void PutDialogue2()
+    {
+        PutDialogue(Dialogue2);
+    }
     private void Update()
     {
         //backGround = transform.Find("GraphImg");
