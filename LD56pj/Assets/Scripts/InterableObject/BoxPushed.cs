@@ -10,10 +10,10 @@ public class BoxPushed : StatedParameter<BoxPushed>
 
     [StatedPara]private Vector3 mPosition
     {
-        get { return transform.position; }
+        get { return rb.position; }
         set
         {
-            transform.position = value;
+            rb.position = value;
         }
     }
 
@@ -29,12 +29,15 @@ public class BoxPushed : StatedParameter<BoxPushed>
         //{
         //    ResetPara(this);
         //});
+        TypeEventSystem.Global.Register<OnLevelResetEvent>(e => {
+            Debug.Log("Reseted:\t"+gameObject.name);
+            ResetPara(this); }).UnRegisterWhenGameObjectDestroyed(gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //TypeEventSystem.Global.Register<OnLevelResetEvent>(e => RestartBox()).UnRegisterWhenGameObjectDestroyed(gameObject);
+        
         BePushed();
         rb.freezeRotation = true;
     }
