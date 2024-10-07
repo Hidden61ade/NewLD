@@ -15,7 +15,7 @@ public class StatedParameter<T> : MonoBehaviour
         cachedProperties = new List<PropertyInfo>();
 
         // 缓存字段
-        var fields = typeof(T).GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+        var fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
         foreach (var field in fields)
         {
             if (field.IsDefined(typeof(StatedPara), false))
@@ -25,7 +25,7 @@ public class StatedParameter<T> : MonoBehaviour
         }
 
         // 缓存属性
-        var properties = typeof(T).GetProperties(BindingFlags.NonPublic | BindingFlags.Instance);
+        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
         foreach (var property in properties)
         {
             if (property.IsDefined(typeof(StatedPara), false) && property.CanRead && property.CanWrite)
