@@ -49,7 +49,7 @@ public MouseState curState;
     void Awake()
     {
         facing = 1;
-        curState = MouseState.Idle;
+        curState = MouseState.Walk;
         disdance = 10000;
         velocity = (rightPoint-leftPoint)/wanderIntervalTime;
         rb = GetComponent<Rigidbody2D>();
@@ -85,10 +85,10 @@ public MouseState curState;
 
     public void Init()
     {
-        animator.CrossFade("Idle",0);
+        animator.CrossFade("Walk",0);
         bool isGoingToKillYou = false;
         transform.position = originPosition;
-        curState = MouseState.Idle;
+        curState = MouseState.Walk;
         disdance = 10000;
         facing = 1;
     }
