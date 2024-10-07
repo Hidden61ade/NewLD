@@ -25,7 +25,7 @@ public class PlayControl : MonoSingleton<PlayControl>
 
     public int facing = 1; // 面朝向系数,控制翻滚时力的朝向,1向右,-1向左
 
-    public bool canCatch = false;// 能否持物
+    private bool canCatch = false;// 能否持物
     public bool canPush = false;// 能否推动
     public bool canMoveR = true;//防止蹭墙
     public bool canMoveL = true;//防止蹭墙
@@ -36,7 +36,7 @@ public class PlayControl : MonoSingleton<PlayControl>
     public bool isRoll = false;// 是否在翻滚
     private bool isCatch = false;// 是否持物
     public bool isPush = false;// 是否推动
-    private bool canStand = true;
+    public bool canStand = true;
 
     public float RollDuration;// 翻滚持续时间 //周：此处的时间需要与动画长度相同
 
@@ -368,7 +368,17 @@ public class PlayControl : MonoSingleton<PlayControl>
             yield break;
         }
         yield return new WaitForSeconds(RollDuration); //周：此处的时间需要与动画长度相同
-        isRoll = false;// 不是我写的看不懂   //周：Dash（Roll）动画在播放完后自动进入walk或run，所以不需要再改改动动画机
+        isRoll = false;
+        if (!canStand)
+        {
+            isGetDown = true;
+        }
+        else
+        {
+            boxCollider2d.size = collisionBoxSize;
+            boxCollider2d.offset = collisionBoxCenter;
+        }
+            // 不是我写的看不懂   //周：Dash（Roll）动画在播放完后自动进入walk或run，所以不需要再改改动动画机
     }// TODO: 距离
 
 
@@ -387,11 +397,6 @@ public class PlayControl : MonoSingleton<PlayControl>
             }
             else
             {
-                //float extraHeight = collisionBoxSize.y / 2; // 原始高度的一半
-                //Vector2 headPosition = new Vector2(transform.position.x, transform.position.y + extraHeight - 0.1f);
-                //Collider2D hit = Physics2D.OverlapCircle(headPosition, boxCollider2d.size.y / 2, groundLayer); 
-
-                //Debug.Log(hit);
                 if (canStand)
                 {
                     isGetDown = false;
@@ -399,13 +404,11 @@ public class PlayControl : MonoSingleton<PlayControl>
                     boxCollider2d.offset = collisionBoxCenter;
                     PlayerAnimatorManager.Instance.ChangeCrouchState(isGetDown);
                 }
-
-
-                //else { Debug.Log(hit); }
+                  //else { Debug.Log(hit); }
                 
             }// 是否下蹲
 
-            if (Input.GetKey(KeyCode.LeftShift) && !isGetDown && axisH != 0 && isGround)
+            if (Input.GetKey(KeyCode.LeftShift) && !isGetDown && axisH != 0 && isGround && !isRoll)
             {
                 isRun = true;
                 PlayerAnimatorManager.Instance.SwitchToRun();
@@ -420,6 +423,11 @@ public class PlayControl : MonoSingleton<PlayControl>
                 isJump = false;
                 PlayerAnimatorManager.Instance.ChangeJumpState(isJump);
             }
+        }
+        if (isRoll)
+        {
+            boxCollider2d.size = new Vector2(collisionBoxSize.x, collisionBoxSize.y / 2);
+            boxCollider2d.offset = new Vector2(collisionBoxCenter.x, (collisionBoxCenter.y - (collisionBoxSize.y - boxCollider2d.size.y) / 2));
         }
 
     }
