@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 奶酪的名字一定要是Cheese！！！！
 /// </summary>
-public class Mouse2EyeFieldDetecter : MonoSingleton<Mouse2EyeFieldDetecter>
+public class MouseEyeFieldDetecter : MonoBehaviour
 {
     public void OnTriggerEnter2D(Collider2D other)
     {

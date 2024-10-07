@@ -51,10 +51,6 @@ public class MouseController2 : MonoSingleton<MouseController2>
     }
     IEnumerator KillAction()
     {
-        if (playerTransform==null)
-        {
-           Debug.Log("Nulll!!!");
-        }
         transform.DOMove(playerTransform.position, 0.1f);
         yield return new WaitForSeconds(0.2f);
         GameManager.Instance.HandlePlayerDeath();
