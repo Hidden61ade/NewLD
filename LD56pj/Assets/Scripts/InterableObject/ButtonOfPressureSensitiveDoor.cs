@@ -5,6 +5,27 @@ using UnityEngine;
 public class ButtonOfPressureSensitiveDoor : MonoBehaviour
 {
     public bool isOpen = false;
+    public Sprite Off;
+    public Sprite On;
+
+    private SpriteRenderer spriteRenderer;
+
+    private void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void Update()
+    {
+        if(isOpen)
+        {
+            spriteRenderer.sprite = On;
+        }
+        else
+        {
+            spriteRenderer.sprite = Off;
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
