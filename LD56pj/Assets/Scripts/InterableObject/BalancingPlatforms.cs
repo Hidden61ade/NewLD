@@ -11,13 +11,15 @@ public class BalancingPlatforms : MonoBehaviour
     public float platformSpeed = 2f;  // 平台的移动速度
     private Rigidbody2D rb1;  // 平台1的刚体
     private Rigidbody2D rb2;  // 平台2的刚体
-    public bool isPlayerOnPlatform1 = false;
-    public bool isPlayerOnPlatform2 = false;
+    private bool isPlayerOnPlatform1 = false;
+    private bool isPlayerOnPlatform2 = false;
 
     public float maxHight = 0.1f;
 
     private Vector3 platPos1;
     private Vector3 platPos2;
+    private bool plat1IsOn;
+    private bool plat2IsOn;
     void Start()
     {
         rb1 = platform1.GetComponent<Rigidbody2D>();
@@ -35,14 +37,21 @@ public class BalancingPlatforms : MonoBehaviour
 
     void Update()
     {
+        bool canChange = !(platform1.GetComponent<BalancingPlatformSon>().isOn && platform2.GetComponent<BalancingPlatformSon>().isOn);
+
+        if (canChange)
+        {
+            plat1IsOn = platform1.GetComponent<BalancingPlatformSon>().isOn;
+            plat2IsOn = platform2.GetComponent<BalancingPlatformSon>().isOn;
+        }
         //Debug.Log(platform1.transform.position.y - platPos1.y >= -maxHight);
         // 根据玩家是否站在平台上调整平台的运动
-        if (platform1.GetComponent<BalancingPlatformSon>().isOn && platform1.transform.position.y - platPos1.y >= -maxHight)
+        if (plat1IsOn && platform1.transform.position.y - platPos1.y >= -maxHight)
         {
             MovePlatform(rb1, -1);  // Platform 1 下移
             MovePlatform(rb2, 1);   // Platform 2 上移
         }
-        else if (platform2.GetComponent<BalancingPlatformSon>().isOn && platform2.transform.position.y - platPos2.y >= -maxHight)
+        else if (plat2IsOn && platform2.transform.position.y - platPos2.y >= -maxHight)
         {
             MovePlatform(rb1, 1);   // Platform 1 上移
             MovePlatform(rb2, -1);  // Platform 2 下移

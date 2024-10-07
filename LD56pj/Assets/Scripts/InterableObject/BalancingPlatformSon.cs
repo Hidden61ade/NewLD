@@ -27,7 +27,7 @@ public class BalancingPlatformSon : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Box"))
         {
             //Debug.Log("装了");
-            if (collision.gameObject.transform.position.y > transform.position.y)
+            if (collision.gameObject.transform.position.y - 0.5f > transform.position.y)
             {
                 isOn = true;
             }
