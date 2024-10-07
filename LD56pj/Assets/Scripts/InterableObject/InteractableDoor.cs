@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using QFramework;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public partial class InteractableDoor : MonoBehaviour
 {
     private GameObject button;
+    private bool isOpened = false;
     private string buttonName = "Button";
     private BoxCollider2D boxCollider;
 
@@ -31,6 +33,11 @@ public partial class InteractableDoor : MonoBehaviour
         {
             boxCollider.enabled = false;
             spriteRenderer.sprite = open;
+            if(!isOpened)
+            {
+                AudioKit.PlaySound("Switch");
+            }
+            isOpened = true;
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using QFramework;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -34,6 +35,7 @@ public class ButtonOfDoor : MonoBehaviour
     public void Open()
     {
         isOpen = true;
+        AudioKit.PlaySound("Switch");
         GetComponent<SpriteRenderer>().flipX = true;
     }
 }
