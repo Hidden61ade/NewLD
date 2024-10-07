@@ -17,29 +17,29 @@ public class FlashlightController : MonoBehaviour
 
     void Awake()
     {
-        //if (virtualCamera != null)
-        {
-            // 获取 Virtual Camera 所控制的主 Camera
-            // mainCamera = virtualCamera.VirtualCameraGameObject.GetComponent<Camera>();
-            if (mainCamera == null)
-            {
-                // 如果 Virtual Camera 的 GameObject 上没有 Camera 组件，尝试使用 Camera.main
-                mainCamera = Camera.main;
-                if (mainCamera == null)
-                {
-                    Debug.LogError("无法找到主摄像机。请确保场景中有一个 Camera 被 Cinemachine Virtual Camera 控制。");
-                }
-            }
-        }
+        // //if (virtualCamera != null)
+        // {
+        //     // 获取 Virtual Camera 所控制的主 Camera
+        //     // mainCamera = virtualCamera.VirtualCameraGameObject.GetComponent<Camera>();
+        //     if (mainCamera == null)
+        //     {
+        //         // 如果 Virtual Camera 的 GameObject 上没有 Camera 组件，尝试使用 Camera.main
+        //         mainCamera = Camera.main;
+        //         if (mainCamera == null)
+        //         {
+        //             Debug.LogError("无法找到主摄像机。请确保场景中有一个 Camera 被 Cinemachine Virtual Camera 控制。");
+        //         }
+        //     }
+        // }
         //else
-        {
-            // 如果未在 Inspector 中指定 Virtual Camera，使用默认的 Camera.main
-            mainCamera = Camera.main;
-            if (mainCamera == null)
-            {
-                Debug.LogError("无法找到主摄像机。请确保场景中有一个 Camera 被 Cinemachine Virtual Camera 控制。");
-            }
-        }
+        // {
+        //     // 如果未在 Inspector 中指定 Virtual Camera，使用默认的 Camera.main
+        //     mainCamera = Camera.main;
+        //     if (mainCamera == null)
+        //     {
+        //         Debug.LogError("无法找到主摄像机。请确保场景中有一个 Camera 被 Cinemachine Virtual Camera 控制。");
+        //     }
+        // }
 
         if (player == null)
         {
