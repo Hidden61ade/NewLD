@@ -77,6 +77,7 @@ public class MouseController1 : MonoSingleton<MouseController1>
     public void Init()
     {
         transform.position = origenPosition;
+        animator.CrossFade("Idle",0);
         curState = MouseState.Idle;
         disdance = 10000;
         isCapturing = false;
@@ -109,11 +110,11 @@ public class MouseController1 : MonoSingleton<MouseController1>
     public void HandleChasingState()
     {
         rb.velocity = dir * Mathf.Clamp(minSpeed + SpeedIncrese * disdance, minSpeed, maxSpeed);
-        animator.SetBool("Chase",true);
+        animator.CrossFade("Chase",0);
     }
     private void HandleIdleState()
     {
-        animator.SetBool("Chase",false);
+        animator.CrossFade("Idle",0);
         rb.velocity = Vector2.zero;
     }
 
@@ -150,6 +151,6 @@ public class MouseController1 : MonoSingleton<MouseController1>
 
     public void DigIntoGround()
     {
-        //TODO
+        animator.CrossFade("DestroyGround",0);
     }
 }

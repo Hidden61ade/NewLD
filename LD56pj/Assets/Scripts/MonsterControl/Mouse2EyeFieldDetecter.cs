@@ -22,7 +22,7 @@ public class MouseEyeFieldDetecter : MonoBehaviour
 
     IEnumerator RunToEat()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         MouseController2.Instance.SwitchToEat(transform.position);
         yield break;
     }

@@ -30,6 +30,7 @@ public class MouseController2 : MonoSingleton<MouseController2>
         isEat = false;
         animator = gameObject.GetComponent<Animator>();
         curState = MouseState2.Idle;
+        animator.CrossFade("Walk",0);
         TypeEventSystem.Global.Register<OnLevelResetEvent>(e =>
         {
             Init();
@@ -51,8 +52,21 @@ public class MouseController2 : MonoSingleton<MouseController2>
     }
     IEnumerator KillAction()
     {
-        transform.DOMove(playerTransform.position, 0.1f);
-        yield return new WaitForSeconds(0.2f);
+        animator.CrossFade("Kill",0);
+        transform.DOMove(playerTransform.position, 0.4f);
+        // 获取 Animator 的 RuntimeAnimatorController
+        RuntimeAnimatorController controller = animator.runtimeAnimatorController;
+
+        // 遍历 AnimationClips
+        float animationTime = 0.4f;
+        foreach (AnimationClip clip in controller.animationClips)
+        {
+            if (clip.name == "Kill")
+            {
+                animationTime = clip.length;
+            }
+        }
+        yield return new WaitForSeconds(animationTime);
         GameManager.Instance.HandlePlayerDeath();
         yield break;
     }
@@ -61,6 +75,6 @@ public class MouseController2 : MonoSingleton<MouseController2>
     {
         isEat = true;
         transform.DOMove(foodPositionWS, 0.1f);
-        animator.CrossFade("Eat",0);
+        animator.CrossFade("EatCheese",0);
     }
 }

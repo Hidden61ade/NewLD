@@ -32,7 +32,7 @@ public MouseState curState;
     private Vector2 dir;
     // Internal variables
     private Rigidbody2D rb;
-
+    private bool isGoingToKillYou = false;
     private Vector3 originPosition;
     [Header("以下内容可自动获取引用")]
     public Transform playerTransform; // Reference to the player
@@ -85,6 +85,8 @@ public MouseState curState;
 
     public void Init()
     {
+        animator.CrossFade("Idle",0);
+        bool isGoingToKillYou = false;
         transform.position = originPosition;
         curState = MouseState.Idle;
         disdance = 10000;
@@ -124,17 +126,17 @@ public MouseState curState;
     public void HandleChasingState()
     {
         rb.velocity = dir * Mathf.Clamp(minSpeed + SpeedIncrese * disdance, minSpeed, maxSpeed);
-        animator.SetBool("Chase",true);
+        animator.CrossFade("Chase",0);
     }
     private void HandleIdleState()
     {
-        animator.SetBool("Chase",false);
+        animator.CrossFade("Idle",0);
         rb.velocity = Vector2.zero;
     }
 
     private void HandleWalkState()
     {
-        animator.SetBool("Chase",true);
+        animator.CrossFade("Chase",0);
         //获取朝向
         if (facing==-1&&transform.position.x<leftPoint)
         {
@@ -169,7 +171,7 @@ public MouseState curState;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if ((!isGoingToKillYou)&&other.CompareTag("Player"))
         {
             curState = MouseState.Kill;
             HandleKillState();
@@ -201,10 +203,21 @@ public MouseState curState;
     IEnumerator KillActionWhenWander()
     {
         animator.CrossFade("Kill",0);
-        transform.DOMove(playerTransform.position, 0.1f);
-        yield return new WaitForSeconds(0.2f);
+        transform.DOMove(playerTransform.position, 0.4f);
+        // 获取 Animator 的 RuntimeAnimatorController
+        RuntimeAnimatorController controller = animator.runtimeAnimatorController;
+
+        // 遍历 AnimationClips
+        float animationTime = 0.4f;
+        foreach (AnimationClip clip in controller.animationClips)
+        {
+            if (clip.name == "Kill")
+            {
+                animationTime = clip.length;
+            }
+        }
+        yield return new WaitForSeconds(animationTime);
         GameManager.Instance.HandlePlayerDeath();
-        Debug.Log("killByjfkojsklfsjkfljsd");
         yield break;
     }
 }
