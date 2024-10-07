@@ -14,16 +14,17 @@ public class MouseEyeFieldDetecter : MonoBehaviour
         {
             MouseController2.Instance.SwitchToKill();
         }
-        else if(other.gameObject.name.Equals("Cheese"))
+        else if(other.gameObject.GetComponent<BoxPushed>()!=null)
         {
-            StartCoroutine(RunToEat());
+            Debug.Log("cheese!");
+            StartCoroutine(RunToEat(other.transform.position));
         }
     }
 
-    IEnumerator RunToEat()
+    IEnumerator RunToEat(Vector3 position)
     {
         yield return new WaitForSeconds(1f);
-        MouseController2.Instance.SwitchToEat(transform.position);
+        MouseController2.Instance.SwitchToEat(position);
         yield break;
     }
 }
