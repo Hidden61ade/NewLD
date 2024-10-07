@@ -21,5 +21,6 @@ public class ButtonOfDoor : MonoBehaviour
     public void Open()
     {
         isOpen = true;
+        GetComponent<SpriteRenderer>().flipX = true;
     }
 }
