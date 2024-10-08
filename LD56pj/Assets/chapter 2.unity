@@ -30300,8 +30300,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8937497429496608731, guid: 41529d2a1ebc56a4f9fa3e88cb35513c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1096352785}
   m_SourcePrefab: {fileID: 100100000, guid: 41529d2a1ebc56a4f9fa3e88cb35513c, type: 3}
+--- !u!1 &1096352784 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8937497429496608731, guid: 41529d2a1ebc56a4f9fa3e88cb35513c, type: 3}
+  m_PrefabInstance: {fileID: 1096352783}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1096352785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096352784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2728c84d8ad0d84c825fe0c9423f05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 700716609}
+  hearDistance: 19.77
+  increaseDistance: 13.1
+  maxDistance: 8.98
+  hearVolume: 0.2
+  increaseVolume: 0.5
+  maxVolume: 1
 --- !u!1001 &1102597214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34460,8 +34487,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5156892475591826239, guid: 293d8fa79d506374bbca8a6fa4c0f02f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1643236500}
   m_SourcePrefab: {fileID: 100100000, guid: 293d8fa79d506374bbca8a6fa4c0f02f, type: 3}
+--- !u!1 &1643236499 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5156892475591826239, guid: 293d8fa79d506374bbca8a6fa4c0f02f, type: 3}
+  m_PrefabInstance: {fileID: 1643236498}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1643236500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643236499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2728c84d8ad0d84c825fe0c9423f05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 700716609}
+  hearDistance: 16.9
+  increaseDistance: 12.13
+  maxDistance: 8.01
+  hearVolume: 0.2
+  increaseVolume: 0.5
+  maxVolume: 1
 --- !u!1001 &1649724987
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90620,8 +90674,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5156892475591826239, guid: 0aa5aa609935c4d47b169eaa78065052, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1956454789}
   m_SourcePrefab: {fileID: 100100000, guid: 0aa5aa609935c4d47b169eaa78065052, type: 3}
+--- !u!1 &1956454788 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5156892475591826239, guid: 0aa5aa609935c4d47b169eaa78065052, type: 3}
+  m_PrefabInstance: {fileID: 1956454787}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1956454789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956454788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2728c84d8ad0d84c825fe0c9423f05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 700716609}
+  hearDistance: 13.77
+  increaseDistance: 9.23
+  maxDistance: 6.26
+  hearVolume: 0.2
+  increaseVolume: 0.5
+  maxVolume: 1
 --- !u!4 &1959758300 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8253236701179219175, guid: 4823b0b258908864aa5b900033d3c4db, type: 3}
