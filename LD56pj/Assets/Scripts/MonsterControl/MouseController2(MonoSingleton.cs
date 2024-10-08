@@ -34,7 +34,7 @@ public class MouseController2 : MonoSingleton<MouseController2>
         TypeEventSystem.Global.Register<OnLevelResetEvent>(e =>
         {
             Init();
-        });
+        }).UnRegisterWhenGameObjectDestroyed(gameObject);
     }
     
     public void Init()
