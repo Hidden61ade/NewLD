@@ -50,6 +50,16 @@ namespace GameAudio
             temp.Play();
             FadeIn(temp);
         }
+        public void PlayMusic(AudioClip clip, out AudioSourceHandler audioSourceHandler, float volumeScale = 1.0f)
+        {
+            var temp = AllocateChannel();
+            temp.clip = clip;
+            temp.volume = 0f;
+            temp.loop = true;
+            temp.Play();
+            audioSourceHandler = new(temp);
+            FadeIn(temp, defaultVol * volumeScale);
+        }
         public void PlayMusic(string name, out AudioSourceHandler audioSourceHandler, float volumeScale = 1.0f)
         {
             if (!mMusics.ContainsKey(name))

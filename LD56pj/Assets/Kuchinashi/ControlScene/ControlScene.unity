@@ -330,6 +330,8 @@ GameObject:
   - component: {fileID: 324875695}
   - component: {fileID: 324875694}
   - component: {fileID: 324875696}
+  - component: {fileID: 324875698}
+  - component: {fileID: 324875697}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -384,6 +386,32 @@ MonoBehaviour:
     trackNames:
     - TheRat31
     - TheRat32
+--- !u!114 &324875697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324875693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9252121525cacdb40bfd86b43b93ec65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heatbeatClip: {fileID: 8300000, guid: 124b2522c3021e3479ac9f2b9f70c2df, type: 3}
+--- !u!114 &324875698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324875693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c119b65ad5efdf47ae0261abde4302f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ambientClip: {fileID: 8300000, guid: 0ac711f39ef9a8b4aa7c79ee0203e735, type: 3}
 --- !u!1 &327040596
 GameObject:
   m_ObjectHideFlags: 0

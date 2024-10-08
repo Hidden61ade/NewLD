@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 305580528991515460}
   - component: {fileID: 4776873462888540159}
   - component: {fileID: 7907300552301845397}
+  - component: {fileID: 3525170233059455200}
   m_Layer: 0
   m_Name: Ant_NEW
   m_TagString: Untagged
@@ -205,6 +206,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3525170233059455200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6953526214013201499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2728c84d8ad0d84c825fe0c9423f05c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  hearDistance: 10
+  increaseDistance: 5
+  maxDistance: 2
+  hearVolume: 0.2
+  increaseVolume: 0.5
+  maxVolume: 1
 --- !u!1 &6995429812467202590
 GameObject:
   m_ObjectHideFlags: 0
