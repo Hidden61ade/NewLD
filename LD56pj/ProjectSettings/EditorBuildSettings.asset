@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/chapter 2.unity
     guid: a4a5a545f48549a44b2613b9eb35a7ee
+  - enabled: 1
+    path: Assets/chapter 3.unity
+    guid: e8e84a2610e54ef48bfa1e764822923e
   m_configObjects: {}
