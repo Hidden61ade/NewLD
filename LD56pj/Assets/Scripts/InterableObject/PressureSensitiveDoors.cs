@@ -43,7 +43,7 @@ public class PressureSensitiveDoors : MonoBehaviour
         {
             if (!hasOpend)
             {
-                AudioKit.PlaySound("Switch");
+                AudioKit.PlaySound("DoorOpen");
             }
             boxCollider.enabled = false;
             spriteRenderer.sprite = open;

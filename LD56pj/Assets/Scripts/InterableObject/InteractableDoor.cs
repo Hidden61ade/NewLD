@@ -35,7 +35,7 @@ public partial class InteractableDoor : MonoBehaviour
             spriteRenderer.sprite = open;
             if(!isOpened)
             {
-                AudioKit.PlaySound("Switch");
+                AudioKit.PlaySound("DoorOpen");
             }
             isOpened = true;
         }

@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 
 public class ButtonOfPressureSensitiveDoor : MonoBehaviour
 {
-    bool hasOpend = false;
+    bool hasOpendLastFrame = false;
     public bool isOpen = false;
     public Sprite Off;
     public Sprite On;
@@ -34,21 +34,21 @@ public class ButtonOfPressureSensitiveDoor : MonoBehaviour
         {
             isOpen = true;
         }
-        if(isOpen)
+        if (isOpen)
         {
-            //if(hasOpend){
-            //    return;
-            //}
+            if (!hasOpendLastFrame)
+            {
+                AudioKit.PlaySound("Switch");
+            }
             spriteRenderer.sprite = On;
             light2d.color = new Color(20f / 255f, 255f / 255f, 35f / 255f);
-            AudioKit.PlaySound("Switch");
-            hasOpend = true;
         }
         else
         {
             spriteRenderer.sprite = Off;
             light2d.color = new Color(255f / 255f, 33f / 255f, 20f / 255f);
         }
+        hasOpendLastFrame = isOpen;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
