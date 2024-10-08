@@ -115,6 +115,12 @@ public class PlayControl : MonoSingleton<PlayControl>
         canMoveL = true;//防止蹭墙
         isGround = true;// 是否在地面，关系能否跳跃等
 
+        if (pushBox!=null)//10.9: 死亡后解绑箱子,排除死亡后带着箱子一起走的情况
+        {
+            pushBox.transform.SetParent(null);
+            pushBox = null;
+        }
+
     }
 
     private void OnTriggerStay2D(Collider2D other) // TODU: 与道具互动
