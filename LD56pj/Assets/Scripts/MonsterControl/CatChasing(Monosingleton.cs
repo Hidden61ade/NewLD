@@ -31,7 +31,7 @@ public class CatChasing : MonoSingleton<CatChasing>
         TypeEventSystem.Global.Register<OnLevelResetEvent>(e =>
         {
             Init();
-        });
+        }).UnRegisterWhenGameObjectDestroyed(gameObject);
         if (playerTransform == null)
         {
             playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
