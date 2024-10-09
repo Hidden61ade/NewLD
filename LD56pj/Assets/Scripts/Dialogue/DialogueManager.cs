@@ -44,7 +44,7 @@ public class DialogueManager : MonoBehaviour
     private void Update()
     {
         //backGround = transform.Find("GraphImg");
-        if (Input.GetKeyDown(KeyCode.Tab))//按下space进入下一个对话
+        if (Input.GetKeyDown(KeyCode.Tab))//按下tab进入下一个对话
         {
             Debug.Log("get key down");
             PutDialogueNode();
