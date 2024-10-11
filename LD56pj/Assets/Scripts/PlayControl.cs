@@ -19,7 +19,7 @@ public class PlayControl : MonoSingleton<PlayControl>
     public float moveSpeed;// 行动速度,由是奔跑还是行走觉得
     public float pushSpeed = 1;// 推物速度
     private string item;// 道具tag
-
+    
     //public float g = 9.8f;
     //public float yDown = 0;
 
@@ -70,20 +70,26 @@ public class PlayControl : MonoSingleton<PlayControl>
 
 
     private GameObject pushBox = null;
+    
 
+    public PhysicsMaterial2D physicsMaterial2D;
+
+    private float orientFriction;
     // Start is called before the first frame update
     void Start()
     {
         rigidbody2d = GetComponent<Rigidbody2D>();// 获得刚体组件
         boxCollider2d = GetComponent<BoxCollider2D>();
+        physicsMaterial2D = boxCollider2d.sharedMaterial;
         TypeEventSystem.Global.Register<OnLevelResetEvent>((e) =>
         {
             Initialization();
         }).UnRegisterWhenGameObjectDestroyed(gameObject);
-
+        
         collisionBoxSize = boxCollider2d.size;
         collisionBoxCenter = boxCollider2d.offset;
         groundLayer = LayerMask.GetMask("Ground");
+        orientFriction = physicsMaterial2D.friction;
     }
 
     // Update is called once per frame
@@ -92,10 +98,21 @@ public class PlayControl : MonoSingleton<PlayControl>
         axisH = Input.GetAxis("Horizontal");
         CollisionDetection();// 更新碰撞检测位置
         Actions();// 更新动作
-        
+        UpdateFriction();
         // TODO: 速度
     }
 
+    private void UpdateFriction()
+    {
+        if (!isGround)
+        {
+            physicsMaterial2D.friction = 0;
+        }
+        else
+        {
+            physicsMaterial2D.friction = orientFriction;
+        }
+    }
     private void Initialization()
     {
         PlayerAnimatorManager.Instance.ChangeCrouchState(false);
@@ -111,8 +128,8 @@ public class PlayControl : MonoSingleton<PlayControl>
         facing = 1; // 面朝向系数,控制翻滚时力的朝向,1向右,-1向左
         canCatch = false;// 能否持物
         canPush = false;// 能否推动
-        canMoveR = true;//防止蹭墙
-        canMoveL = true;//防止蹭墙
+        //canMoveR = true;//防止蹭墙
+        //canMoveL = true;//防止蹭墙
         isGround = true;// 是否在地面，关系能否跳跃等
 
         if (pushBox!=null)//10.9: 死亡后解绑箱子,排除死亡后带着箱子一起走的情况
@@ -327,10 +344,10 @@ public class PlayControl : MonoSingleton<PlayControl>
                 else if (isGetDown) { moveSpeed = getDownSpeed; }
                 else //if (isGround)
                 { moveSpeed = walkSpeed; } // 根据状态确定速度
-                canMoveR = !(isCollR && isColl);
+                /*canMoveR = !(isCollR && isColl);
                 canMoveL = !(isCollL && isColl);
                 if (move < 0 && !canMoveL) { move = 0; }
-                if (move > 0 && !canMoveR) { move = 0; }// 碰墙后不能移动,防止粘墙上
+                if (move > 0 && !canMoveR) { move = 0; }// 碰墙后不能移动,防止粘墙上*/
             }
             else
             {
